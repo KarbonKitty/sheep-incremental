@@ -1,0 +1,26 @@
+{
+  "name": "incremental-sheep-vue",
+  "version": "0.0.1",
+  "description": "Incremental game about sheep and conquering the world",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KarbonKitty",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "npm": "^5.8.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "ts-loader": "^4.2.0",
+    "typescript": "^2.8.1",
+    "vue": "^2.5.16",
+    "vue-loader": "^14.2.2",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  }
+}
