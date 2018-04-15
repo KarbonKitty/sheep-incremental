@@ -1,0 +1,47 @@
+body {
+  background-color: #002b36;
+  color: #839496;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link {
+  color: #859900;
+}
+
+a:visited {
+  color: #6c71c4;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #dc322f;
+}
+
+a:active {
+  text-decoration: underline;
+  color: #268bd2;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: 50% 50%;
+}
+
+.navigation {
+  grid-column: 1;
+  grid-row: 1, 2;
+}
+
+.shop {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.resources {
+  grid-column: 2;
+  grid-row: 1;
+}

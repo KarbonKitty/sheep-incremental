@@ -7,7 +7,13 @@ let gameState = new GameState();
 
 let vm = new Vue({
     el: "#app",
-    data: gameState
+    data: gameState,
+    filters: {
+        decimal: (value: number, numberOfDigits: number) =>
+        {
+            return value.toFixed(numberOfDigits);
+        }
+    }
 });
 
 let handle = window.setInterval(() => gameState.tick(Date.now()), interval);
