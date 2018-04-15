@@ -13,14 +13,15 @@
     <h1>Incremental Sheep</h1>
     <div id="app" class="container">
         <div class="navigation">
-            <p><a href="#">Home</a></p>
+            <p><a @click="gatherGrass">Gather grass</a></p>
             <p><a href="#">Recruit</a></p>
         </div>
         <div class="resources">
             <div>Grass: {{ grass | decimal(0) }} (+{{ gps | decimal(2) }})</div>
+            <div>Hay: {{ hay | decimal(0) }}</div>
         </div>
         <div class="shop">
-            <div>Time elapsed since game start: {{timeElapsed}} ms</div>
+            <div><p>Placeholder</p></div>
         </div>
     </div>
 </body>

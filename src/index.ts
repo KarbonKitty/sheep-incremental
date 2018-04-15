@@ -8,6 +8,9 @@ let gameState = new GameState();
 let vm = new Vue({
     el: "#app",
     data: gameState,
+    methods: {
+        gatherGrass: gameState.gatherGrass
+    },
     filters: {
         decimal: (value: number, numberOfDigits: number) =>
         {
