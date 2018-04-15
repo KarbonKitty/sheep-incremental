@@ -1,4 +1,4 @@
-import GameState from "./mainClasses";
+import GameState from "./gameState";
 import Vue from "vue";
 
 const interval = 50;
