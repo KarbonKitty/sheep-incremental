@@ -1,5 +1,5 @@
-import GameState from "./gameState";
 import Vue from "vue";
+import GameState from "./gameState";
 import GameEngine from "./gameEngine";
 
 const interval = 50;
@@ -12,7 +12,7 @@ let vm = new Vue({
     el: "#app",
     data: gameState,
     methods: {
-        gatherGrass: gameEngine.gatherGrass
+        gatherGrass: () => gameEngine.gatherGrass()
     },
     filters: {
         decimal: (value: number, numberOfDigits: number) =>
