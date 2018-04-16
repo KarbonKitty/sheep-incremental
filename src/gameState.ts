@@ -2,6 +2,7 @@ export default class GameState {
   lastTick: number;
 
   pastureSize = 100;
+  grassPerPastureUnit = 1;
 
   grass = 0;
   gps = 10;
