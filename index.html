@@ -18,7 +18,7 @@
         </div>
         <div class="resources">
             <div>Grass: {{ grass | decimal(0) }} / {{ pastureSize * grassPerPastureUnit }} (+{{ gps | decimal(2) }})</div>
-            <div>Hay: {{ hay | decimal(0) }}</div>
+            <resource-component name="Hay" :amount="hay" precision="2" />
         </div>
         <div class="shop">
             <div><p>Placeholder</p></div>

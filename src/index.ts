@@ -1,6 +1,11 @@
 import Vue from "vue";
+
 import GameState from "./gameState";
 import GameEngine from "./gameEngine";
+
+import ResourceComponent from "./components/resource";
+
+import filters from "./filters";
 
 const interval = 50;
 
@@ -14,11 +19,9 @@ let vm = new Vue({
     methods: {
         gatherGrass: () => gameEngine.gatherGrass()
     },
-    filters: {
-        decimal: (value: number, numberOfDigits: number) =>
-        {
-            return value.toFixed(numberOfDigits);
-        }
+    filters,
+    components: {
+        'resource-component': ResourceComponent
     }
 });
 
