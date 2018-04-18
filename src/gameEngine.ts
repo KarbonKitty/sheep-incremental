@@ -14,6 +14,11 @@ export default class GameEngine {
         this.recalculateGrass(deltaT);
     }
 
+    handleEvent(data: { type: string, value: any})
+    {
+        console.log(data.type, data.value);
+    }
+
     private recalculateGrass(deltaT: number) {
         this.state.grass.amount += <number>this.state.grass.gainPerSecond * deltaT / 1000;
         this.state.grass.limit = this.state.pastureSize * this.state.grassPerPastureUnit

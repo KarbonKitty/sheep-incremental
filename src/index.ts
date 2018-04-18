@@ -4,6 +4,7 @@ import GameState from "./gameState";
 import GameEngine from "./gameEngine";
 
 import ResourceComponent from "./components/resource-component";
+import ProducerComponent from "./components/producer-component";
 
 import filters from "./filters";
 
@@ -16,12 +17,16 @@ let gameEngine = new GameEngine(gameState);
 let vm = new Vue({
     el: "#app",
     data: gameState,
+    created() {
+        this.$on('game-event', (data: any) => gameEngine.handleEvent(data))
+    },
     methods: {
         gatherGrass: () => gameEngine.gatherGrass()
     },
     filters,
     components: {
-        'resource-component': ResourceComponent
+        'resource-component': ResourceComponent,
+        'producer-component': ProducerComponent
     }
 });
 

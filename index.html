@@ -17,11 +17,12 @@
             <p><a href="#">Recruit</a></p>
         </div>
         <div class="resources">
-            <resource-component :resource="grass" ></resource-component>
-            <resource-component :resource="hay" ></resource-component>
+            <resource-component :resource="grass"></resource-component>
+            <resource-component :resource="hay"></resource-component>
+            <resource-component :resource="wool"></resource-component>
         </div>
         <div class="shop">
-            <div><p>Placeholder</p></div>
+            <producer-component :producer="producers[0]"></producer-component>
         </div>
     </div>
 </body>
