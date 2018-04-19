@@ -14,12 +14,11 @@
     <div id="app" class="container">
         <div class="navigation">
             <p><button class="btn danger" @click="gatherGrass">Gather grass</button></p>
-            <p><a href="#">Recruit</a></p>
         </div>
         <div class="resources">
-            <resource-component :resource="resources.grass"></resource-component>
-            <resource-component :resource="resources.hay"></resource-component>
-            <resource-component :resource="resources.wool"></resource-component>
+            <div v-for="res in resources">
+                <resource-component :resource="res"></resource-component>
+            </div>
         </div>
         <div class="shop">
             <producer-component :producer="producers[0]"></producer-component>

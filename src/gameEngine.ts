@@ -14,7 +14,7 @@ export default class GameEngine {
         this.recalculateGrass(deltaT);
     }
 
-    handleEvent(data: { type: string, value: any})
+    handleEvent(data: { type: string, value: any })
     {
         console.log(data.type, data.value);
     }
