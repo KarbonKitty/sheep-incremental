@@ -45,3 +45,30 @@ a:active {
   grid-column: 2;
   grid-row: 1;
 }
+
+.btn {
+  border: 0;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 6px 12px 6px 12px;
+  text-decoration: none;
+
+  color: #eee8d5;
+  background: #268bd2;
+}
+
+.btn.active {
+  color: #eee8d5;
+  background: #6c71c4;
+}
+
+.btn.danger {
+  color: #eee8d5;
+  background: #dc322f;
+}
+
+.btn.disabled {
+  color: #586e75;
+  background: #073642;
+  cursor: not-allowed;
+}
