@@ -3,7 +3,7 @@ import Vue from "vue";
 import GameState from "./gameState";
 import GameEngine from "./gameEngine";
 
-import ResourceComponent from "./components/resource-component";
+import ResourceComponent from "./components/Resource.vue";
 import ProducerComponent from "./components/producer-component";
 
 import filters from "./filters";
