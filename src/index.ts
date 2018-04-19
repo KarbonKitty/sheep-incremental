@@ -4,7 +4,7 @@ import GameState from "./gameState";
 import GameEngine from "./gameEngine";
 
 import ResourceComponent from "./components/Resource.vue";
-import ProducerComponent from "./components/producer-component";
+import ProducerComponent from "./components/Producer.vue";
 
 import filters from "./filters";
 
