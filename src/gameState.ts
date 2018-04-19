@@ -8,10 +8,11 @@ export default class GameState {
   pastureSize = 100;
   grassPerPastureUnit = 1;
 
-  grass = new Resource("Grass", this.pastureSize * this.grassPerPastureUnit, 10, 0, 0);
-  hay = new Resource("Hay", null, null, 0, 2);
-  wool = new Resource("Wool", 50, 0, 0, 2);
-
+  resources = {
+    grass: new Resource("Grass", this.pastureSize * this.grassPerPastureUnit, 10, 0, 0),
+    hay: new Resource("Hay", null, null, 0, 2),
+    wool: new Resource("Wool", 50, 0, 0, 2)
+  }
   producers = <IProducer[]>[];
 
   constructor() {

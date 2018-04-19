@@ -20,16 +20,18 @@ export default class GameEngine {
     }
 
     private recalculateGrass(deltaT: number) {
-        this.state.grass.amount += <number>this.state.grass.gainPerSecond * deltaT / 1000;
-        this.state.grass.limit = this.state.pastureSize * this.state.grassPerPastureUnit
-        if (this.state.grass.amount > this.state.grass.limit)
+        const grass = this.state.resources.grass;
+        
+        grass.amount += <number>grass.gainPerSecond * deltaT / 1000;
+        grass.limit = this.state.pastureSize * this.state.grassPerPastureUnit
+        if (grass.amount > grass.limit)
         {
-            this.state.grass.amount = this.state.grass.limit;
+            grass.amount = grass.limit;
         }
     }
 
     gatherGrass() {
-        this.state.hay.amount += this.state.grass.amount;
-        this.state.grass.amount = 0;
+        this.state.resources.hay.amount += this.state.resources.grass.amount;
+        this.state.resources.grass.amount = 0;
     }
 }
