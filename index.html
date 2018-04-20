@@ -13,7 +13,7 @@
     <h1>Incremental Sheep</h1>
     <div id="app" class="container">
         <div class="navigation">
-            <p><button class="btn danger" @click="gatherGrass">Gather grass</button></p>
+            <p>Placeholder</p>
         </div>
         <div class="resources">
             <div v-for="res in resources">
@@ -21,7 +21,9 @@
             </div>
         </div>
         <div class="shop">
-            <producer-component :producer="producers[0]"></producer-component>
+            <div v-for="producer in producers">
+                <producer-component :producer="producer"></producer-component>
+            </div>
         </div>
     </div>
 </body>

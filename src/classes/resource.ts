@@ -1,9 +1,9 @@
 export default class Resource {
-  gainPerSecond: number | null;
   limit: number | null;
+  gainPerSecond: number;
 
-  constructor(public name: string, limit: number | null = null, gainPerSecond: number | null = null, public amount = 0, public precision = 2) {
-    this.gainPerSecond = gainPerSecond;
+  constructor(public name: string, limit: number | null = null, public amount = 0, public precision = 2) {
+    this.gainPerSecond = 0;
     this.limit = limit;
   }
 }

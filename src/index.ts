@@ -20,9 +20,6 @@ let vm = new Vue({
     created() {
         this.$on('game-event', (data: any) => gameEngine.handleEvent(data))
     },
-    methods: {
-        gatherGrass: () => gameEngine.gatherGrass()
-    },
     filters,
     components: {
         'resource-component': ResourceComponent,

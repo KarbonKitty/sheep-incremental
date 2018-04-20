@@ -1,4 +1,5 @@
 import GameState from "./gameState"
+import { GameEvent } from "./classes/baseClasses";
 
 export default class GameEngine {
     state: GameState;
@@ -11,27 +12,64 @@ export default class GameEngine {
         let deltaT = currentTick - this.state.lastTick;
         this.state.lastTick = currentTick;
 
-        this.recalculateGrass(deltaT);
+        this.clearPerSecondValues();
+        this.produceElements(deltaT);
     }
 
-    handleEvent(data: { type: string, value: any })
+    handleEvent(data: { type: GameEvent, value: any })
     {
-        console.log(data.type, data.value);
-    }
-
-    private recalculateGrass(deltaT: number) {
-        const grass = this.state.resources.grass;
-        
-        grass.amount += <number>grass.gainPerSecond * deltaT / 1000;
-        grass.limit = this.state.pastureSize * this.state.grassPerPastureUnit
-        if (grass.amount > grass.limit)
+        switch (data.type)
         {
-            grass.amount = grass.limit;
+            case 'buy':
+                this.buyItem(data.value);
         }
     }
 
-    gatherGrass() {
-        this.state.resources.hay.amount += this.state.resources.grass.amount;
-        this.state.resources.grass.amount = 0;
+    private produceElements(deltaT: number) {
+        this.state.producers.forEach(producer => {
+            const currentResource = this.state.resources[producer.production.currency];
+            currentResource.amount += producer.production.amountPerSecond * producer.quantity * deltaT / 1000;
+            if (currentResource.limit != null && currentResource.amount > currentResource.limit)
+            {
+                currentResource.amount = currentResource.limit;
+            }
+            currentResource.gainPerSecond += producer.production.amountPerSecond * producer.quantity;
+        });
+    }
+
+    private clearPerSecondValues() {
+        Object.keys(this.state.resources).forEach(k => this.state.resources[k].gainPerSecond = 0);
+    }
+
+    private buyItem(itemId: string) : boolean
+    {
+        const item = this.state.producers.filter(p => p.id === itemId).pop();
+        if (typeof item === 'undefined') {
+            return false;
+        }
+        
+        let canBeBought = true;
+        if (Array.isArray(item.cost)) {
+            item.cost.forEach(singleCost => {
+                canBeBought = canBeBought && this.state.resources[singleCost.currency].amount >= singleCost.amount;
+            });
+        } else {
+            canBeBought = canBeBought && this.state.resources[item.cost.currency].amount >= item.cost.amount;
+        }
+
+        if (!canBeBought) {
+            return false;
+        }
+
+        if (Array.isArray(item.cost)) {
+            item.cost.forEach(singleCost => {
+                this.state.resources[singleCost.currency].amount -= singleCost.amount;
+            });
+        } else {
+            this.state.resources[item.cost.currency].amount -= item.cost.amount;
+        }
+
+        item.quantity++;
+        return true;
     }
 }

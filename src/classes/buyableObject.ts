@@ -1,4 +1,4 @@
-import { Cost, Production } from "./baseClasses";
+import { SingleCost, Production } from "./baseClasses";
 
 export interface IBuyable {
   name: string;
@@ -11,7 +11,7 @@ export interface IBuyable {
 }
 
 export interface IProducer extends IBuyable {
-  cost: Cost;
+  cost: SingleCost | SingleCost[];
   production: Production;
   // TODO: requirements
 }
