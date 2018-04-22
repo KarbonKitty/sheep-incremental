@@ -15,13 +15,13 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { SingleCost } from "../classes/baseClasses";
+import { CurrencyValue } from "../classes/baseClasses";
 
 import filters from "../filters";
 
 export default Vue.extend({
   props: {
-    price: Array as () => SingleCost[]
+    price: Array as () => CurrencyValue[]
   },
   filters
 })
