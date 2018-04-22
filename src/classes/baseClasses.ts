@@ -1,4 +1,4 @@
-export type Currency = "carbon" | "hydrogen" | "oxygen";
+export type Currency = "cash" | "wheat";
 export type GameEvent = "buy";
 
 export interface SingleCost {

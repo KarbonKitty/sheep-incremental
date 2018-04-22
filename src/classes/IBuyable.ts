@@ -1,6 +1,6 @@
 import { SingleCost, Production } from "./baseClasses";
 
-export interface IBuyable {
+export default interface IBuyable {
   name: string;
   desc: string;
   id: string;
@@ -10,8 +10,3 @@ export interface IBuyable {
   buyVerb: string;
 }
 
-export interface IProducer extends IBuyable {
-  cost: SingleCost | SingleCost[];
-  production: Production;
-  // TODO: requirements
-}

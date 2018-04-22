@@ -1,23 +1,34 @@
-import { IProducer } from "../classes/buyableObject";
+import IProducer from "../classes/IProducer";
 
-export let producersData = <IProducer[]>[
+export let producersData: IProducer[] = [
     {
-        name: "Coal mine",
+        name: "Wheat seller",
+        desc: "Test seller",
+        id: 'wheat-seller',
+        cost: [{ currency: "cash", amount: 25 }],
+        production: { currency: "cash", amountPerSecond: 1 },
+        quantity: 0,
+        visible: true,
+        tooltip: "",
+        buyVerb: "Recruit"
+    },
+    {
+        name: "Wheat field",
         desc: "Test producer",
-        id: 'coal-mine',
-        cost: { currency: "carbon", amount: 50 },
-        production: { currency: "carbon", amountPerSecond: 3 },
+        id: 'wheat-field',
+        cost: [{ currency: "cash", amount: 50 }],
+        production: { currency: "wheat", amountPerSecond: 3 },
         quantity: 1,
         visible: true,
         tooltip: "",
-        buyVerb: "Dig"
+        buyVerb: "Buy"
     },
     {
-        name: "Oxygen extractor",
+        name: "Mill",
         desc: "Test producer 2",
-        id: 'oxygen-extractor',
-        cost: { currency: "carbon", amount: 100 },
-        production: { currency: "oxygen", amountPerSecond: 1 },
+        id: 'mill',
+        cost: [{ currency: "cash", amount: 100 }, { currency: "wheat", amount: 100 }],
+        production: { currency: "cash", amountPerSecond: 10 },
         quantity: 0,
         visible: true,
         tooltip: "",

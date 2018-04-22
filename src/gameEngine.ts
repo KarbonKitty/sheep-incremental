@@ -16,10 +16,8 @@ export default class GameEngine {
         this.produceElements(deltaT);
     }
 
-    handleEvent(data: { type: GameEvent, value: any })
-    {
-        switch (data.type)
-        {
+    handleEvent(data: { type: GameEvent, value: any }) {
+        switch (data.type) {
             case 'buy':
                 this.buyItem(data.value);
         }
@@ -29,8 +27,7 @@ export default class GameEngine {
         this.state.producers.forEach(producer => {
             const currentResource = this.state.resources[producer.production.currency];
             currentResource.amount += producer.production.amountPerSecond * producer.quantity * deltaT / 1000;
-            if (currentResource.limit != null && currentResource.amount > currentResource.limit)
-            {
+            if (currentResource.limit != null && currentResource.amount > currentResource.limit) {
                 currentResource.amount = currentResource.limit;
             }
             currentResource.gainPerSecond += producer.production.amountPerSecond * producer.quantity;
@@ -41,33 +38,25 @@ export default class GameEngine {
         Object.keys(this.state.resources).forEach(k => this.state.resources[k].gainPerSecond = 0);
     }
 
-    private buyItem(itemId: string) : boolean
-    {
+    private buyItem(itemId: string): boolean {
         const item = this.state.producers.filter(p => p.id === itemId).pop();
         if (typeof item === 'undefined') {
             return false;
         }
-        
+
         let canBeBought = true;
-        if (Array.isArray(item.cost)) {
-            item.cost.forEach(singleCost => {
-                canBeBought = canBeBought && this.state.resources[singleCost.currency].amount >= singleCost.amount;
-            });
-        } else {
-            canBeBought = canBeBought && this.state.resources[item.cost.currency].amount >= item.cost.amount;
-        }
+        item.cost.forEach(singleCost => {
+            canBeBought = canBeBought && this.state.resources[singleCost.currency].amount >= singleCost.amount;
+        });
+
 
         if (!canBeBought) {
             return false;
         }
 
-        if (Array.isArray(item.cost)) {
-            item.cost.forEach(singleCost => {
-                this.state.resources[singleCost.currency].amount -= singleCost.amount;
-            });
-        } else {
-            this.state.resources[item.cost.currency].amount -= item.cost.amount;
-        }
+        item.cost.forEach(singleCost => {
+            this.state.resources[singleCost.currency].amount -= singleCost.amount;
+        });
 
         item.quantity++;
         return true;

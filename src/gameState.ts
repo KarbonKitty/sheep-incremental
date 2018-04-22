@@ -1,6 +1,6 @@
 import { Currency, Map } from "./classes/baseClasses";
-import Resource from "./classes/resource";
-import { IProducer } from "./classes/buyableObject";
+import IResource from "./classes/IResource";
+import IProducer from "./classes/IProducer";
 import { producersData } from "./data/producers";
 
 export default class GameState {
@@ -8,10 +8,9 @@ export default class GameState {
 
   producers: IProducer[];
 
-  resources = <Map<Resource>>{
-    carbon: new Resource("Carbon", 100, 0, 0),
-    oxygen: new Resource("Oxygen", null, 0, 2),
-    hydrogen: new Resource("Hydrogen", 50, 0, 2)
+  resources: Map<IResource> = {
+    cash: { name: "Cash", amount: 100, gainPerSecond: 0, precision: 0 },
+    wheat: { name: "Wheat", amount: 0, gainPerSecond: 0, precision: 0, limit: 100 }
   }
 
   constructor() {

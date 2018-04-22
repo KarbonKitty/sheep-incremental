@@ -1,8 +1,8 @@
 <template>
-  <div v-if="producer.visible">
-    <h3>{{ producer.name }}</h3>
+  <div v-if="producer.visible" class="producer">
+    <h3>{{ producer.quantity }} {{ producer.name }}</h3>
     <p>{{ producer.desc }}</p>
-    <p>You have: {{ producer.quantity }} of {{ producer.name }}</p>
+    <cost-component :price="producer.cost"></cost-component>
     <button class="btn" @click="emitBuyEvent">{{ producer.buyVerb }}</button>
   </div>
 </template>
@@ -10,7 +10,9 @@
 <script lang="ts">
 import Vue from "vue";
 
-import { IProducer } from "../classes/buyableObject";
+import CostComponent from "./Cost.vue";
+
+import IProducer from "../classes/IProducer";
 
 import filters from "../filters";
 
@@ -22,6 +24,15 @@ export default Vue.extend({
     }
   },
   props: [ 'producer' ],
+  components: {
+    'cost-component': CostComponent
+  },
   filters
 });
 </script>
+
+<style scoped>
+  .producer {
+    margin: 0 20px 0 0;
+  }
+</style>

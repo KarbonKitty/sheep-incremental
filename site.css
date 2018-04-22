@@ -31,17 +31,19 @@ a:active {
   grid-template-rows: 50% 50%;
 }
 
-.navigation {
+.sidebar {
   grid-column: 1;
   grid-row: 1, 2;
 }
 
-.shop {
+.main-area {
   grid-column: 2;
   grid-row: 2;
+  display: flex;
+  flex-direction: row;
 }
 
-.resources {
+.top {
   grid-column: 2;
   grid-row: 1;
 }
