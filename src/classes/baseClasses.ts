@@ -1,14 +1,9 @@
 export type Currency = "cash" | "wheat";
 export type GameEvent = "buy";
 
-export interface SingleCost {
+export interface CurrencyValue {
   currency: Currency;
   amount: number;
-}
-
-export interface Production {
-  currency: Currency;
-  amountPerSecond: number;
 }
 
 export interface Map<T> {

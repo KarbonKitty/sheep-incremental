@@ -1,5 +1,5 @@
 import GameState from "./gameState"
-import { GameEvent } from "./classes/baseClasses";
+import { GameEvent, CurrencyValue } from "./classes/baseClasses";
 
 export default class GameEngine {
     state: GameState;
@@ -25,13 +25,30 @@ export default class GameEngine {
 
     private produceElements(deltaT: number) {
         this.state.producers.forEach(producer => {
-            const currentResource = this.state.resources[producer.production.currency];
-            currentResource.amount += producer.production.amountPerSecond * producer.quantity * deltaT / 1000;
-            if (currentResource.limit != null && currentResource.amount > currentResource.limit) {
-                currentResource.amount = currentResource.limit;
+            let haveResourcesToConsume = producer.consumption.reduce((acc, consumption) => acc && this.state.resources[consumption.currency].amount >= consumption.amount * producer.quantity, true);
+            if (haveResourcesToConsume)
+            {
+                producer.consumption.forEach(resourceToConsume => this.consumeCurrency(resourceToConsume, producer.quantity, deltaT));
+                producer.production.forEach(productionValue => this.produceCurrency(productionValue, producer.quantity, deltaT));
             }
-            currentResource.gainPerSecond += producer.production.amountPerSecond * producer.quantity;
         });
+    }
+
+    // TODO: think about the production/consumption ideas
+
+    private produceCurrency(productionValue: CurrencyValue, producerQuantity: number, deltaT: number) {
+        const currentResource = this.state.resources[productionValue.currency];
+        currentResource.amount += productionValue.amount * producerQuantity * deltaT / 1000;
+        if (currentResource.limit != null && currentResource.amount > currentResource.limit) {
+            currentResource.amount = currentResource.limit;
+        }
+        currentResource.gainPerSecond += productionValue.amount * producerQuantity;
+    }
+
+    private consumeCurrency(productionValue: CurrencyValue, producerQuantity: number, deltaT: number) {
+        const currentResource = this.state.resources[productionValue.currency];
+        currentResource.amount -= productionValue.amount * producerQuantity * deltaT / 1000;
+        currentResource.gainPerSecond -= productionValue.amount * producerQuantity;
     }
 
     private clearPerSecondValues() {

@@ -1,9 +1,10 @@
-import { SingleCost, Production } from "./baseClasses";
+import { CurrencyValue } from "./baseClasses";
 
 export default interface IBuyable {
   name: string;
   desc: string;
   id: string;
+  cost: CurrencyValue[];
   quantity: number;
   visible: boolean;
   tooltip: string;
