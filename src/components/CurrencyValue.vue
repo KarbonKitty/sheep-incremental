@@ -1,14 +1,11 @@
 <template>
-  <div v-if="Array.isArray(price)">
-    <p>Price:</p>
+  <div v-if="values.length > 0">
+    <p><slot></slot></p>
     <ul>
-      <div v-for="p in price" :key="p.currency">
+      <div v-for="p in values" :key="p.currency">
         <li>{{ p.amount }} {{ p.currency }}</li>
       </div>
     </ul>
-  </div>
-  <div v-else>
-    <p>Price: {{ price.amount }} {{ price.currency }}</p>
   </div>
 </template>
 
@@ -21,7 +18,7 @@ import filters from "../filters";
 
 export default Vue.extend({
   props: {
-    price: Array as () => CurrencyValue[]
+    values: Array as () => CurrencyValue[]
   },
   filters
 })

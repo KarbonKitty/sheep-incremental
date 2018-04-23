@@ -20,6 +20,8 @@ export default class GameEngine {
         switch (data.type) {
             case 'buy':
                 this.buyItem(data.value);
+            case 'change-selection':
+                this.changeSelection(data.value);
         }
     }
 
@@ -51,8 +53,17 @@ export default class GameEngine {
         currentResource.gainPerSecond -= productionValue.amount * producerQuantity;
     }
 
-    private clearPerSecondValues() {
+    private clearPerSecondValues(): void {
         Object.keys(this.state.resources).forEach(k => this.state.resources[k].gainPerSecond = 0);
+    }
+
+    private changeSelection(itemId: string): boolean {
+        const item = this.state.producers.filter(p => p.id === itemId).pop();
+        if (typeof item === 'undefined') {
+            return false;
+        }
+        this.state.currentSelection = item;
+        return true;
     }
 
     private buyItem(itemId: string): boolean {

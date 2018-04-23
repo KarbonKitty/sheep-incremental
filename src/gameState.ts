@@ -2,9 +2,12 @@ import { Currency, Map } from "./classes/baseClasses";
 import IResource from "./classes/IResource";
 import IProducer from "./classes/IProducer";
 import { producersData } from "./data/producers";
+import IBuyable from "./classes/IBuyable";
 
 export default class GameState {
   lastTick: number;
+
+  currentSelection: IBuyable;
 
   producers: IProducer[];
 
@@ -17,5 +20,7 @@ export default class GameState {
     this.lastTick = Date.now();
 
     this.producers = producersData;
+
+    this.currentSelection = this.producers[0];
   }
 }

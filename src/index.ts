@@ -5,6 +5,7 @@ import GameEngine from "./gameEngine";
 
 import ResourceComponent from "./components/Resource.vue";
 import ProducerComponent from "./components/Producer.vue";
+import BuildingDetailsComponent from "./components/BuildingDetails.vue";
 
 import filters from "./filters";
 
@@ -23,7 +24,8 @@ let vm = new Vue({
     filters,
     components: {
         'resource-component': ResourceComponent,
-        'producer-component': ProducerComponent
+        'producer-component': ProducerComponent,
+        'building-details-component': BuildingDetailsComponent
     }
 });
 

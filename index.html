@@ -20,12 +20,12 @@
             </div>
         </div>
         <div class="top">
-            <p>Placeholder</p>
-        </div>
-        <div class="main-area">
             <div v-for="producer in producers">
                 <producer-component :producer="producer"></producer-component>
             </div>
+        </div>
+        <div class="main-area">
+            <building-details-component :building="currentSelection"></building-details-component>
         </div>
     </div>
 </body>
