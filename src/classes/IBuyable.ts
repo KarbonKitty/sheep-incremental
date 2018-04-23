@@ -7,7 +7,6 @@ export default interface IBuyable {
   cost: CurrencyValue[];
   quantity: number;
   visible: boolean;
-  tooltip: string;
   buyVerb: string;
 }
 
