@@ -3,7 +3,7 @@
     <h3>{{ producer.quantity }} {{ producer.name }}</h3>
     <p>{{ producer.desc }}</p>
     <cost-component :price="producer.cost"></cost-component>
-    <button class="btn" @click="emitBuyEvent">{{ producer.buyVerb }}</button>
+    <button class="btn buyButton" @click="emitBuyEvent">{{ producer.buyVerb }}</button>
   </div>
 </template>
 
@@ -34,5 +34,17 @@ export default Vue.extend({
 <style scoped>
   .producer {
     margin: 0 20px 0 0;
+    padding: 8px;
+    border: 1px solid #839496;
+    border-radius: 4px;
+    width: 250px;
+    height: 100%;
+    position: relative;
+  }
+
+  .buyButton {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
   }
 </style>
