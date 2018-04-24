@@ -2,44 +2,38 @@ import GameState from "./gameState"
 import { GameEvent, CurrencyValue } from "./classes/baseClasses";
 
 export default class GameEngine {
-    state: GameState;
+    tick(state: GameState, currentTick: number) {
+        let deltaT = currentTick - state.lastTick;
+        state.lastTick = currentTick;
 
-    constructor(gameState: GameState) {
-        this.state = gameState;
+        this.clearPerSecondValues(state);
+        this.produceElements(state, deltaT);
     }
 
-    tick(currentTick: number) {
-        let deltaT = currentTick - this.state.lastTick;
-        this.state.lastTick = currentTick;
-
-        this.clearPerSecondValues();
-        this.produceElements(deltaT);
-    }
-
-    handleEvent(data: { type: GameEvent, value: any }) {
+    handleEvent(state: GameState, data: { type: GameEvent, value: any }) {
         switch (data.type) {
             case 'buy':
-                this.buyItem(data.value);
+                this.buyItem(state, data.value);
             case 'change-selection':
-                this.changeSelection(data.value);
+                this.changeSelection(state, data.value);
         }
     }
 
-    private produceElements(deltaT: number) {
-        this.state.producers.forEach(producer => {
-            let haveResourcesToConsume = producer.consumption.reduce((acc, consumption) => acc && this.state.resources[consumption.currency].amount >= consumption.amount * producer.quantity, true);
+    private produceElements(state: GameState, deltaT: number) {
+        state.producers.forEach(producer => {
+            let haveResourcesToConsume = producer.consumption.reduce((acc, consumption) => acc && state.resources[consumption.currency].amount >= consumption.amount * producer.quantity, true);
             if (haveResourcesToConsume)
             {
-                producer.consumption.forEach(resourceToConsume => this.consumeCurrency(resourceToConsume, producer.quantity, deltaT));
-                producer.production.forEach(productionValue => this.produceCurrency(productionValue, producer.quantity, deltaT));
+                producer.consumption.forEach(resourceToConsume => this.consumeCurrency(state, resourceToConsume, producer.quantity, deltaT));
+                producer.production.forEach(productionValue => this.produceCurrency(state, productionValue, producer.quantity, deltaT));
             }
         });
     }
 
     // TODO: think about the production/consumption ideas
 
-    private produceCurrency(productionValue: CurrencyValue, producerQuantity: number, deltaT: number) {
-        const currentResource = this.state.resources[productionValue.currency];
+    private produceCurrency(state: GameState, productionValue: CurrencyValue, producerQuantity: number, deltaT: number) {
+        const currentResource = state.resources[productionValue.currency];
         currentResource.amount += productionValue.amount * producerQuantity * deltaT / 1000;
         if (currentResource.limit != null && currentResource.amount > currentResource.limit) {
             currentResource.amount = currentResource.limit;
@@ -47,34 +41,34 @@ export default class GameEngine {
         currentResource.gainPerSecond += productionValue.amount * producerQuantity;
     }
 
-    private consumeCurrency(productionValue: CurrencyValue, producerQuantity: number, deltaT: number) {
-        const currentResource = this.state.resources[productionValue.currency];
+    private consumeCurrency(state: GameState, productionValue: CurrencyValue, producerQuantity: number, deltaT: number) {
+        const currentResource = state.resources[productionValue.currency];
         currentResource.amount -= productionValue.amount * producerQuantity * deltaT / 1000;
         currentResource.gainPerSecond -= productionValue.amount * producerQuantity;
     }
 
-    private clearPerSecondValues(): void {
-        Object.keys(this.state.resources).forEach(k => this.state.resources[k].gainPerSecond = 0);
+    private clearPerSecondValues(state: GameState): void {
+        Object.keys(state.resources).forEach(k => state.resources[k].gainPerSecond = 0);
     }
 
-    private changeSelection(itemId: string): boolean {
-        const item = this.state.producers.filter(p => p.id === itemId).pop();
+    private changeSelection(state: GameState, itemId: string): boolean {
+        const item = state.producers.filter(p => p.id === itemId).pop();
         if (typeof item === 'undefined') {
             return false;
         }
-        this.state.currentSelection = item;
+        state.currentSelection = item;
         return true;
     }
 
-    private buyItem(itemId: string): boolean {
-        const item = this.state.producers.filter(p => p.id === itemId).pop();
+    private buyItem(state: GameState, itemId: string): boolean {
+        const item = state.producers.filter(p => p.id === itemId).pop();
         if (typeof item === 'undefined') {
             return false;
         }
 
         let canBeBought = true;
         item.cost.forEach(singleCost => {
-            canBeBought = canBeBought && this.state.resources[singleCost.currency].amount >= singleCost.amount;
+            canBeBought = canBeBought && state.resources[singleCost.currency].amount >= singleCost.amount;
         });
 
 
@@ -83,7 +77,7 @@ export default class GameEngine {
         }
 
         item.cost.forEach(singleCost => {
-            this.state.resources[singleCost.currency].amount -= singleCost.amount;
+            state.resources[singleCost.currency].amount -= singleCost.amount;
         });
 
         item.quantity++;

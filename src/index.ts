@@ -13,13 +13,13 @@ const interval = 50;
 
 let gameState = new GameState();
 
-let gameEngine = new GameEngine(gameState);
+let gameEngine = new GameEngine();
 
 let vm = new Vue({
     el: "#app",
     data: gameState,
     created() {
-        this.$on('game-event', (data: any) => gameEngine.handleEvent(data))
+        this.$on('game-event', (data: any) => gameEngine.handleEvent(gameState, data))
     },
     filters,
     components: {
@@ -29,4 +29,4 @@ let vm = new Vue({
     }
 });
 
-let handle = window.setInterval(() => gameEngine.tick(Date.now()), interval);
+let handle = window.setInterval(() => gameEngine.tick(gameState, Date.now()), interval);
