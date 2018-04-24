@@ -5,10 +5,14 @@
 <script lang="ts">
 import Vue from "vue";
 
+import IResource from "../classes/IResource";
+
 import filters from "../filters";
 
 export default Vue.extend({
-  props: [ 'resource' ],
+  props: {
+    resource: Object as () => IResource
+  },
   filters
 });
 </script>
