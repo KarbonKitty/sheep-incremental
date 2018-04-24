@@ -1,7 +1,7 @@
 import Vue from "vue";
 
 import GameState from "./gameState";
-import GameEngine from "./gameEngine";
+import GameEngine from "./engine/gameEngine";
 
 import ResourceComponent from "./components/Resource.vue";
 import ProducerComponent from "./components/Producer.vue";

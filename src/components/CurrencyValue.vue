@@ -3,7 +3,7 @@
     <p><slot></slot></p>
     <ul>
       <div v-for="p in values" :key="p.currency">
-        <li>{{ p.amount }} {{ p.currency }}</li>
+        <li>{{ p.amount | decimal }} {{ p.currency }}</li>
       </div>
     </ul>
   </div>

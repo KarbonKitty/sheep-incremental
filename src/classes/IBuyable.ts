@@ -4,7 +4,7 @@ export default interface IBuyable {
   name: string;
   desc: string;
   id: string;
-  cost: CurrencyValue[];
+  rawCost: CurrencyValue[];
   quantity: number;
   visible: boolean;
   buyVerb: string;

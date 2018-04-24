@@ -1,4 +1,4 @@
-function decimal(value: number, numberOfDigits: number) {
+function decimal(value: number, numberOfDigits = 0) {
   return value.toFixed(numberOfDigits);
 }
 
