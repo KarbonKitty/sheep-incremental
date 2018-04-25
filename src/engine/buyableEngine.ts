@@ -1,4 +1,5 @@
 import GameState from "../gameState";
+import GameEngine from "./gameEngine";
 import IBuyable from "../classes/IBuyable";
 import { CurrencyValue, Currency } from "../classes/baseClasses";
 
@@ -28,7 +29,7 @@ export default engine;
 
 function selectBuyableItem(state: GameState, itemId: string): IBuyable {
     // TODO: include other lists
-    let candidates = state.producers.filter(p => p.id === itemId);
+    let candidates = GameEngine.getAllGameObjects(state).filter(p => p.id === itemId);
     const item = candidates.pop();
     if (candidates.length > 0 || typeof item === 'undefined') {
         throw new Error("Duplicate item ID or no item with given id: " + itemId);
