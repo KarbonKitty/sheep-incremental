@@ -15,6 +15,7 @@
     <h1>Industrial Incremental</h1>
     <div id="app" class="container">
         <div class="sidebar">
+            <button @click="uf">Unlock Mill test</button>
             <div v-for="res in resources">
                 <resource-component :resource="res"></resource-component>
             </div>

@@ -1,11 +1,14 @@
-import { Currency, Map } from "./classes/baseClasses";
+import { Currency, Map, Lock } from "./classes/baseClasses";
 import IResource from "./classes/IResource";
 import IProducer from "./classes/IProducer";
 import { producersData } from "./data/producers";
 import IBuyable from "./classes/IBuyable";
+import locksData from "./data/locks";
 
 export default class GameState {
   lastTick: number;
+
+  locks: Map<boolean>;
 
   currentSelection: IBuyable;
 
@@ -22,5 +25,7 @@ export default class GameState {
     this.producers = producersData;
 
     this.currentSelection = this.producers[0];
+
+    this.locks = locksData;
   }
 }

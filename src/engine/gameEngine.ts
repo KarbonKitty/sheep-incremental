@@ -2,7 +2,7 @@ import GameState from "../gameState"
 import ProducerEngine from "./producerEngine";
 import BuyableEngine from "./buyableEngine";
 import { GameEvent, CurrencyValue } from "../classes/baseClasses";
-import IBuyable from "../classes/IBuyable";
+import IGameObject from '../classes/IGameObject';
 
 export default {
     tick(state: GameState, currentTick: number) {
@@ -22,7 +22,7 @@ export default {
         }
     },
 
-    getAllGameObjects(state: GameState): IBuyable[] {
+    getAllGameObjects(state: GameState): IGameObject[] {
         return state.producers;
     }
 }

@@ -1,9 +1,8 @@
 import { CurrencyValue } from './baseClasses';
-import IBuyable from "./IBuyable";
+import IGameObject from './IGameObject';
 
-export default interface IProducer extends IBuyable {
+export default interface IProducer extends IGameObject {
   production: CurrencyValue[];
   consumption: CurrencyValue[];
-  // TODO: requirements
   // TODO: increasing price
 }

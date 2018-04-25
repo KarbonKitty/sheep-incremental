@@ -1,5 +1,5 @@
 <template>
-  <div v-if="producer.visible" class="producer" @click="changeSelection">
+  <div v-if="producer.locks.length === 0" class="producer" @click="changeSelection">
     <p><strong>{{ producer.name }} ({{ producer.quantity }})</strong></p>
   </div>
 </template>

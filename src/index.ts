@@ -2,6 +2,7 @@ import Vue from "vue";
 
 import GameState from "./gameState";
 import GameEngine from "./engine/gameEngine";
+import LockEngine from "./engine/lockEngine";
 
 import ResourceComponent from "./components/Resource.vue";
 import ProducerComponent from "./components/Producer.vue";
@@ -18,6 +19,11 @@ let vm = new Vue({
     data: gameState,
     created() {
         this.$on('game-event', (data: any) => GameEngine.handleEvent(gameState, data))
+    },
+    methods: {
+        uf() {
+            LockEngine.removeLock(gameState, 'flour');
+        }
     },
     filters,
     components: {
