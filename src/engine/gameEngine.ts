@@ -2,7 +2,8 @@ import GameState from "../gameState"
 import ProducerEngine from "./producerEngine";
 import BuyableEngine from "./buyableEngine";
 import { GameEvent, CurrencyValue } from "../classes/baseClasses";
-import IGameObject from '../classes/IGameObject';
+import IGameObject from "../classes/IGameObject";
+import DiscoveryEngine from "./discoveryEngine";
 
 export default {
     tick(state: GameState, currentTick: number) {
@@ -17,13 +18,29 @@ export default {
         switch (data.type) {
             case 'buy':
                 BuyableEngine.tryBuyItem(state, data.value);
+                break;
             case 'change-selection':
                 changeSelection(state, data.value);
+                break;
+            case 'discover':
+                DiscoveryEngine.tryDiscover(state, data.value);
+                break;
+            default:
+                console.error(`Event unhandled: ${data.type}. Reason: no relevant case in a switch!`);
         }
     },
 
     getAllGameObjects(state: GameState): IGameObject[] {
-        return state.producers;
+        let gameObjects = <IGameObject[]>[];
+        gameObjects = gameObjects.concat(state.producers);
+        gameObjects = gameObjects.concat(state.discoveries);
+        return gameObjects;
+    },
+
+    getGameObjectById(state: GameState, id: string): IGameObject | undefined {
+        const gameObjects = this.getAllGameObjects(state);
+        const item = gameObjects.filter(go => go.id === id).pop();
+        return item;
     }
 }
 

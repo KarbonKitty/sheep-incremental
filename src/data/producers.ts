@@ -9,7 +9,6 @@ export let producersData: IProducer[] = [
         production: [{ currency: "wheat", amount: 3 }],
         consumption: [],
         quantity: 0,
-        visible: true,
         locks: [],
         buyVerb: "Buy"
     },
@@ -21,7 +20,6 @@ export let producersData: IProducer[] = [
         consumption: [{currency: "wheat", amount: 1}],
         production: [{ currency: "cash", amount: 1 }],
         quantity: 0,
-        visible: true,
         locks: [],
         buyVerb: "Recruit"
     },
@@ -33,7 +31,6 @@ export let producersData: IProducer[] = [
         production: [{ currency: "cash", amount: 10 }],
         consumption: [{ currency: "wheat", amount: 5 }],
         quantity: 0,
-        visible: false,
         locks: [ 'flour' ],
         buyVerb: "Build"
     }];

@@ -12,14 +12,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import { CurrencyValue } from '../classes/baseClasses';
-import IBuyable from '../classes/IBuyable';
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import BuyableEngine from "../engine/buyableEngine";
 import filters from "../filters";
+import IGameObject from '../classes/IGameObject';
 
 export default Vue.extend({
   props: {
-    building: Object as () => IBuyable
+    building: Object as () => IGameObject
   },
   computed: {
     realCost(): CurrencyValue[] {

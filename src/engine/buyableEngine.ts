@@ -4,17 +4,17 @@ import IBuyable from "../classes/IBuyable";
 import { CurrencyValue, Currency } from "../classes/baseClasses";
 
 const engine = {
-    tryBuyItem(state: GameState, itemId: string): boolean {
+    tryBuyItem(state: GameState, itemId: string): IBuyable | undefined {
         const item = selectBuyableItem(state, itemId);
 
         if (!this.canBeBought(state, item)) {
-            return false;
+            return undefined;
         }
 
         payForItem(state, item);
 
         item.quantity++;
-        return true;
+        return item;
     },
     canBeBought(state: GameState, item: IBuyable): boolean {
         const realCost = this.getRealCost(item);
@@ -28,7 +28,6 @@ const engine = {
 export default engine;
 
 function selectBuyableItem(state: GameState, itemId: string): IBuyable {
-    // TODO: include other lists
     let candidates = GameEngine.getAllGameObjects(state).filter(p => p.id === itemId);
     const item = candidates.pop();
     if (candidates.length > 0 || typeof item === 'undefined') {

@@ -1,16 +1,19 @@
 import { Currency, Map, Lock } from "./classes/baseClasses";
 import IResource from "./classes/IResource";
 import IProducer from "./classes/IProducer";
+import IDiscovery from "./classes/IDiscovery";
+import discoveriesData from "./data/discoveries";
 import { producersData } from "./data/producers";
 import IBuyable from "./classes/IBuyable";
 import locksData from "./data/locks";
 
 export default class GameState {
   lastTick: number;
+  currentSelection: IBuyable;
 
   locks: Map<boolean>;
 
-  currentSelection: IBuyable;
+  discoveries: IDiscovery[];
 
   producers: IProducer[];
 
@@ -23,6 +26,7 @@ export default class GameState {
     this.lastTick = Date.now();
 
     this.producers = producersData;
+    this.discoveries = discoveriesData;
 
     this.currentSelection = this.producers[0];
 

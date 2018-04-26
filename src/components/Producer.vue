@@ -6,10 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-
 import IProducer from "../classes/IProducer";
-
-import filters from "../filters";
 
 export default Vue.extend({
   methods: {
@@ -19,8 +16,7 @@ export default Vue.extend({
   },
   props: {
     producer: Object as () => IProducer
-  },
-  filters
+  }
 });
 </script>
 
