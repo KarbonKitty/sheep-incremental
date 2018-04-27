@@ -19,7 +19,7 @@ export default class GameState {
 
   resources: Map<IResource> = {
     cash: { name: "Cash", amount: 100, gainPerSecond: 0, precision: 0 },
-    wheat: { name: "Wheat", amount: 0, gainPerSecond: 0, precision: 0, limit: 100 }
+    wheat: { name: "Wheat", amount: 100, gainPerSecond: 0, precision: 0, limit: 100 }
   }
 
   constructor() {

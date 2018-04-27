@@ -1,5 +1,5 @@
 <template>
-  <div v-if="gameObject.locks.length === 0" class="gameObject" @click="changeSelection">
+  <div v-if="gameObject.locks.length === 0 && !gameObject.done" class="gameObject" @click="changeSelection">
     <p><strong>{{ gameObject.name }} <span v-if="typeof gameObject.quantity === 'number'">({{ gameObject.quantity }})</span></strong></p>
   </div>
 </template>
