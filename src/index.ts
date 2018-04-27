@@ -5,7 +5,6 @@ import GameEngine from "./engine/gameEngine";
 
 import ResourceComponent from "./components/Resource.vue";
 import GameObjectComponent from "./components/GameObject.vue";
-import DiscoveryComponent from "./components/Discovery.vue";
 import BuildingDetailsComponent from "./components/BuildingDetails.vue";
 
 const interval = 50;
@@ -21,8 +20,7 @@ let vm = new Vue({
     components: {
         'resource-component': ResourceComponent,
         'game-object-component': GameObjectComponent,
-        'building-details-component': BuildingDetailsComponent,
-        'discovery-component': DiscoveryComponent
+        'building-details-component': BuildingDetailsComponent
     }
 });
 
