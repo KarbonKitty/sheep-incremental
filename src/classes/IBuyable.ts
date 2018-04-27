@@ -1,8 +1,9 @@
-import { CurrencyValue } from "./baseClasses";
+import { CurrencyValue, BuyAction } from "./baseClasses";
 
 export default interface IBuyable {
   rawCost: CurrencyValue[];
-  quantity: number;
   buyVerb: string;
+  quantity?: number;
+  onBuyAction: BuyAction;
 }
 

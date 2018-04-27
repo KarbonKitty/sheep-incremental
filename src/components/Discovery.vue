@@ -1,5 +1,5 @@
 <template>
-  <div v-if="discovery.locks.length === 0" class="discovery" @click="buyDiscovery">
+  <div v-if="discovery.locks.length === 0 && !discovery.done" class="discovery" @click="buyDiscovery">
     <p><strong>{{ discovery.name }}</strong></p>
   </div>
 </template>

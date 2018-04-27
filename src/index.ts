@@ -4,7 +4,7 @@ import GameState from "./gameState";
 import GameEngine from "./engine/gameEngine";
 
 import ResourceComponent from "./components/Resource.vue";
-import ProducerComponent from "./components/Producer.vue";
+import GameObjectComponent from "./components/GameObject.vue";
 import DiscoveryComponent from "./components/Discovery.vue";
 import BuildingDetailsComponent from "./components/BuildingDetails.vue";
 
@@ -20,7 +20,7 @@ let vm = new Vue({
     },
     components: {
         'resource-component': ResourceComponent,
-        'producer-component': ProducerComponent,
+        'game-object-component': GameObjectComponent,
         'building-details-component': BuildingDetailsComponent,
         'discovery-component': DiscoveryComponent
     }
