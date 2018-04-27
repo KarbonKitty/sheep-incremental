@@ -1,5 +1,5 @@
 <template>
-  <div v-if="discovery.locks.length === 0 && !discovery.done" class="discovery" @click="buyDiscovery">
+  <div v-if="discovery.locks.length === 0 && !discovery.done" class="discovery" @click="changeSelection">
     <p><strong>{{ discovery.name }}</strong></p>
   </div>
 </template>
@@ -10,8 +10,8 @@ import IDiscovery from "../classes/IDiscovery";
 
 export default Vue.extend({
   methods: {
-    buyDiscovery: function() {
-      this.$parent.$emit('game-event', { type: 'discover', value: this.discovery.id });
+    changeSelection: function() {
+      this.$parent.$emit('game-event', { type: 'change-selection', value: this.discovery.id });
     }
   },
   props: {

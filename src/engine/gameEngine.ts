@@ -6,16 +6,21 @@ import IGameObject from "../classes/IGameObject";
 import DiscoveryEngine from "./discoveryEngine";
 
 export default {
-    tick(state: GameState, currentTick: number) {
+    tick,
+    handleEvent,
+    getAllGameObjects,
+    getGameObjectById
+}
+    function tick(state: GameState, currentTick: number) {
         let deltaT = currentTick - state.lastTick;
         state.lastTick = currentTick;
 
         clearPerSecondValues(state);
         ProducerEngine.activateProducers(state, deltaT);
         discardResourcesOverLimit(state);
-    },
+    }
 
-    handleEvent(state: GameState, data: { type: GameEvent, value: any }) {
+    function handleEvent(state: GameState, data: { type: GameEvent, value: any }) {
         switch (data.type) {
             case 'buy':
                 BuyableEngine.tryBuyItem(state, data.value);
@@ -29,21 +34,20 @@ export default {
             default:
                 console.error(`Event unhandled: ${data.type}. Reason: no relevant case in a switch!`);
         }
-    },
+    }
 
-    getAllGameObjects(state: GameState): IGameObject[] {
+    function getAllGameObjects(state: GameState): IGameObject[] {
         let gameObjects = <IGameObject[]>[];
         gameObjects = gameObjects.concat(state.producers);
         gameObjects = gameObjects.concat(state.discoveries);
         return gameObjects;
-    },
+    }
 
-    getGameObjectById(state: GameState, id: string): IGameObject | undefined {
-        const gameObjects = this.getAllGameObjects(state);
+    function getGameObjectById(state: GameState, id: string): IGameObject | undefined {
+        const gameObjects = getAllGameObjects(state);
         const item = gameObjects.filter(go => go.id === id).pop();
         return item;
     }
-}
 
 // TODO: think about the production/consumption ideas
 
@@ -61,7 +65,7 @@ function discardResourcesOverLimit(state: GameState): void {
 }
 
 function changeSelection(state: GameState, itemId: string): boolean {
-    const item = state.producers.filter(p => p.id === itemId).pop();
+    const item = getGameObjectById(state, itemId);
     if (typeof item === 'undefined') {
         return false;
     }
