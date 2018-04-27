@@ -11,7 +11,8 @@ export default {
         state.lastTick = currentTick;
 
         clearPerSecondValues(state);
-        workProducers(state, deltaT);
+        ProducerEngine.activateProducers(state, deltaT);
+        discardResourcesOverLimit(state);
     },
 
     handleEvent(state: GameState, data: { type: GameEvent, value: any }) {
@@ -44,19 +45,19 @@ export default {
     }
 }
 
-function workProducers(state: GameState, deltaT: number) {
-    state.producers.forEach(producer => {
-        let haveResourcesToConsume = producer.consumption.reduce((acc, consumption) => acc && state.resources[consumption.currency].amount >= consumption.amount * producer.quantity, true);
-        if (haveResourcesToConsume) {
-            ProducerEngine.activateProducer(state, producer, deltaT);
-        }
-    });
-}
-
 // TODO: think about the production/consumption ideas
 
 function clearPerSecondValues(state: GameState): void {
     Object.keys(state.resources).forEach(k => state.resources[k].gainPerSecond = 0);
+}
+
+function discardResourcesOverLimit(state: GameState): void {
+    Object.keys(state.resources).forEach(k => {
+        const resource = state.resources[k];
+        if (typeof resource.limit !== 'undefined' && resource.limit < resource.amount) {
+            resource.amount = resource.limit;
+        }
+    });
 }
 
 function changeSelection(state: GameState, itemId: string): boolean {

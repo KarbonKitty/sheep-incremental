@@ -8,7 +8,7 @@ let discoveries: IDiscovery[] = [
     quantity: 0,
     locks: [],
     unlocks: 'flour',
-    rawCost: [{ currency: 'wheat', amount: 99}],
+    rawCost: [{ currency: 'wheat', amount: 100}],
     buyVerb: "Experiment!"
   }
 ];
