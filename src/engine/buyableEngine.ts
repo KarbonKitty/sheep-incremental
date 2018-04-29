@@ -3,7 +3,6 @@ import GameEngine from "./gameEngine";
 import LockEngine from "./lockEngine";
 import IBuyable from "../classes/IBuyable";
 import { CurrencyValue, Currency, BuyAction } from "../classes/baseClasses";
-import IProducer from "../classes/IProducer";
 import TypeGuards from "../classes/typeGuards";
 
 const engine = {

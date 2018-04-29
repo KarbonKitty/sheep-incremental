@@ -1,5 +1,5 @@
 import GameState from "../gameState"
-import IProducer from "../classes/IProducer";
+import Producer from "../classes/producer/Producer";
 import { CurrencyValue } from "../classes/baseClasses";
 
 export default {
@@ -12,7 +12,7 @@ export default {
         });
     }
 }
-function activateProducer(state: GameState, producer: IProducer, deltaT: number) {
+function activateProducer(state: GameState, producer: Producer, deltaT: number) {
     producer.consumption.forEach(resourceToConsume => consumeInputs(state, resourceToConsume, producer.quantity, deltaT));
     producer.production.forEach(productionValue => createOutputs(state, productionValue, producer.quantity, deltaT));
 }

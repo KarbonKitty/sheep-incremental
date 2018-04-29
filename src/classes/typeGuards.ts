@@ -1,10 +1,10 @@
 import IBuyable from "./IBuyable";
-import IProducer from "./IProducer";
+import Producer from "./producer/Producer";
 import IDiscovery from "./IDiscovery";
 
 export default {
-    isProducer(buyable: IBuyable): buyable is IProducer {
-        return (<IProducer>buyable).onBuyAction === 'addOne';
+    isProducer(buyable: IBuyable): buyable is Producer {
+        return (<Producer>buyable).onBuyAction === 'addOne';
     },
     isDiscovery(buyable: IBuyable): buyable is IDiscovery {
         return (<IDiscovery>buyable).onBuyAction === 'discover';

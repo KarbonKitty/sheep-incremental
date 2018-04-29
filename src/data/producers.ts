@@ -1,6 +1,6 @@
-import IProducer from "../classes/IProducer";
+import IProducerTemplate from "../classes/producer/IProducerTemplate";
 
-export let producersData: IProducer[] = [
+export let producersData: IProducerTemplate[] = [
     {
         name: "Wheat field",
         desc: "This is the beginning of an agricultural empire, the greatest empire that the man ever saw!",
