@@ -1,9 +1,12 @@
 import IProducerState from "./IProducerState";
 import IProducerTemplate from "./IProducerTemplate";
-import { CurrencyValue, Lock, BuyAction } from "../baseClasses";
+import { CurrencyValue, Lock } from "../baseClasses";
+import IBuyable from "../IBuyable";
 
-export default class Producer implements IProducerTemplate, IProducerState {
+export default class Producer implements IProducerTemplate, IProducerState, IBuyable {
   template: IProducerTemplate;
+  readonly type = "producer";
+
   public get id() : string {
     return this.template.id;
   }
@@ -28,13 +31,19 @@ export default class Producer implements IProducerTemplate, IProducerState {
   public get locks(): Lock[] {
     return this.template.locks;
   }
-  public get onBuyAction(): BuyAction {
-    return this.template.onBuyAction;
-  }
+
   quantity: number;
 
   constructor(template: IProducerTemplate, state: IProducerState) {
     this.template = template;
     this.quantity = state.quantity;
+  }
+
+  buy() {
+    this.quantity++;
+  }
+
+  getCurrentPrice() {
+    return this.rawCost.map(val => ({ amount: val.amount * Math.pow(1.15, this.quantity), currency: val.currency}));
   }
 }

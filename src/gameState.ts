@@ -3,13 +3,13 @@ import IResource from "./classes/IResource";
 import IDiscovery from "./classes/IDiscovery";
 import discoveriesData from "./data/discoveries";
 import { producersData } from "./data/producers";
-import IBuyable from "./classes/IBuyable";
 import locksData from "./data/locks";
 import Producer from "./classes/producer/Producer";
+import IGameObject from "./classes/IGameObject";
 
 export default class GameState {
   lastTick: number;
-  currentSelection: IBuyable;
+  currentSelection: IGameObject;
 
   locks: Map<boolean>;
 

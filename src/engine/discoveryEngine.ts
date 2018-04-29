@@ -1,6 +1,5 @@
 import GameState from "../gameState";
 import GameEngine from "./gameEngine";
-import BuyableEngine from "./buyableEngine";
 import LockEngine from "./lockEngine";
 
 export default {
@@ -11,7 +10,7 @@ export default {
       return false;
     }
 
-    if (!BuyableEngine.tryBuyItem(state, discoveryId)) {
+    if (!GameEngine.tryBuyItem(state, discoveryId)) {
       return false;
     }
 
