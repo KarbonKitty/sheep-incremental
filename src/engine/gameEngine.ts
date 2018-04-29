@@ -2,7 +2,6 @@ import GameState from "../gameState"
 import ProducerEngine from "./producerEngine";
 import { GameEvent, CurrencyValue } from "../classes/baseClasses";
 import IGameObject from "../classes/IGameObject";
-import DiscoveryEngine from "./discoveryEngine";
 import IBuyable from "../classes/IBuyable";
 import typeGuards from "../classes/typeGuards";
 
@@ -31,9 +30,6 @@ function handleEvent(state: GameState, data: { type: GameEvent, value: any }) {
         case 'change-selection':
             changeSelection(state, data.value);
             break;
-        case 'discover':
-            DiscoveryEngine.tryDiscover(state, data.value);
-            break;
         default:
             console.error(`Event unhandled: ${data.type}. Reason: no relevant case in a switch!`);
     }
@@ -61,7 +57,7 @@ function tryBuyItem(state: GameState, itemId: string): IBuyable | undefined {
 
     if (canBePaid(state, price)) {
         payForItem(state, item);
-        item.buy();
+        item.buy(state);
         return item;
     } else {
         return undefined;

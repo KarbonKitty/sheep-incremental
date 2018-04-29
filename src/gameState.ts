@@ -1,6 +1,6 @@
 import { Currency, Map, Lock } from "./classes/baseClasses";
 import IResource from "./classes/IResource";
-import IDiscovery from "./classes/IDiscovery";
+import Discovery from "./classes/discovery/Discovery";
 import discoveriesData from "./data/discoveries";
 import { producersData } from "./data/producers";
 import locksData from "./data/locks";
@@ -13,7 +13,7 @@ export default class GameState {
 
   locks: Map<boolean>;
 
-  discoveries: IDiscovery[];
+  discoveries: Discovery[];
 
   producers: Producer[];
 
@@ -26,7 +26,7 @@ export default class GameState {
     this.lastTick = Date.now();
 
     this.producers = producersData.map(v => new Producer(v, { quantity: 0 }));
-    this.discoveries = discoveriesData;
+    this.discoveries = discoveriesData.map(v => new Discovery(v, { done: false }));
 
     this.currentSelection = this.producers[0];
 
