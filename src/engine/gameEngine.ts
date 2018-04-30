@@ -1,16 +1,16 @@
-import GameState from "../gameState"
-import ProducerEngine from "./producerEngine";
-import { GameEvent, CurrencyValue } from "../classes/baseClasses";
+import GameState from "../gameState";
+import { GameEvent, CurrencyValue, Lock } from "../classes/baseClasses";
 import IGameObject from "../classes/IGameObject";
 import IBuyable from "../classes/IBuyable";
 import typeGuards from "../classes/typeGuards";
+import Producer from "../classes/producer/Producer";
 
 export default {
     tick,
     handleEvent,
     getAllGameObjects,
     getGameObjectById,
-    tryBuyItem
+    tryBuyItem, removeLock
 }
 
 function tick(state: GameState, currentTick: number) {
@@ -18,7 +18,7 @@ function tick(state: GameState, currentTick: number) {
     state.lastTick = currentTick;
 
     clearPerSecondValues(state);
-    ProducerEngine.activateProducers(state, deltaT);
+    activateProducers(state, deltaT);
     discardResourcesOverLimit(state);
 }
 
@@ -35,11 +35,49 @@ function handleEvent(state: GameState, data: { type: GameEvent, value: any }) {
     }
 }
 
-function payForItem(state: GameState, item: IBuyable): void {
-    const realCost = item.getCurrentPrice();
-    realCost.forEach(singleCost => {
+function removeLock(state: GameState, lock: Lock) {
+    state.locks[lock] = false;
+    let unlockables = getAllGameObjects(state);
+    unlockables.forEach(unlockable => {
+        const lockIndex = unlockable.locks.indexOf(lock);
+        if (lockIndex > -1)
+        {
+            unlockable.locks.splice(lockIndex, 1);
+        }
+    });
+}
+
+function activateProducers(state: GameState, deltaT: number) {
+    state.producers.forEach(producer => {
+        if (canBePaid(state, producer.getConsumption(deltaT))) {
+            activateProducer(state, producer, deltaT);
+        }
+    });
+}
+
+function activateProducer(state: GameState, producer: Producer, deltaT: number) {
+    payThePrice(state, producer.getConsumption(deltaT));
+    const production = producer.getProduction(deltaT);
+    getPaid(state, production);
+    accumulatePerSecondValues(state, deltaT, production);
+}
+
+function accumulatePerSecondValues(state: GameState, deltaT: number, gainPerDelta: CurrencyValue[]) {
+    gainPerDelta.forEach(gpd => {
+        state.resources[gpd.currency].gainPerSecond += gpd.amount * 1000 / deltaT;
+    })
+}
+
+function payThePrice(state: GameState, price: CurrencyValue[]) {
+    price.forEach(singleCost => {
         state.resources[singleCost.currency].amount -= singleCost.amount;
     });
+}
+
+function getPaid(state: GameState, price: CurrencyValue[]) {
+    price.forEach(val => {
+        state.resources[val.currency].amount += val.amount;
+    })
 }
 
 function canBePaid(state: GameState, price: CurrencyValue[]): boolean {
@@ -56,7 +94,7 @@ function tryBuyItem(state: GameState, itemId: string): IBuyable | undefined {
     const price = item.getCurrentPrice();
 
     if (canBePaid(state, price)) {
-        payForItem(state, item);
+        payThePrice(state, price);
         item.buy(state);
         return item;
     } else {

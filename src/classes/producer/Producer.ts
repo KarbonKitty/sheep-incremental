@@ -46,4 +46,12 @@ export default class Producer implements IProducerTemplate, IProducerState, IBuy
   getCurrentPrice() {
     return this.rawCost.map(val => ({ amount: val.amount * Math.pow(1.15, this.quantity), currency: val.currency}));
   }
+
+  getConsumption(deltaT: number) {
+    return this.consumption.map(con => ({ currency: con.currency, amount: con.amount * this.quantity * deltaT / 1000}));
+  }
+
+  getProduction(deltaT: number) {
+    return this.production.map(pro => ({ currency: pro.currency, amount: pro.amount * this.quantity * deltaT / 1000}));
+  }
 }

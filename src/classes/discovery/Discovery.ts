@@ -1,9 +1,9 @@
-import LockEngine from "../../engine/lockEngine";
 import IDiscoveryState from "./IDiscoveryState";
 import IDiscoveryTemplate from "./IDiscoveryTemplate";
 import { CurrencyValue, Lock } from "../baseClasses";
 import IBuyable from "../IBuyable";
 import GameState from "../../gameState";
+import GameEngine from "../../engine/gameEngine";
 
 export default class Discovery implements IDiscoveryTemplate, IDiscoveryState, IBuyable {
   template: IDiscoveryTemplate;
@@ -40,7 +40,7 @@ export default class Discovery implements IDiscoveryTemplate, IDiscoveryState, I
 
   buy(state: GameState) {
     this.done = true;
-    this.unlocks.forEach(key => LockEngine.removeLock(state, key));
+    this.unlocks.forEach(key => GameEngine.removeLock(state, key));
   }
 
   getCurrentPrice() {
