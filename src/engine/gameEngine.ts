@@ -10,7 +10,8 @@ export default {
     handleEvent,
     getAllGameObjects,
     getGameObjectById,
-    tryBuyItem, removeLock
+    tryBuyItem,
+    removeLock
 }
 
 function tick(state: GameState, currentTick: number) {
