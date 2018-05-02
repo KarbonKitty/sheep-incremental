@@ -4,37 +4,29 @@ import IDiscoveryTemplate from "./IDiscoveryTemplate";
 import IBuyable from "../IBuyable";
 
 export default class Discovery implements IDiscoveryTemplate, IDiscoveryState, IBuyable {
-  template: IDiscoveryTemplate;
   readonly type = "discovery";
 
-  public get id() : string {
-    return this.template.id;
-  }
-  public get name(): string {
-    return this.template.name;
-  }
-  public get desc(): string {
-    return this.template.desc;
-  }
-  public get rawCost(): CurrencyValue[] {
-    return this.template.rawCost;
-  }
-  public get unlocks(): Lock[] {
-    return this.template.unlocks;
-  }
-  public get buyVerb(): string {
-    return this.template.buyVerb;
-  }
-  public get locks(): Lock[] {
-    return this.template.locks;
-  }
+  id: string;
+  name: string;
+  desc: string;
+  rawCost: CurrencyValue[];
+  buyVerb: string;
+  locks: Lock[];
+  unlocks: Lock[];
 
   done: boolean;
 
   onBuy: (() => void)[];
 
   constructor(template: IDiscoveryTemplate, state: IDiscoveryState) {
-    this.template = template;
+    this.id = template.id;
+    this.name = template.name;
+    this.desc = template.desc;
+    this.rawCost = template.rawCost;
+    this.buyVerb = template.buyVerb;
+    this.locks = template.locks;
+    this.unlocks = template.unlocks;
+
     this.done = state.done;
 
     this.onBuy = [];
