@@ -2,18 +2,13 @@ import IProducerState from "./IProducerState";
 import IProducerTemplate from "./IProducerTemplate";
 import { CurrencyValue, Lock } from "../baseClasses";
 import IBuyable from "../IBuyable";
+import GameObject from "../gameObject/GameObject";
 
-export default class Producer implements IProducerTemplate, IProducerState, IBuyable {
+export default class Producer extends GameObject implements IProducerState, IBuyable {
   readonly type = "producer";
 
-  id: string;
-  name: string;
-  desc: string;
-  rawCost: CurrencyValue[];
   production: CurrencyValue[];
   consumption: CurrencyValue[];
-  buyVerb: string;
-  locks: Lock[];
 
   onBuy: (() => void)[];
 
@@ -24,14 +19,10 @@ export default class Producer implements IProducerTemplate, IProducerState, IBuy
   }
 
   constructor(template: IProducerTemplate, state: IProducerState) {
-    this.id = template.id;
-    this.name = template.name;
-    this.desc = template.desc;
-    this.rawCost = template.rawCost;
+    super(template);
+
     this.production = template.production;
     this.consumption = template.consumption;
-    this.buyVerb = template.buyVerb;
-    this.locks = template.locks;
 
     this.quantity = state.quantity;
 

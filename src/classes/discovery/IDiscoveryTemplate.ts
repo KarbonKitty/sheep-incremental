@@ -1,6 +1,6 @@
 import { Lock } from './../baseClasses';
-import IGameObject from './../IGameObject';
+import IGameObjectTemplate from '../gameObject/IGameObjectTemplate';
 
-export default interface IDiscoveryTemplate extends IGameObject {
+export default interface IDiscoveryTemplate extends IGameObjectTemplate {
   unlocks: Lock[];
 }

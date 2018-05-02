@@ -1,7 +1,7 @@
 import { CurrencyValue } from './../baseClasses';
-import IGameObject from './../IGameObject';
+import IGameObjectTemplate from './../gameObject/IGameObjectTemplate';
 
-export default interface IProducerTemplate extends IGameObject {
+export default interface IProducerTemplate extends IGameObjectTemplate {
   production: CurrencyValue[];
   consumption: CurrencyValue[];
 }

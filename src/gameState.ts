@@ -5,12 +5,12 @@ import discoveriesData from "./data/discoveries";
 import { producersData } from "./data/producers";
 import locksData from "./data/locks";
 import Producer from "./classes/producer/Producer";
-import IGameObject from "./classes/IGameObject";
+import GameObject from "./classes/gameObject/GameObject";
 import gameEngine from "./engine/gameEngine";
 
 export default class GameState {
   lastTick: number;
-  currentSelection: IGameObject;
+  currentSelection: GameObject;
 
   locks: Map<boolean>;
 
@@ -26,7 +26,7 @@ export default class GameState {
   constructor() {
     this.lastTick = Date.now();
 
-    this.producers = [];// producersData.map(v => new Producer(v, { quantity: 0 }));
+    this.producers = [];
 
     producersData.forEach(pd => {
       const producer = new Producer(pd, { quantity: 0 });
@@ -36,7 +36,7 @@ export default class GameState {
       this.producers.push(producer);
     });
 
-    this.discoveries = [];//discoveriesData.map(v => new Discovery(v, { done: false }));
+    this.discoveries = [];
 
     discoveriesData.forEach(dd => {
       const discovery = new Discovery(dd, { done: false });

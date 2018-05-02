@@ -1,6 +1,6 @@
 import GameState from "../gameState";
 import { GameEvent, CurrencyValue, Lock } from "../classes/baseClasses";
-import IGameObject from "../classes/IGameObject";
+import GameObject from "../classes/gameObject/GameObject";
 import IBuyable from "../classes/IBuyable";
 import typeGuards from "../classes/typeGuards";
 import Producer from "../classes/producer/Producer";
@@ -104,14 +104,14 @@ function tryBuyItem(state: GameState, itemId: string): IBuyable | undefined {
     }
 }
 
-function getAllGameObjects(state: GameState): IGameObject[] {
-    let gameObjects = <IGameObject[]>[];
+function getAllGameObjects(state: GameState): GameObject[] {
+    let gameObjects = <GameObject[]>[];
     gameObjects = gameObjects.concat(state.producers);
     gameObjects = gameObjects.concat(state.discoveries);
     return gameObjects;
 }
 
-function getGameObjectById(state: GameState, id: string): IGameObject | undefined {
+function getGameObjectById(state: GameState, id: string): GameObject | undefined {
     const gameObjects = getAllGameObjects(state);
     const item = gameObjects.filter(go => go.id === id).pop();
     return item;
