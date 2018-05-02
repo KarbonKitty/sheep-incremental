@@ -4,47 +4,42 @@ import { CurrencyValue, Lock } from "../baseClasses";
 import IBuyable from "../IBuyable";
 
 export default class Producer implements IProducerTemplate, IProducerState, IBuyable {
-  template: IProducerTemplate;
   readonly type = "producer";
 
-  public get id() : string {
-    return this.template.id;
-  }
-  public get name(): string {
-    return this.template.name;
-  }
-  public get desc(): string {
-    return this.template.desc;
-  }
-  public get rawCost(): CurrencyValue[] {
-    return this.template.rawCost;
-  }
-  public get production(): CurrencyValue[] {
-    return this.template.production;
-  }
-  public get consumption(): CurrencyValue[] {
-    return this.template.consumption;
-  }
-  public get buyVerb(): string {
-    return this.template.buyVerb;
-  }
-  public get locks(): Lock[] {
-    return this.template.locks;
-  }
+  id: string;
+  name: string;
+  desc: string;
+  rawCost: CurrencyValue[];
+  production: CurrencyValue[];
+  consumption: CurrencyValue[];
+  buyVerb: string;
+  locks: Lock[];
+
+  onBuy: (() => void)[];
 
   quantity: number;
 
+  public get currentPrice() {
+    return this.rawCost.map(val => ({ amount: val.amount * Math.pow(1.15, this.quantity), currency: val.currency}));
+  }
+
   constructor(template: IProducerTemplate, state: IProducerState) {
-    this.template = template;
+    this.id = template.id;
+    this.name = template.name;
+    this.desc = template.desc;
+    this.rawCost = template.rawCost;
+    this.production = template.production;
+    this.consumption = template.consumption;
+    this.buyVerb = template.buyVerb;
+    this.locks = template.locks;
+
     this.quantity = state.quantity;
+
+    this.onBuy = [];
   }
 
   buy() {
-    this.quantity++;
-  }
-
-  getCurrentPrice() {
-    return this.rawCost.map(val => ({ amount: val.amount * Math.pow(1.15, this.quantity), currency: val.currency}));
+    this.onBuy.forEach(handler => handler());
   }
 
   getConsumption(deltaT: number) {

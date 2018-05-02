@@ -41,8 +41,7 @@ function removeLock(state: GameState, lock: Lock) {
     let unlockables = getAllGameObjects(state);
     unlockables.forEach(unlockable => {
         const lockIndex = unlockable.locks.indexOf(lock);
-        if (lockIndex > -1)
-        {
+        if (lockIndex > -1) {
             unlockable.locks.splice(lockIndex, 1);
         }
     });
@@ -57,15 +56,17 @@ function activateProducers(state: GameState, deltaT: number) {
 }
 
 function activateProducer(state: GameState, producer: Producer, deltaT: number) {
-    payThePrice(state, producer.getConsumption(deltaT));
+    const consumption = producer.getConsumption(deltaT);
+    payThePrice(state, consumption);
+    accumulatePerSecondValues(state, deltaT, consumption, false);
     const production = producer.getProduction(deltaT);
     getPaid(state, production);
-    accumulatePerSecondValues(state, deltaT, production);
+    accumulatePerSecondValues(state, deltaT, production, true);
 }
 
-function accumulatePerSecondValues(state: GameState, deltaT: number, gainPerDelta: CurrencyValue[]) {
-    gainPerDelta.forEach(gpd => {
-        state.resources[gpd.currency].gainPerSecond += gpd.amount * 1000 / deltaT;
+function accumulatePerSecondValues(state: GameState, deltaT: number, valuePerDelta: CurrencyValue[], isPositive: boolean) {
+    valuePerDelta.forEach(gpd => {
+        state.resources[gpd.currency].gainPerSecond += gpd.amount * 1000 / deltaT * (isPositive ? 1 : -1);
     })
 }
 
@@ -92,11 +93,11 @@ function tryBuyItem(state: GameState, itemId: string): IBuyable | undefined {
         return undefined;
     }
 
-    const price = item.getCurrentPrice();
+    const price = item.currentPrice;
 
     if (canBePaid(state, price)) {
         payThePrice(state, price);
-        item.buy(state);
+        item.buy();
         return item;
     } else {
         return undefined;
