@@ -14,3 +14,11 @@ export interface CurrencyValue {
 export interface Map<T> {
   [index: string]: T;
 }
+
+export interface IResource {
+  name: string,
+  limit?: number,
+  amount: number,
+  gainPerSecond: number,
+  precision: number
+}

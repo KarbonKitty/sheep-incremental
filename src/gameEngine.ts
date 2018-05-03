@@ -1,9 +1,8 @@
-import { GameEvent, CurrencyValue, Lock, Map } from "./classes/baseClasses";
+import { GameEvent, CurrencyValue, Lock, Map, IResource } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
 import Discovery from "./classes/discovery/Discovery";
-import IResource from "./classes/IResource";
 import { ProducersData, DiscoveriesData, LocksData } from "./data";
 import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
 import IDiscoveryState from "./classes/discovery/IDiscoveryState";

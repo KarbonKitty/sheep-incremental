@@ -5,7 +5,7 @@
 <script lang="ts">
 import Vue from "vue";
 
-import IResource from "../classes/IResource";
+import { IResource } from "../classes/baseClasses";
 
 import filters from "../filters";
 
