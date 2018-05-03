@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import IGameObject from "../classes/IGameObject";
+import GameObject from "../classes/gameObject/GameObject";
 
 export default Vue.extend({
   methods: {
@@ -15,7 +15,7 @@ export default Vue.extend({
     }
   },
   props: {
-    gameObject: Object as () => IGameObject
+    gameObject: Object as () => GameObject
   }
 });
 </script>

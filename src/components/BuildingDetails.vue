@@ -14,12 +14,12 @@ import Vue from 'vue'
 import { CurrencyValue } from '../classes/baseClasses';
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import filters from "../filters";
-import IGameObject from '../classes/IGameObject';
+import GameObject from '../classes/gameObject/GameObject';
 import IBuyable from "../classes/IBuyable";
 
 export default Vue.extend({
   props: {
-    building: Object as () => IGameObject & IBuyable
+    building: Object as () => GameObject & IBuyable
   },
   components: {
     'currency-value-component': CurrencyValueComponent

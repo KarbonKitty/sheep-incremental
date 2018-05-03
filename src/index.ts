@@ -1,7 +1,6 @@
 import Vue from "vue";
 
-import GameState from "./gameState";
-import GameEngine from "./engine/gameEngine";
+import GameEngine from "./gameEngine";
 
 import ResourceComponent from "./components/Resource.vue";
 import GameObjectComponent from "./components/GameObject.vue";
@@ -9,13 +8,13 @@ import BuildingDetailsComponent from "./components/BuildingDetails.vue";
 
 const interval = 50;
 
-let gameState = new GameState();
+let engine = new GameEngine();
 
 let vm = new Vue({
     el: "#app",
-    data: gameState,
+    data: engine,
     created() {
-        this.$on('game-event', (data: any) => GameEngine.handleEvent(gameState, data))
+        this.$on('game-event', (data: any) => engine.handleEvent(data))
     },
     components: {
         'resource-component': ResourceComponent,
@@ -24,4 +23,4 @@ let vm = new Vue({
     }
 });
 
-let handle = window.setInterval(() => GameEngine.tick(gameState, Date.now()), interval);
+let handle = window.setInterval(() => engine.tick(Date.now()), interval);
