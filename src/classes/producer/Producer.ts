@@ -40,4 +40,8 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   getProduction(deltaT: number) {
     return this.production.map(pro => ({ currency: pro.currency, amount: pro.amount * this.quantity * deltaT / 1000}));
   }
+
+  save(): IProducerState {
+    return { quantity: this.quantity };
+  }
 }

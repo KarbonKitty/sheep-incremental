@@ -105,6 +105,58 @@ export default class GameEngine {
         });
     }
 
+    save(): string {
+        const state = {
+            lastTick: this.lastTick,
+            locks: this.locks,
+            resources: this.resources,
+            producersState: this.producers.map(p => ({ id: p.id, state: p.save()})),
+            discoveriesState: this.discoveries.map(d => ({ id: d.id, state: d.save()})),
+            storageState: this.storages.map(s => ({ id: s.id, state: s.save()}))
+        };
+
+        return JSON.stringify(state);
+    }
+
+    load(savedState: string): void {
+        let savedObject = JSON.parse(savedState);
+        
+        let tempProducers = <Producer[]>[];
+        savedObject.producersState.forEach((ps: { id: string, state: IProducerState }) => {
+            const producerTemplate = ProducersData.filter(pd => pd.id === ps.id).pop();
+            if (typeof producerTemplate === 'undefined') {
+                throw new Error("Unknown producer id: " + ps.id);
+            }
+            tempProducers.push(new Producer(producerTemplate, ps.state));
+        });
+
+        let tempDiscoveries = <Discovery[]>[];
+        savedObject.discoveriesState.forEach((ds: { id: string, state: IDiscoveryState }) => {
+            const discoveryTemplate = DiscoveriesData.filter(dd => dd.id === ds.id).pop();
+            if (typeof discoveryTemplate === 'undefined') {
+                throw new Error("Unknown discovery id: " + ds.id);
+            }
+            tempDiscoveries.push(new Discovery(discoveryTemplate, ds.state));
+        });
+
+        let tempStorage = <Storage[]>[];
+        savedObject.storageState.forEach((ss: { id: string, state: IProducerState }) => {
+            const storageTemplate = StorageData.filter(sd => sd.id === ss.id).pop();
+            if (typeof storageTemplate === 'undefined') {
+                throw new Error("Unknown storage id: " + ss.id);
+            }
+            tempStorage.push(new Storage(storageTemplate, ss.state));
+        });
+
+        // nothing threw, we can replace the state
+        this.lastTick = savedObject.lastTick;
+        this.locks = savedObject.locks;
+        this.resources = savedObject.resources;
+        this.producers = tempProducers;
+        this.discoveries = tempDiscoveries;
+        this.storages = tempStorage;
+    }
+
     private activateProducers(deltaT: number) {
         this.producers.forEach(producer => {
             if (this.canBePaid(producer.getConsumption(deltaT))) {

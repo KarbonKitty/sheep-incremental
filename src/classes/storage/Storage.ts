@@ -34,4 +34,8 @@ export default class Storage extends GameObject implements IStorageTemplate, ISt
   getStorage() {
     return this.storage.map(s => ({ currency: s.currency, amount: s.amount * this.quantity }));
   }
+
+  save(): IStorageState {
+    return { quantity: this.quantity };
+  }
 }

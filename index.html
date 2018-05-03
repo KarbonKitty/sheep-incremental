@@ -15,6 +15,8 @@
     <h1>Industrial Incremental</h1>
     <div id="app" class="container">
         <div class="sidebar">
+            <button class="btn" v-on:click="saveGame">Save</button>
+            <button class="btn" v-on:click="loadGame">Load</button>
             <div v-for="res in resources">
                 <resource-component :resource="res"></resource-component>
             </div>

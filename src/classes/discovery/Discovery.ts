@@ -30,4 +30,8 @@ export default class Discovery extends GameObject implements IDiscoveryTemplate,
   public get currentPrice() {
     return this.rawCost;
   }
+
+  save(): IDiscoveryState {
+    return { done: this.done };
+  }
 }
