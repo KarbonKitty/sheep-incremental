@@ -26,6 +26,9 @@
             <div v-for="discovery in discoveries">
                 <game-object-component :game-object="discovery"></discovery-component>
             </div>
+            <div v-for="storage in storages">
+                <game-object-component :game-object="storage"></game-object-component>
+            </div>
         </div>
         <div class="main-area">
             <!-- TODO: make separate components for producers/storage/updates etc. -->

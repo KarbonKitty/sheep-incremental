@@ -4,7 +4,7 @@ import { CurrencyValue, Lock } from "../baseClasses";
 import IBuyable from "../IBuyable";
 import GameObject from "../gameObject/GameObject";
 
-export default class Producer extends GameObject implements IProducerState, IBuyable {
+export default class Producer extends GameObject implements IProducerTemplate, IProducerState, IBuyable {
   readonly type = "producer";
 
   production: CurrencyValue[];

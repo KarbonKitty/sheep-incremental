@@ -4,7 +4,7 @@ import IDiscoveryTemplate from "./IDiscoveryTemplate";
 import IBuyable from "../IBuyable";
 import GameObject from "../gameObject/GameObject";
 
-export default class Discovery extends GameObject implements IDiscoveryState, IBuyable {
+export default class Discovery extends GameObject implements IDiscoveryTemplate, IDiscoveryState, IBuyable {
   readonly type = "discovery";
 
   unlocks: Lock[];

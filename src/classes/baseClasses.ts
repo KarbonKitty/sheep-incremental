@@ -4,7 +4,7 @@ export type Lock = keyof typeof LockList;
 
 export type Currency = "cash" | "wheat";
 export type GameEvent = 'buy' | 'change-selection';
-export type GameObjectType = "producer" | "discovery";
+export type GameObjectType = "producer" | "discovery" | "storage";
 
 export interface CurrencyValue {
   currency: Currency;

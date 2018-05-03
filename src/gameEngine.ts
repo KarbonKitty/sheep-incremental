@@ -3,12 +3,15 @@ import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
 import Discovery from "./classes/discovery/Discovery";
-import { ProducersData, DiscoveriesData, LocksData } from "./data";
+import { ProducersData, DiscoveriesData, LocksData, StorageData } from "./data";
 import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
 import IDiscoveryState from "./classes/discovery/IDiscoveryState";
 import Producer from "./classes/producer/Producer";
 import IProducerTemplate from "./classes/producer/IProducerTemplate";
 import IProducerState from "./classes/producer/IProducerState";
+import Storage from "./classes/storage/Storage";
+import IStorageTemplate from "./classes/storage/IStorageTemplate";
+import IStorageState from "./classes/storage/IStorageState";
 
 export default class GameEngine {
     lastTick: number;
@@ -17,8 +20,8 @@ export default class GameEngine {
     locks: Map<boolean>;
 
     discoveries: Discovery[];
-
     producers: Producer[];
+    storages: Storage[];
 
     resources: Map<IResource> = {
         cash: { name: "Cash", amount: 100, gainPerSecond: 0, precision: 0 },
@@ -29,12 +32,12 @@ export default class GameEngine {
         this.lastTick = Date.now();
 
         this.producers = ProducersData.map(pd => this.createProducer(pd));
-
         this.discoveries = DiscoveriesData.map(dd => this.createDiscovery(dd));
-
-        this.currentSelection = this.producers[0];
+        this.storages = StorageData.map(sd => this.createStorage(sd));
 
         this.locks = LocksData;
+
+        this.currentSelection = this.producers[0];
     }
 
     tick(currentTick: number) {
@@ -63,6 +66,7 @@ export default class GameEngine {
         let gameObjects = <GameObject[]>[];
         gameObjects = gameObjects.concat(this.producers);
         gameObjects = gameObjects.concat(this.discoveries);
+        gameObjects = gameObjects.concat(this.storages);
         return gameObjects;
     }
 
@@ -171,12 +175,26 @@ export default class GameEngine {
     }
 
     private createDiscovery(template: IDiscoveryTemplate, state: IDiscoveryState = { done: false }): Discovery {
-        const discovery = new Discovery(template, { done: false });
+        const discovery = new Discovery(template, state);
         discovery.onBuy.push(() => {
             discovery.done = true;
             discovery.unlocks.forEach(key => this.removeLock(key));
         });
         return discovery;
+    }
+
+    private createStorage(template: IStorageTemplate, state: IStorageState = { quantity: 0 }): Storage {
+        const storage = new Storage(template, state);
+        storage.onBuy.push(() => {
+            storage.quantity++;
+            template.storage.forEach(s => {
+                const res = this.resources[s.currency];
+                if (typeof (res.limit) !== 'undefined') {
+                    res.limit += s.amount;
+                }
+            });
+        });
+        return storage;
     }
 }
 
