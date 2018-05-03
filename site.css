@@ -46,6 +46,12 @@ a:active {
   grid-column: 2;
   grid-row: 1;
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.top-column {
+  display: flex;
   flex-direction: column;
 }
 

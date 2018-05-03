@@ -24,7 +24,7 @@ export default Vue.extend({
   .gameObject {
     text-align: center;
     padding: 0 0.25rem;
-    margin: 0.125rem 0;
+    margin: 0.125rem;
     border: 1px solid #839496;
     border-radius: 4px;
     width: 200px;
