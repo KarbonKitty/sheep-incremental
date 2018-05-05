@@ -14,7 +14,7 @@ export default class Discovery extends GameObject implements IDiscoveryTemplate,
   onBuy: (() => void)[];
 
   constructor(template: IDiscoveryTemplate, state: IDiscoveryState) {
-    super(template);
+    super(template, state);
     
     this.unlocks = template.unlocks;
 
@@ -32,6 +32,6 @@ export default class Discovery extends GameObject implements IDiscoveryTemplate,
   }
 
   save(): IDiscoveryState {
-    return { done: this.done };
+    return { done: this.done, locks: this.locks };
   }
 }

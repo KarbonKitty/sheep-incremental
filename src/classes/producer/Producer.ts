@@ -19,7 +19,7 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   }
 
   constructor(template: IProducerTemplate, state: IProducerState) {
-    super(template);
+    super(template, state);
 
     this.production = template.production;
     this.consumption = template.consumption;
@@ -42,6 +42,6 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   }
 
   save(): IProducerState {
-    return { quantity: this.quantity };
+    return { quantity: this.quantity, locks: this.locks };
   }
 }

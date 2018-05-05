@@ -34,9 +34,9 @@ export default class GameEngine {
     constructor() {
         this.lastTick = Date.now();
 
-        this.producers = ProducersData.map(pd => this.createProducer(pd));
-        this.discoveries = DiscoveriesData.map(dd => this.createDiscovery(dd));
-        this.storages = StorageData.map(sd => this.createStorage(sd));
+        this.producers = ProducersData.map(pd => this.createProducer(pd.template, pd.startingState));
+        this.discoveries = DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState));
+        this.storages = StorageData.map(sd => this.createStorage(sd.template, sd.startingState));
 
         this.locks = LocksData;
 
@@ -126,29 +126,29 @@ export default class GameEngine {
         
         let tempProducers = <Producer[]>[];
         savedObject.producersState.forEach((ps: { id: string, state: IProducerState }) => {
-            const producerTemplate = ProducersData.filter(pd => pd.id === ps.id).pop();
-            if (typeof producerTemplate === 'undefined') {
+            const producerData = ProducersData.filter(pd => pd.template.id === ps.id).pop();
+            if (typeof producerData === 'undefined') {
                 throw new Error("Unknown producer id: " + ps.id);
             }
-            tempProducers.push(this.createProducer(producerTemplate, ps.state));
+            tempProducers.push(this.createProducer(producerData.template, ps.state));
         });
 
         let tempDiscoveries = <Discovery[]>[];
         savedObject.discoveriesState.forEach((ds: { id: string, state: IDiscoveryState }) => {
-            const discoveryTemplate = DiscoveriesData.filter(dd => dd.id === ds.id).pop();
-            if (typeof discoveryTemplate === 'undefined') {
+            const discoveryData = DiscoveriesData.filter(dd => dd.template.id === ds.id).pop();
+            if (typeof discoveryData === 'undefined') {
                 throw new Error("Unknown discovery id: " + ds.id);
             }
-            tempDiscoveries.push(this.createDiscovery(discoveryTemplate, ds.state));
+            tempDiscoveries.push(this.createDiscovery(discoveryData.template, ds.state));
         });
 
         let tempStorage = <Storage[]>[];
         savedObject.storageState.forEach((ss: { id: string, state: IProducerState }) => {
-            const storageTemplate = StorageData.filter(sd => sd.id === ss.id).pop();
-            if (typeof storageTemplate === 'undefined') {
+            const storageData = StorageData.filter(sd => sd.template.id === ss.id).pop();
+            if (typeof storageData === 'undefined') {
                 throw new Error("Unknown storage id: " + ss.id);
             }
-            tempStorage.push(this.createStorage(storageTemplate, ss.state));
+            tempStorage.push(this.createStorage(storageData.template, ss.state));
         });
 
         // nothing threw, we can replace the state
@@ -158,18 +158,6 @@ export default class GameEngine {
         this.producers = tempProducers;
         this.discoveries = tempDiscoveries;
         this.storages = tempStorage;
-
-        this.refreshLocks();
-    }
-
-    private refreshLocks() {
-        const engine = this;
-        let discoveries = engine.getAllGameObjects().filter(go => typeGuards.isDiscovery(go)) as Discovery[];
-        discoveries.forEach(d => {
-            if (d.done) {
-                d.unlocks.forEach(u => engine.removeLock(u));
-            }
-        });
     }
 
     private activateProducers(deltaT: number) {
@@ -233,7 +221,7 @@ export default class GameEngine {
         return true;
     }
 
-    private createProducer(template: IProducerTemplate, state: IProducerState = { quantity: 0 }): Producer {
+    private createProducer(template: IProducerTemplate, state: IProducerState = { quantity: 0, locks: [] }): Producer {
         const producer = new Producer(template, state);
         producer.onBuy.push(() => {
             producer.quantity++;
@@ -241,7 +229,7 @@ export default class GameEngine {
         return producer;
     }
 
-    private createDiscovery(template: IDiscoveryTemplate, state: IDiscoveryState = { done: false }): Discovery {
+    private createDiscovery(template: IDiscoveryTemplate, state: IDiscoveryState): Discovery {
         const discovery = new Discovery(template, state);
         discovery.onBuy.push(() => {
             discovery.done = true;
@@ -250,7 +238,7 @@ export default class GameEngine {
         return discovery;
     }
 
-    private createStorage(template: IStorageTemplate, state: IStorageState = { quantity: 0 }): Storage {
+    private createStorage(template: IStorageTemplate, state: IStorageState = { quantity: 0, locks: [] }): Storage {
         const storage = new Storage(template, state);
         storage.onBuy.push(() => {
             storage.quantity++;

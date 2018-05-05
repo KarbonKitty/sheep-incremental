@@ -18,7 +18,7 @@ export default class Storage extends GameObject implements IStorageTemplate, ISt
   }
 
   constructor(template: IStorageTemplate, state: IStorageState) {
-    super(template);
+    super(template, state);
 
     this.storage = template.storage;
 
@@ -36,6 +36,6 @@ export default class Storage extends GameObject implements IStorageTemplate, ISt
   }
 
   save(): IStorageState {
-    return { quantity: this.quantity };
+    return { quantity: this.quantity, locks: this.locks };
   }
 }

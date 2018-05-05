@@ -6,6 +6,5 @@ export default interface IGameObjectTemplate {
   name: string;
   desc: string;
   rawCost: CurrencyValue[];
-  locks: Lock[];
   buyVerb: string;
 }
