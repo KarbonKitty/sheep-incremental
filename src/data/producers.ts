@@ -49,7 +49,7 @@ export let producersData: IProducerTemplate[] = [
         id: 'well',
         type: 'producer',
         name: "Well",
-        desc: "Deep hole in the ground that fills with water on it's own.",
+        desc: "Deep hole in the ground that fills with water on its own.",
         rawCost: [{ currency: "cash", amount: 50 }],
         production: [{ currency: "water", amount: 3 }],
         consumption: [],

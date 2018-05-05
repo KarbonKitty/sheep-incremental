@@ -5,6 +5,7 @@
     <currency-value-component :values="building.currentPrice">Price:</currency-value-component>
     <currency-value-component v-if="typeof building.consumption !== 'undefined'" :values="building.consumption">Inputs:</currency-value-component>
     <currency-value-component v-if="typeof building.production !== 'undefined'" :values="building.production">Outputs:</currency-value-component>
+    <currency-value-component v-if="typeof building.storage !== 'undefined'" :values="building.storage">Storage:</currency-value-component>
     <button class="btn buyButton" @click="emitBuyEvent">{{ building.buyVerb }}</button>
   </div>
 </template>
