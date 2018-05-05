@@ -130,7 +130,7 @@ export default class GameEngine {
             if (typeof producerTemplate === 'undefined') {
                 throw new Error("Unknown producer id: " + ps.id);
             }
-            tempProducers.push(new Producer(producerTemplate, ps.state));
+            tempProducers.push(this.createProducer(producerTemplate, ps.state));
         });
 
         let tempDiscoveries = <Discovery[]>[];
@@ -139,7 +139,7 @@ export default class GameEngine {
             if (typeof discoveryTemplate === 'undefined') {
                 throw new Error("Unknown discovery id: " + ds.id);
             }
-            tempDiscoveries.push(new Discovery(discoveryTemplate, ds.state));
+            tempDiscoveries.push(this.createDiscovery(discoveryTemplate, ds.state));
         });
 
         let tempStorage = <Storage[]>[];
@@ -148,7 +148,7 @@ export default class GameEngine {
             if (typeof storageTemplate === 'undefined') {
                 throw new Error("Unknown storage id: " + ss.id);
             }
-            tempStorage.push(new Storage(storageTemplate, ss.state));
+            tempStorage.push(this.createStorage(storageTemplate, ss.state));
         });
 
         // nothing threw, we can replace the state
@@ -158,6 +158,18 @@ export default class GameEngine {
         this.producers = tempProducers;
         this.discoveries = tempDiscoveries;
         this.storages = tempStorage;
+
+        this.refreshLocks();
+    }
+
+    private refreshLocks() {
+        const engine = this;
+        let discoveries = engine.getAllGameObjects().filter(go => typeGuards.isDiscovery(go)) as Discovery[];
+        discoveries.forEach(d => {
+            if (d.done) {
+                d.unlocks.forEach(u => engine.removeLock(u));
+            }
+        });
     }
 
     private activateProducers(deltaT: number) {
