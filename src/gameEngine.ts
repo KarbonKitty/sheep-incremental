@@ -25,7 +25,10 @@ export default class GameEngine {
 
     resources: Map<IResource> = {
         cash: { name: "Cash", amount: 100, gainPerSecond: 0, precision: 0 },
-        wheat: { name: "Wheat", amount: 100, gainPerSecond: 0, precision: 0, limit: 100 }
+        wheat: { name: "Wheat", amount: 0, gainPerSecond: 0, precision: 0, limit: 100 },
+        flour: { name: "Flour", amount: 0, gainPerSecond: 0, precision: 1, limit: 0 },
+        water: { name: "Water", amount: 0, gainPerSecond: 0, precision: 0, limit: 250 },
+        bread: { name: "Bread", amount: 0, gainPerSecond: 0, precision: 2, limit: 0 }
     }
 
     constructor() {

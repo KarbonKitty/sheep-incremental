@@ -1,3 +1,4 @@
 export default {
-  'flour': false
+  'flour': false,
+  'bread': false
 }

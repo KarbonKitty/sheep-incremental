@@ -2,7 +2,7 @@ import LockList from '../data/locks';
 
 export type Lock = keyof typeof LockList;
 
-export type Currency = "cash" | "wheat";
+export type Currency = "cash" | "wheat" | "flour" | "water" | "bread";
 export type GameEvent = 'buy' | 'change-selection';
 export type GameObjectType = "producer" | "discovery" | "storage";
 
