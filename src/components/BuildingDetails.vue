@@ -2,7 +2,7 @@
   <div>
     <h3>{{ building.name }}</h3>
     <p>{{ building.desc }}</p>
-    <currency-value-component :values="building.currentPrice" :resources="resources">Price:</currency-value-component>
+    <price-component :values="building.currentPrice" :resources="resources">Price:</price-component>
     <currency-value-component v-if="typeof building.consumption !== 'undefined'" :values="building.consumption">Inputs:</currency-value-component>
     <currency-value-component v-if="typeof building.production !== 'undefined'" :values="building.production">Outputs:</currency-value-component>
     <currency-value-component v-if="typeof building.storage !== 'undefined'" :values="building.storage">Storage:</currency-value-component>
@@ -14,6 +14,7 @@
 import Vue from 'vue'
 import { CurrencyValue, IResource, Map } from '../classes/baseClasses';
 import CurrencyValueComponent from "./CurrencyValue.vue";
+import PriceComponent from "./Price.vue";
 import filters from "../filters";
 import GameObject from '../classes/gameObject/GameObject';
 import IBuyable from "../classes/IBuyable";
@@ -24,7 +25,8 @@ export default Vue.extend({
     resources: Object as () => Map<IResource>
   },
   components: {
-    'currency-value-component': CurrencyValueComponent
+    'currency-value-component': CurrencyValueComponent,
+    'price-component': PriceComponent
   },
   methods: {
     emitBuyEvent: function() {
