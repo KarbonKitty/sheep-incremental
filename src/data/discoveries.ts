@@ -29,7 +29,7 @@ let discoveries: DiscoveryData[] = [
       name: "Domesticate crops",
       desc: "Instead of always looking for grass out there, maybe the tribe could plant its own grass?",
       unlocks: ['agriculture'],
-      rawCost: [{ currency: "cash", amount: 200 }, { currency: "stone-tools", amount: 15 }],
+      rawCost: [{ currency: "herbs", amount: 200 }, { currency: "stone tools", amount: 15 }],
       buyVerb: "Dig and plant!"
     },
     startingState: {

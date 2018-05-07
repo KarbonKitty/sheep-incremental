@@ -20,8 +20,13 @@ function signedDecimal(value: number, precision: number) {
   }
 }
 
+function capitalize(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 export default {
   decimal,
   signed,
-  signedDecimal
+  signedDecimal,
+  capitalize
 }

@@ -24,10 +24,10 @@ export default class GameEngine {
     storages: Storage[];
 
     resources: Map<IResource> = {
-        cash: { name: "Herbs", amount: 25, gainPerSecond: 0, precision: 2 },
+        herbs: { name: "Herbs", amount: 25, gainPerSecond: 0, precision: 2, limit: 250 },
         wood: { name: "Wood", amount: 0, gainPerSecond: 0, precision: 1, limit: 25 },
         flint: { name: "Flint", amount: 0, gainPerSecond: 0, precision: 1, limit: 10 },
-        "stone-tools": { name: "Stone tools", amount: 0, gainPerSecond: 0, precision: 3, limit: 0 },
+        "stone tools": { name: "Stone tools", amount: 0, gainPerSecond: 0, precision: 3, limit: 0 },
         grain: { name: "Wheat", amount: 0, gainPerSecond: 0, precision: 0, limit: 100 },
         flour: { name: "Flour", amount: 0, gainPerSecond: 0, precision: 1, limit: 0 },
         water: { name: "Water", amount: 0, gainPerSecond: 0, precision: 0, limit: 250 },
@@ -196,6 +196,9 @@ export default class GameEngine {
 
     private getPaid(price: CurrencyValue[]) {
         price.forEach(val => {
+            if (typeof this.resources[val.currency] === 'undefined') {
+                console.log(val);
+            }
             this.resources[val.currency].amount += val.amount;
         })
     }
