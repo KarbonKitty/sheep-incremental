@@ -124,6 +124,8 @@ export default class GameEngine {
     load(savedState: string): void {
         let savedObject = JSON.parse(savedState);
         
+        // to make this generic, we would need some form of list of all the game object data
+        // TODO: when creating mixin-implementation, create a list of all gameObjects and use it here
         let tempProducers = <Producer[]>[];
         savedObject.producersState.forEach((ps: { id: string, state: IProducerState }) => {
             const producerData = ProducersData.filter(pd => pd.template.id === ps.id).pop();
@@ -234,6 +236,8 @@ export default class GameEngine {
         discovery.onBuy.push(() => {
             discovery.done = true;
             discovery.unlocks.forEach(key => this.removeLock(key));
+            // after discovering it once, we should stop showing it
+            this.currentSelection = this.producers.filter(p => p.locks.length === 0)[0];
         });
         return discovery;
     }
@@ -253,6 +257,4 @@ export default class GameEngine {
     }
 }
 
-
 // TODO: think about the production/consumption ideas
-
