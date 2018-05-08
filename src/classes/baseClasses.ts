@@ -21,5 +21,6 @@ export interface IResource {
   limit?: number,
   amount: number,
   gainPerSecond: number,
-  precision: number
+  precision: number,
+  locks: Lock[]
 }

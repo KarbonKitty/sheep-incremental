@@ -24,14 +24,14 @@ export default class GameEngine {
     storages: Storage[];
 
     resources: Map<IResource> = {
-        herbs: { name: "herbs", amount: 25, gainPerSecond: 0, precision: 2, limit: 250 },
-        wood: { name: "wood", amount: 0, gainPerSecond: 0, precision: 1, limit: 25 },
-        flint: { name: "flint", amount: 0, gainPerSecond: 0, precision: 1, limit: 10 },
-        "stone tools": { name: "stone tools", amount: 0, gainPerSecond: 0, precision: 3, limit: 0 },
-        grain: { name: "wheat", amount: 0, gainPerSecond: 0, precision: 0, limit: 100 },
-        flour: { name: "flour", amount: 0, gainPerSecond: 0, precision: 1, limit: 0 },
-        water: { name: "water", amount: 0, gainPerSecond: 0, precision: 0, limit: 250 },
-        bread: { name: "bread", amount: 0, gainPerSecond: 0, precision: 2, limit: 0 }
+        herbs: { name: "herbs", amount: 25, gainPerSecond: 0, precision: 2, limit: 250, locks: [] },
+        wood: { name: "wood", amount: 0, gainPerSecond: 0, precision: 1, limit: 25, locks: [] },
+        flint: { name: "flint", amount: 0, gainPerSecond: 0, precision: 1, limit: 10, locks: [] },
+        "stone tools": { name: "stone tools", amount: 0, gainPerSecond: 0, precision: 3, limit: 0, locks: ['stone-tools'] },
+        grain: { name: "wheat", amount: 0, gainPerSecond: 0, precision: 0, limit: 100, locks: ['agriculture'] },
+        flour: { name: "flour", amount: 0, gainPerSecond: 0, precision: 1, limit: 0, locks: ['flour'] },
+        water: { name: "water", amount: 0, gainPerSecond: 0, precision: 0, limit: 250, locks: ['stone-tools'] },
+        bread: { name: "bread", amount: 0, gainPerSecond: 0, precision: 2, limit: 0, locks: ['bread'] }
     }
 
     constructor() {
@@ -107,6 +107,13 @@ export default class GameEngine {
             const lockIndex = unlockable.locks.indexOf(lock);
             if (lockIndex > -1) {
                 unlockable.locks.splice(lockIndex, 1);
+            }
+        });
+        Object.keys(this.resources).forEach(k => {
+            let resource = this.resources[k];
+            const lockIndex = resource.locks.indexOf(lock);
+            if (lockIndex > -1) {
+                resource.locks.splice(lockIndex, 1);
             }
         });
     }
