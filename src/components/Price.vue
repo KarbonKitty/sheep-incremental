@@ -3,7 +3,7 @@
     <p><slot></slot></p>
     <ul>
       <div v-for="p in values" :key="p.currency">
-        <li :class="{ lacking: typeof resources[p.currency] !== 'undefined' && resources[p.currency].amount < p.amount }">{{ p.amount | decimal }} {{ p.currency }}</li>
+        <li :class="{ lacking: typeof resources[p.currency] !== 'undefined' && resources[p.currency].amount < p.amount }">{{ p.amount | decimal }} {{ resources[p.currency].name }}</li>
       </div>
     </ul>
   </div>
