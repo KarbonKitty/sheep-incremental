@@ -77,7 +77,7 @@ let producersData: ProducerData[] = [
             type: 'producer',
             name: "Grain field",
             desc: "This is the beginning of an agricultural empire, the greatest empire that the man ever saw!",
-            rawCost: [{ currency: "herbs", amount: 50 }],
+            rawCost: [{ currency: "stone tools", amount: 1 }, { currency: "herbs", amount: 50 }],
             production: [{ currency: "grain", amount: 3 }],
             consumption: [],
             buyVerb: "Buy"
@@ -141,7 +141,7 @@ let producersData: ProducerData[] = [
             type: 'producer',
             name: "Quern",
             desc: "Two simple stones, but good enough to make flour out of wheat",
-            rawCost: [{ currency: "herbs", amount: 100 }, { currency: "grain", amount: 100 }],
+            rawCost: [{ currency: "herbs", amount: 100 }, { currency: "grain", amount: 100 }, { currency: "stone tools", amount: 1}],
             production: [{ currency: "flour", amount: 2 }],
             consumption: [{ currency: "grain", amount: 5 }],
             buyVerb: "Build"
@@ -149,6 +149,22 @@ let producersData: ProducerData[] = [
         startingState: {
             quantity: 0,
             locks: ['flour']
+        }
+    },
+    {
+        template: {
+            id: 'brewing-kettle',
+            type: 'producer',
+            name: "Brewing kettle",
+            desc: "Wooden vessel meant to produce beer",
+            rawCost: [{ currency: "wood", amount: 40 }, { currency: "grain", amount: 50 }, { currency: "water", amount: 50 }],
+            consumption: [{ currency: "grain", amount: 5 }, { currency: "water", amount: 5 }],
+            production: [{ currency: "beer", amount: 1 }],
+            buyVerb: "Build"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['fermentation']
         }
     },
     {
@@ -173,11 +189,28 @@ let producersData: ProducerData[] = [
             type: 'producer',
             name: "Well",
             desc: "Deep hole in the ground that fills with water on its own.",
-            rawCost: [{ currency: "herbs", amount: 50 }],
+            rawCost: [{ currency: "stone tools", amount: 1 }, { currency: "wood", amount: 25 }],
             production: [{ currency: "water", amount: 3 }],
             consumption: [],
             buyVerb: "Dig"
-        }, startingState: {
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['stone-tools']
+        }
+    },
+    {
+        template: {
+            id: 'mud-brick-maker',
+            type: 'producer',
+            name: "Mud brick maker",
+            desc: "Sheep that makes simple bricks out of sun-dried mud",
+            rawCost: [{ currency: "herbs", amount: 50 }, { currency: "stone tools", amount: 1 }],
+            consumption: [{ currency: "wood", amount: 0.5 }, { currency: "stone tools", amount: 0.005 }],
+            production: [{ currency: "mud bricks", amount: 0.25 }],
+            buyVerb: "Recruit"
+        },
+        startingState: {
             quantity: 0,
             locks: ['stone-tools']
         }

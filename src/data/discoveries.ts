@@ -54,6 +54,21 @@ let discoveries: DiscoveryData[] = [
   },
   {
     template: {
+      id: 'fermentation-discovery',
+      type: 'discovery',
+      name: "Fermentate grain",
+      desc: "The process of fermentation is already known to sheepkind, but now there is chance to take control over it.",
+      unlocks: ['fermentation'],
+      rawCost: [{ currency: 'grain', amount: 150 }, { currency: 'water', amount: 100 }],
+      buyVerb: "Fermentate!"
+    },
+    startingState: {
+      done: false,
+      locks: ['agriculture']
+    }
+  },
+  {
+    template: {
       id: "bread-discovery",
       type: 'discovery',
       name: "Discover bread",

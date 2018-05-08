@@ -14,7 +14,7 @@ let storages: StorageData[] = [
             name: "Shed",
             desc: "Barely more than a stack of sticks itself, but sheep can store some excess material here.",
             rawCost: [{ currency: "wood", amount: 20 }],
-            storage: [{ currency: "wood", amount: 50 }, { currency: "flint", amount: 50 }, { currency: "stone tools", amount: 10 }],
+            storage: [{ currency: "wood", amount: 50 }, { currency: "flint", amount: 50 }, { currency: "stone tools", amount: 10 }, { currency: "mud bricks", amount: 10 }],
             buyVerb: "Build"
         },
         startingState: {
@@ -43,7 +43,7 @@ let storages: StorageData[] = [
             type: 'storage',
             name: "Grain silo",
             desc: "A place to store the wheat",
-            rawCost: [{ currency: "herbs", amount: 50 }],
+            rawCost: [{ currency: "stone tools", amount: 0.5 }, { currency: "mud bricks", amount: 20 }],
             storage: [{ currency: "grain", amount: 100 }],
             buyVerb: "Buy"
         },
@@ -69,6 +69,36 @@ let storages: StorageData[] = [
     },
     {
         template: {
+            id: 'pantry',
+            type: 'storage',
+            name: "Pantry",
+            desc: "Little more than a simple shed, but it can protect food from being eaten by pests too quickly.",
+            rawCost: [{ currency: "wood", amount: 30 }, { currency: "mud bricks", amount: 15 }],
+            storage: [{ currency: "flour", amount: 30 }, { currency: "bread", amount: 10 }, { currency: "meat", amount: 30 }],
+            buyVerb: "Build"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['flour']
+        }
+    },
+    {
+        template: {
+            id: 'beer-cask',
+            type: 'storage',
+            name: "Beer cask",
+            desc: "Very simple cask made out of wood to keep beer.",
+            rawCost: [{ currency: "wood", amount: 15 }],
+            storage: [{ currency: "beer", amount: 5 }],
+            buyVerb: "Craft"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['fermentation']
+        }
+    },
+    {
+        template: {
             id: 'flour-bag',
             type: 'storage',
             name: "Flour bag",
@@ -79,7 +109,7 @@ let storages: StorageData[] = [
         },
         startingState: {
             quantity: 0,
-            locks: ['flour']
+            locks: ['__impossible__', 'flour']
         }
     },
     {
@@ -94,7 +124,7 @@ let storages: StorageData[] = [
         },
         startingState: {
             quantity: 0,
-            locks: ['bread']
+            locks: ['__impossible__', 'bread']
         }
     }
 ]

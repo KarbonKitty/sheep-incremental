@@ -3,5 +3,6 @@ export default {
   'agriculture': false,
   'flour': false,
   'bread': false,
-  'stone-tools': false
+  'stone-tools': false,
+  'fermentation': false
 }
