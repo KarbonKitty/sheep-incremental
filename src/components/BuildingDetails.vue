@@ -3,9 +3,9 @@
     <h3>{{ building.name }}</h3>
     <p>{{ building.desc }}</p>
     <price-component :values="building.currentPrice" :resources="resources">Price:</price-component>
-    <currency-value-component v-if="typeof building.consumption !== 'undefined'" :values="building.consumption">Inputs:</currency-value-component>
-    <currency-value-component v-if="typeof building.production !== 'undefined'" :values="building.production">Outputs:</currency-value-component>
-    <currency-value-component v-if="typeof building.storage !== 'undefined'" :values="building.storage">Storage:</currency-value-component>
+    <currency-value-component v-if="typeof building.consumption !== 'undefined'" :values="building.consumption" :resources="resources">Inputs:</currency-value-component>
+    <currency-value-component v-if="typeof building.production !== 'undefined'" :values="building.production" :resources="resources">Outputs:</currency-value-component>
+    <currency-value-component v-if="typeof building.storage !== 'undefined'" :values="building.storage" :resources="resources">Storage:</currency-value-component>
     <button class="btn buyButton" @click="emitBuyEvent" :disabled="!canBePaid">{{ building.buyVerb }}</button>
   </div>
 </template>

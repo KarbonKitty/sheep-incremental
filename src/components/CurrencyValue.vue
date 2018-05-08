@@ -3,7 +3,7 @@
     <p><slot></slot></p>
     <ul>
       <div v-for="p in values" :key="p.currency">
-        <li>{{ p.amount | decimal }} {{ p.currency }}</li>
+        <li>{{ p.amount | decimal(resources[p.currency].precision) }} {{ p.currency }}</li>
       </div>
     </ul>
   </div>
@@ -11,12 +11,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { CurrencyValue } from "../classes/baseClasses";
+import { CurrencyValue, Map, IResource } from "../classes/baseClasses";
 import filters from "../filters";
 
 export default Vue.extend({
   props: {
-    values: Array as () => CurrencyValue[]
+    values: Array as () => CurrencyValue[],
+    resources: Object as () => Map<IResource>
   },
   filters
 })
