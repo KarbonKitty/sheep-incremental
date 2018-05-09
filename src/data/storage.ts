@@ -79,7 +79,7 @@ let storages: StorageData[] = [
         },
         startingState: {
             quantity: 0,
-            locks: ['flour']
+            locks: ['hunting']
         }
     },
     {

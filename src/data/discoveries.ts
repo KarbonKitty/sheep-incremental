@@ -39,6 +39,21 @@ let discoveries: DiscoveryData[] = [
   },
   {
     template: {
+      id: 'hunting-discovery',
+      type: 'discovery',
+      name: "Hunt for meat",
+      desc: "Beware a sheep with an ax!",
+      unlocks: ['hunting'],
+      rawCost: [{ currency: "stone tools", amount: 5 }],
+      buyVerb: "Hack and slash!"
+    },
+    startingState: {
+      done: false,
+      locks: ['stone-tools']
+    }
+  },
+  {
+    template: {
       id: "flour-discovery",
       type: 'discovery',
       name: "Discover flour",

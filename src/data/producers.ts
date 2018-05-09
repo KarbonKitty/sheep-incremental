@@ -13,7 +13,7 @@ let producersData: ProducerData[] = [
             type: 'producer',
             name: "Herb gatherer",
             desc: "Little sheep collecting herbs and flowers for the tribe.",
-            rawCost: [{ currency: "herbs", amount: 25 }],
+            rawCost: [{ currency: "herbs", amount: 20 }],
             production: [{ currency: "herbs", amount: 1 }],
             consumption: [],
             buyVerb: "Recruit"
@@ -45,7 +45,7 @@ let producersData: ProducerData[] = [
             type: 'producer',
             name: "Flint gatherer",
             desc: "Flint is a rock that can be easily broken to produce a sharp edge. Very useful to any tribe.",
-            rawCost: [{ currency: "herbs", amount: 45 }],
+            rawCost: [{ currency: "herbs", amount: 25 }],
             production: [{ currency: "flint", amount: 0.5 }],
             consumption: [{ currency: "herbs", amount: 0.25 }],
             buyVerb: "Recruit"
@@ -213,6 +213,54 @@ let producersData: ProducerData[] = [
         startingState: {
             quantity: 0,
             locks: ['stone-tools']
+        }
+    },
+    {
+        template: {
+            id: 'hunter',
+            type: 'producer',
+            name: "Hunter",
+            desc: "Well armed sheep that hunts animals for their meat.",
+            rawCost: [{ currency: "stone tools", amount: 1 }, { currency: "herbs", amount: 50 }],
+            consumption: [{ currency: "stone tools", amount: 0.025 }, { currency: "herbs", amount: 0.25 }],
+            production: [{ currency: "raw meat", amount: 1 }],
+            buyVerb: "Recruit"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['hunting']
+        }
+    },
+    {
+        template: {
+            id: 'drying-rack',
+            type: 'producer',
+            name: "Drying rack",
+            desc: "Simple wooden rack for drying meat",
+            rawCost: [{ currency: "wood", amount: 33 }],
+            consumption: [{ currency: "raw meat", amount: 1 }],
+            production: [{ currency: "meat", amount: 0.25 }],
+            buyVerb: "Build"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['hunting']
+        }
+    },
+    {
+        template: {
+            id: 'smoke-house',
+            type: 'producer',
+            name: "Smoke house",
+            desc: "Primitive building of mud bricks, used to smoke meat.",
+            rawCost: [{ currency: "mud bricks", amount: 40 }, { currency: "wood", amount: 35 }],
+            consumption: [{ currency: "raw meat", amount: 3 }, { currency: "wood", amount: 2 }],
+            production: [{ currency: "meat", amount: 1.5 }],
+            buyVerb: "Build"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['hunting', 'stone-tools']
         }
     },
     {
