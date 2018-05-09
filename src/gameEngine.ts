@@ -3,7 +3,7 @@ import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
 import Discovery from "./classes/discovery/Discovery";
-import { ProducersData, DiscoveriesData, LocksData, StorageData, ResourcesData } from "./data";
+import { ProducersData, DiscoveriesData, LocksData, StorageData, ResourcesData, GoalsData } from "./data";
 import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
 import IDiscoveryState from "./classes/discovery/IDiscoveryState";
 import Producer from "./classes/producer/Producer";
@@ -16,8 +16,11 @@ import IStorageState from "./classes/storage/IStorageState";
 export default class GameEngine {
     lastTick: number;
     currentSelection: GameObject;
+    currentGoal: CurrencyValue[];
 
     locks: Map<boolean>;
+
+    goals: Map<CurrencyValue[]>;
 
     discoveries: Discovery[];
     producers: Producer[];
@@ -33,10 +36,11 @@ export default class GameEngine {
         this.storages = StorageData.map(sd => this.createStorage(sd.template, sd.startingState));
 
         this.locks = LocksData;
-
         this.resources = ResourcesData;
+        this.goals = GoalsData;
 
         this.currentSelection = this.producers[0];
+        this.currentGoal = this.goals.tribal;
     }
 
     tick(currentTick: number) {
