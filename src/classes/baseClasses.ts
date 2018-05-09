@@ -1,9 +1,8 @@
-import LockList from '../data/locks';
+import { ResourcesData, LocksData as LockList } from '../data';
 
 export type Lock = keyof typeof LockList;
 
-export type Currency = "herbs" | "grain" | "flour" | "water" | "bread" | "flint" | "wood" | "stone tools" | "mud bricks" 
-| "raw meat" | "meat" | "beer" ;
+export type Currency = keyof typeof ResourcesData;
 export type GameEvent = 'buy' | 'change-selection';
 export type GameObjectType = "producer" | "discovery" | "storage";
 

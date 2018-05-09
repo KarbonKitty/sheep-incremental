@@ -3,7 +3,7 @@ import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
 import Discovery from "./classes/discovery/Discovery";
-import { ProducersData, DiscoveriesData, LocksData, StorageData } from "./data";
+import { ProducersData, DiscoveriesData, LocksData, StorageData, ResourcesData } from "./data";
 import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
 import IDiscoveryState from "./classes/discovery/IDiscoveryState";
 import Producer from "./classes/producer/Producer";
@@ -23,20 +23,7 @@ export default class GameEngine {
     producers: Producer[];
     storages: Storage[];
 
-    resources: Map<IResource> = {
-        herbs: { name: "herbs", amount: 25, gainPerSecond: 0, precision: 2, limit: 250, locks: [] },
-        wood: { name: "wood", amount: 0, gainPerSecond: 0, precision: 1, limit: 25, locks: [] },
-        flint: { name: "flint", amount: 0, gainPerSecond: 0, precision: 1, limit: 10, locks: [] },
-        "stone tools": { name: "stone tools", amount: 0, gainPerSecond: 0, precision: 3, limit: 0, locks: ['stone-tools'] },
-        grain: { name: "grain", amount: 0, gainPerSecond: 0, precision: 0, limit: 100, locks: ['agriculture'] },
-        flour: { name: "flour", amount: 0, gainPerSecond: 0, precision: 1, limit: 0, locks: ['flour'] },
-        water: { name: "water", amount: 0, gainPerSecond: 0, precision: 0, limit: 250, locks: ['stone-tools'] },
-        bread: { name: "bread", amount: 0, gainPerSecond: 0, precision: 2, limit: 0, locks: ['bread'] },
-        beer: { name: "beer", amount: 0, gainPerSecond: 0, precision: 2, limit: 0, locks: ['fermentation'] },
-        "mud bricks": { name: "mud bricks", amount: 0, gainPerSecond: 0, precision: 1, limit: 0, locks: ['stone-tools'] },
-        "raw meat": { name: "raw meat", amount: 0, gainPerSecond: 0, precision: 2, limit: 50, locks: ['hunting'] },
-        meat: { name: "meat", amount: 0, gainPerSecond: 0, precision: 2, limit: 0, locks: ['hunting'] }
-    }
+    resources: Map<IResource>;
 
     constructor() {
         this.lastTick = Date.now();
@@ -46,6 +33,8 @@ export default class GameEngine {
         this.storages = StorageData.map(sd => this.createStorage(sd.template, sd.startingState));
 
         this.locks = LocksData;
+
+        this.resources = ResourcesData;
 
         this.currentSelection = this.producers[0];
     }
@@ -174,6 +163,7 @@ export default class GameEngine {
         this.producers = tempProducers;
         this.discoveries = tempDiscoveries;
         this.storages = tempStorage;
+        this.currentSelection = this.producers[0];
     }
 
     private activateProducers(deltaT: number) {
