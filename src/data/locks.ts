@@ -4,5 +4,6 @@ export default {
   'flour': false,
   'bread': false,
   'stone-tools': false,
-  'fermentation': false
+  'fermentation': false,
+  'hunting': false
 }
