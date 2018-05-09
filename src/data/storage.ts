@@ -58,7 +58,7 @@ let storages: StorageData[] = [
             type: 'storage',
             name: "Water tank",
             desc: "Large cistern that can store some water for later use",
-            rawCost: [{ currency: "herbs", amount: 100 }],
+            rawCost: [{ currency: "wood", amount: 50 }, { currency: "stone tools", amount: 0.5 }],
             storage: [{ currency: "water", amount: 200 }],
             buyVerb: "Buy"
         }, startingState:
