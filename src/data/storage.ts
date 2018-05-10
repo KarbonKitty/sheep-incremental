@@ -42,7 +42,7 @@ let storages: StorageData[] = [
             id: 'wheat-silo',
             type: 'storage',
             name: "Grain silo",
-            desc: "A place to store the wheat",
+            desc: "A place to store the grain gathered from the fields.",
             rawCost: [{ currency: "stone tools", amount: 0.5 }, { currency: "mud bricks", amount: 20 }],
             storage: [{ currency: "grain", amount: 100 }],
             buyVerb: "Buy"
@@ -57,7 +57,7 @@ let storages: StorageData[] = [
             id: 'water-tank',
             type: 'storage',
             name: "Water tank",
-            desc: "Large cistern that can store some water for later use",
+            desc: "Large cistern that can store some water for later use.",
             rawCost: [{ currency: "wood", amount: 50 }, { currency: "stone tools", amount: 0.5 }],
             storage: [{ currency: "water", amount: 200 }],
             buyVerb: "Buy"
@@ -95,36 +95,6 @@ let storages: StorageData[] = [
         startingState: {
             quantity: 0,
             locks: ['fermentation']
-        }
-    },
-    {
-        template: {
-            id: 'flour-bag',
-            type: 'storage',
-            name: "Flour bag",
-            desc: "Bag which can be filled with flour",
-            rawCost: [{ currency: "herbs", amount: 10 }],
-            storage: [{ currency: "flour", amount: 10 }],
-            buyVerb: "Buy"
-        },
-        startingState: {
-            quantity: 0,
-            locks: ['__impossible__', 'flour']
-        }
-    },
-    {
-        template: {
-            id: 'bread-storage',
-            type: 'storage',
-            name: "Bread warehouse",
-            desc: "Room with well-ventilated shelves to store bread.",
-            rawCost: [{ currency: "herbs", amount: 150 }],
-            storage: [{ currency: "bread", amount: 15 }],
-            buyVerb: "Buy"
-        },
-        startingState: {
-            quantity: 0,
-            locks: ['__impossible__', 'bread']
         }
     }
 ]
