@@ -1,0 +1,83 @@
+body {
+  background-color: #002b36;
+  color: #839496;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link {
+  color: #859900;
+}
+
+a:visited {
+  color: #6c71c4;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #dc322f;
+}
+
+a:active {
+  text-decoration: underline;
+  color: #268bd2;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 25% 75%;
+  grid-template-rows: 50% 50%;
+}
+
+.sidebar {
+  grid-column: 1;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+.main-area {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.top {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.top-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  border: 0;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 6px 12px 6px 12px;
+  text-decoration: none;
+
+  color: #eee8d5;
+  background: #268bd2;
+}
+
+.btn.active {
+  color: #eee8d5;
+  background: #6c71c4;
+}
+
+.btn.danger {
+  color: #eee8d5;
+  background: #dc322f;
+}
+
+.btn.disabled {
+  color: #586e75;
+  background: #073642;
+  cursor: not-allowed;
+}

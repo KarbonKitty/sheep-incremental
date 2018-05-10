@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="site.css">
+
+    <title>Sheep Incremental</title>
+</head>
+
+<body>
+    <h1>Sheep Incremental</h1>
+    <div id="app" class="container">
+        <div class="sidebar">
+            <div v-for="res in resources">
+                <resource-component :resource="res"></resource-component>
+            </div>
+            <button class="btn" v-on:click="saveGame">Save</button>
+            <button class="btn" v-on:click="loadGame">Load</button>
+            <goal-component :values="currentGoal" :resources="resources"></goal-component>
+        </div>
+        <div class="top">
+            <div class="top-column">
+                <h3>Production buildings</h3>
+                <div v-for="producer in producers">
+                    <game-object-component :game-object="producer"></producer-component>
+                </div>
+            </div>
+            <div class="top-column">
+                <h3>Storage buildings</h3>
+                <div v-for="storage in storages">
+                    <game-object-component :game-object="storage"></game-object-component>
+                </div>
+            </div>
+            <div class="top-column">
+                <h3>Discoveries</h3>
+                <div v-for="discovery in discoveries">
+                    <game-object-component :game-object="discovery"></discovery-component>
+                </div>
+            </div>
+        </div>
+        <div class="main-area">
+            <!-- TODO: make separate components for producers/storage/updates etc. -->
+            <building-details-component :building="currentSelection" :resources="resources"></building-details-component>
+        </div>
+    </div>
+</body>
+
+<script src="./dist/build.js"></script>
+
+</html>
