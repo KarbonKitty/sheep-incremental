@@ -1,14 +1,15 @@
 import IProducerState from "./IProducerState";
 import IProducerTemplate from "./IProducerTemplate";
-import { CurrencyValue, Lock } from "../baseClasses";
+import { Price, Lock } from "../baseClasses";
 import IBuyable from "../IBuyable";
 import GameObject from "../gameObject/GameObject";
+import { PriceHelper } from "../helpers";
 
 export default class Producer extends GameObject implements IProducerTemplate, IProducerState, IBuyable {
   readonly type = "producer";
 
-  production: CurrencyValue[];
-  consumption: CurrencyValue[];
+  production: Price;
+  consumption: Price;
 
   onBuy: (() => void)[];
 
@@ -34,11 +35,11 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   }
 
   getConsumption(deltaT: number) {
-    return this.consumption.map(con => ({ currency: con.currency, amount: con.amount * this.quantity * deltaT / 1000}));
+    return PriceHelper.mulPriceByNumber(this.consumption, deltaT / 1000);
   }
 
   getProduction(deltaT: number) {
-    return this.production.map(pro => ({ currency: pro.currency, amount: pro.amount * this.quantity * deltaT / 1000}));
+    return PriceHelper.mulPriceByNumber(this.production, deltaT / 1000);
   }
 
   save(): IProducerState {

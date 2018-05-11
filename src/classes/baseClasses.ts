@@ -11,6 +11,8 @@ export interface CurrencyValue {
   amount: number;
 }
 
+export type Price = CurrencyValue[];
+
 export interface Map<T> {
   [index: string]: T;
 }
