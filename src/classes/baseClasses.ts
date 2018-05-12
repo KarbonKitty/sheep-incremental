@@ -6,6 +6,10 @@ export type Currency = keyof typeof ResourcesData;
 export type GameEvent = 'buy' | 'change-selection';
 export type GameObjectType = "producer" | "discovery" | "storage";
 
+export type Price = {
+  [P in Currency]: number;
+}
+
 export interface CurrencyValue {
   currency: Currency;
   amount: number;
