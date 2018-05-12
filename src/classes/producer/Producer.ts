@@ -8,8 +8,8 @@ import { PriceHelper } from "../helpers";
 export default class Producer extends GameObject implements IProducerTemplate, IProducerState, IBuyable {
   readonly type = "producer";
 
-  production: Price;
-  consumption: Price;
+  rawProduction: Price;
+  rawConsumption: Price;
 
   onBuy: (() => void)[];
 
@@ -22,8 +22,8 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   constructor(template: IProducerTemplate, state: IProducerState) {
     super(template, state);
 
-    this.production = template.production;
-    this.consumption = template.consumption;
+    this.rawProduction = template.rawProduction;
+    this.rawConsumption = template.rawConsumption;
 
     this.quantity = state.quantity;
 
@@ -35,11 +35,11 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   }
 
   getConsumption(deltaT: number): Price {
-    return PriceHelper.mulPriceByNumber(this.consumption, this.quantity * deltaT / 1000);
+    return PriceHelper.mulPriceByNumber(this.rawConsumption, this.quantity * deltaT / 1000);
   }
 
   getProduction(deltaT: number): Price {
-    return PriceHelper.mulPriceByNumber(this.production, this.quantity * deltaT / 1000);
+    return PriceHelper.mulPriceByNumber(this.rawProduction, this.quantity * deltaT / 1000);
   }
 
   save(): IProducerState {

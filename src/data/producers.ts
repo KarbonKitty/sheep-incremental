@@ -14,8 +14,8 @@ let producersData: ProducerData[] = [
             name: "Herb gatherer",
             desc: "Little sheep collecting herbs and flowers for the tribe.",
             rawCost: { herbs: 20 },
-            production: { herbs: 1 },
-            consumption: {},
+            rawProduction: { herbs: 1 },
+            rawConsumption: {},
             buyVerb: "Recruit"
         },
         startingState: {
@@ -30,8 +30,8 @@ let producersData: ProducerData[] = [
             name: "Wood gatherer",
             desc: "What do you get when you combine sheep and forest? Sheep and sticks.",
             rawCost: { herbs: 30 },
-            production: { wood: 1 },
-            consumption: { herbs: 0.25 },
+            rawProduction: { wood: 1 },
+            rawConsumption: { herbs: 0.25 },
             buyVerb: "Recruit"
         },
         startingState: {
@@ -46,8 +46,8 @@ let producersData: ProducerData[] = [
             name: "Flint gatherer",
             desc: "Flint is a rock that can be easily broken to produce a sharp edge. Very useful to any tribe.",
             rawCost: { herbs: 25 },
-            production: { flint: 0.5 },
-            consumption: { herbs: 0.25 },
+            rawProduction: { flint: 0.5 },
+            rawConsumption: { herbs: 0.25 },
             buyVerb: "Recruit"
         },
         startingState: {
@@ -62,8 +62,8 @@ let producersData: ProducerData[] = [
             name: "Herb garden",
             desc: "Give that little sheep a sturdy hoe, and you are gonna get way more herbs.",
             rawCost: { herbs: 100, "stone tools": 3 },
-            production: { herbs: 3 },
-            consumption: { "stone tools": 0.02 },
+            rawProduction: { herbs: 3 },
+            rawConsumption: { "stone tools": 0.02 },
             buyVerb: "Plant"
         },
         startingState: {
@@ -78,8 +78,8 @@ let producersData: ProducerData[] = [
             name: "Grain field",
             desc: "This is the beginning of an agricultural empire, the greatest empire that the sheep ever saw!",
             rawCost: { "stone tools": 2, herbs: 50 },
-            production: { grain: 3 },
-            consumption: {},
+            rawProduction: { grain: 3 },
+            rawConsumption: {},
             buyVerb: "Buy"
         },
         startingState: {
@@ -94,8 +94,8 @@ let producersData: ProducerData[] = [
             name: "Flint knapper",
             desc: "Sheep with good manual dexterity can produce stone tools - just deliver flint and some sticks.",
             rawCost: { herbs: 100, flint: 10, wood: 10 },
-            consumption: { herbs: 1, flint: 2, wood: 1 },
-            production: { "stone tools": 0.1 },
+            rawConsumption: { herbs: 1, flint: 2, wood: 1 },
+            rawProduction: { "stone tools": 0.1 },
             buyVerb: "Recruit"
         },
         startingState: {
@@ -110,8 +110,8 @@ let producersData: ProducerData[] = [
             name: "Wood cutter",
             desc: "Sheep + forest + axe = more sticks.",
             rawCost: { herbs: 125, "stone tools": 2 },
-            consumption: { herbs: 1, "stone tools": 0.04 },
-            production: { wood: 4 },
+            rawConsumption: { herbs: 1, "stone tools": 0.04 },
+            rawProduction: { wood: 4 },
             buyVerb: "Recruit"
         },
         startingState: {
@@ -126,8 +126,8 @@ let producersData: ProducerData[] = [
             name: "Quern",
             desc: "Two simple stones, but good enough to make flour out of wheat",
             rawCost: { herbs: 100, grain: 100, "stone tools": 2 },
-            production: { flour: 2 },
-            consumption: { grain: 5 },
+            rawProduction: { flour: 2 },
+            rawConsumption: { grain: 5 },
             buyVerb: "Build"
         },
         startingState: {
@@ -142,8 +142,8 @@ let producersData: ProducerData[] = [
             name: "Brewing kettle",
             desc: "Wooden vessel meant to produce beer",
             rawCost: { wood: 40, grain: 50, water: 50 },
-            consumption: { grain: 5, water: 5 },
-            production: { beer: 1 },
+            rawConsumption: { grain: 5, water: 5 },
+            rawProduction: { beer: 1 },
             buyVerb: "Build"
         },
         startingState: {
@@ -158,8 +158,8 @@ let producersData: ProducerData[] = [
             name: "Bread oven",
             desc: "A high-temperature oven made out of stone, heated with wood. Used to bake bread.",
             rawCost: { herbs: 300, flour: 100 },
-            production: { bread: 1 },
-            consumption: { flour: 2, water: 5 },
+            rawProduction: { bread: 1 },
+            rawConsumption: { flour: 2, water: 5 },
             buyVerb: "Build"
         },
         startingState: {
@@ -174,8 +174,8 @@ let producersData: ProducerData[] = [
             name: "Well",
             desc: "Deep hole in the ground that fills with water on its own.",
             rawCost: { "stone tools": 2, wood: 25 },
-            production: { water: 3 },
-            consumption: {},
+            rawProduction: { water: 3 },
+            rawConsumption: {},
             buyVerb: "Dig"
         },
         startingState: {
@@ -190,8 +190,8 @@ let producersData: ProducerData[] = [
             name: "Mud brick maker",
             desc: "Sheep that makes simple bricks out of sun-dried mud",
             rawCost: { herbs: 50, "stone tools": 2 },
-            consumption: { wood: 0.5, "stone tools": 0.01 },
-            production: { "mud bricks": 0.25 },
+            rawConsumption: { wood: 0.5, "stone tools": 0.01 },
+            rawProduction: { "mud bricks": 0.25 },
             buyVerb: "Recruit"
         },
         startingState: {
@@ -206,8 +206,8 @@ let producersData: ProducerData[] = [
             name: "Hunter",
             desc: "Well armed sheep that hunts animals for their meat.",
             rawCost: { "stone tools": 2, herbs: 50 },
-            consumption: { "stone tools": 0.05, herbs: 0.25 },
-            production: { "raw meat": 1 },
+            rawConsumption: { "stone tools": 0.05, herbs: 0.25 },
+            rawProduction: { "raw meat": 1 },
             buyVerb: "Recruit"
         },
         startingState: {
@@ -222,8 +222,8 @@ let producersData: ProducerData[] = [
             name: "Drying rack",
             desc: "Simple wooden rack for drying meat",
             rawCost: { wood: 33 },
-            consumption: { "raw meat": 1 },
-            production: { meat: 0.25 },
+            rawConsumption: { "raw meat": 1 },
+            rawProduction: { meat: 0.25 },
             buyVerb: "Build"
         },
         startingState: {
@@ -238,8 +238,8 @@ let producersData: ProducerData[] = [
             name: "Smoke house",
             desc: "Primitive building of mud bricks, used to smoke meat.",
             rawCost: { "mud bricks": 40, wood: 35 },
-            consumption: { "raw meat": 3, wood: 2 },
-            production: { meat: 1.5 },
+            rawConsumption: { "raw meat": 3, wood: 2 },
+            rawProduction: { meat: 1.5 },
             buyVerb: "Build"
         },
         startingState: {
