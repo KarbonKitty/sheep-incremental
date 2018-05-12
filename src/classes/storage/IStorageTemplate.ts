@@ -1,6 +1,6 @@
 import IGameObjectTemplate from "../gameObject/IGameObjectTemplate";
-import { CurrencyValue } from "../baseClasses";
+import { Price } from "../baseClasses";
 
 export default interface IStorageTemplate extends IGameObjectTemplate {
-  storage: CurrencyValue[];
+  storage: Price;
 }

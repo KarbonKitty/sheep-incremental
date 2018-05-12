@@ -3,7 +3,7 @@ import { Price, CurrencyValue } from "./baseClasses";
 export class PriceHelper {
   static mulPriceByNumber(price: Price, num: number): Price {
     let newPrice: Price = {};
-    Object.keys(price).map(k => newPrice[k] = price[k] * num);
+    Object.keys(price).map(k => newPrice[k] = (price[k] || 0) * num);
     return newPrice;
   }
 
@@ -21,7 +21,7 @@ export class PriceHelper {
   private static addTwoPrices(price1: Price, price2: Price): Price {
     let newPrice: Price = {};
     Object.keys(price1).map(k => newPrice[k] = price1[k]);
-    Object.keys(price2).map(k => newPrice[k] ? newPrice[k] += price2[k] : newPrice[k] = price2[k]);
+    Object.keys(price2).map(k => newPrice[k] ? (newPrice[k] as number) += (price2[k] || 0) : newPrice[k] = price2[k]);
     return newPrice;
   }
 }

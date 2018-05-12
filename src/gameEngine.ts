@@ -1,4 +1,4 @@
-import { GameEvent, CurrencyValue, Lock, Map, IResource, Price } from "./classes/baseClasses";
+import { GameEvent, CurrencyValue, Lock, Map, IResource, Price, IResourcesData } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
@@ -26,7 +26,7 @@ export default class GameEngine {
     producers: Producer[];
     storages: Storage[];
 
-    resources: Map<IResource>;
+    resources: IResourcesData;
 
     constructor() {
         this.lastTick = Date.now();
@@ -189,24 +189,24 @@ export default class GameEngine {
 
     private accumulatePerSecondValues(deltaT: number, valuePerDelta: Price, isPositive: boolean) {
         Object.keys(valuePerDelta).forEach(k => {
-            this.resources[k].gainPerSecond += valuePerDelta[k] * 1000 / deltaT * (isPositive ? 1 : -1);
+            this.resources[k].gainPerSecond += (valuePerDelta[k] || 0) * 1000 / deltaT * (isPositive ? 1 : -1);
         });
     }
 
     private payThePrice(price: Price) {
         Object.keys(price).forEach(currency => {
-            this.resources[currency].amount -= price[currency];
+            this.resources[currency].amount -= (price[currency] || 0);
         })
     }
 
     private getPaid(price: Price) {
         Object.keys(price).forEach(currency => {
-            this.resources[currency].amount += price[currency];
+            this.resources[currency].amount += (price[currency] || 0);
         })
     }
 
     private canBePaid(price: Price): boolean {
-        return Object.keys(price).reduce((acc, cur) => acc && this.resources[cur].amount >= price[cur], true);
+        return Object.keys(price).reduce((acc, cur) => acc && this.resources[cur].amount >= (price[cur] || 0), true);
     }
 
     private clearPerSecondValues(): void {
@@ -254,10 +254,10 @@ export default class GameEngine {
         const storage = new Storage(template, state);
         storage.onBuy.push(() => {
             storage.quantity++;
-            template.storage.forEach(s => {
-                const res = this.resources[s.currency];
+            Object.keys(template.storage).forEach(k => {
+                const res = this.resources[k];
                 if (typeof (res.limit) !== 'undefined') {
-                    res.limit += s.amount;
+                    res.limit += (template.storage[k] || 0);
                 }
             });
         });

@@ -14,7 +14,7 @@ let storages: StorageData[] = [
             name: "Shed",
             desc: "Barely more than a stack of sticks itself, but sheep can store some excess material here.",
             rawCost: { wood: 20 },
-            storage: [{ currency: "wood", amount: 50 }, { currency: "flint", amount: 50 }, { currency: "stone tools", amount: 10 }, { currency: "mud bricks", amount: 10 }],
+            storage: { wood: 50, flint: 50, "stone tools": 20, "mud bricks": 10 },
             buyVerb: "Build"
         },
         startingState: {
@@ -29,7 +29,7 @@ let storages: StorageData[] = [
             name: "Herb rack",
             desc: "Shoddy wooden rack to keep more herbs on it.",
             rawCost: { wood: 15 },
-            storage: [{ currency: "herbs", amount: 150 }],
+            storage: { herbs: 150 },
             buyVerb: "Build"
         },
         startingState: {
@@ -44,7 +44,7 @@ let storages: StorageData[] = [
             name: "Grain silo",
             desc: "A place to store the grain gathered from the fields.",
             rawCost: { "stone tools": 1, "mud bricks": 20 },
-            storage: [{ currency: "grain", amount: 100 }],
+            storage: { grain: 100 },
             buyVerb: "Buy"
         },
         startingState: {
@@ -59,7 +59,7 @@ let storages: StorageData[] = [
             name: "Water tank",
             desc: "Large cistern that can store some water for later use.",
             rawCost: { wood: 50, "stone tools": 1 },
-            storage: [{ currency: "water", amount: 200 }],
+            storage: { water: 200 },
             buyVerb: "Buy"
         }, startingState:
             {
@@ -74,7 +74,7 @@ let storages: StorageData[] = [
             name: "Pantry",
             desc: "Little more than a simple shed, but it can protect food from being eaten by pests too quickly.",
             rawCost: { wood: 30, "mud bricks": 15 },
-            storage: [{ currency: "flour", amount: 30 }, { currency: "bread", amount: 10 }, { currency: "meat", amount: 30 }],
+            storage: { flour: 30, bread: 10, meat: 30 },
             buyVerb: "Build"
         },
         startingState: {
@@ -89,7 +89,7 @@ let storages: StorageData[] = [
             name: "Beer cask",
             desc: "Very simple cask made out of wood to keep beer.",
             rawCost: { wood: 15 },
-            storage: [{ currency: "beer", amount: 5 }],
+            storage: { beer: 5 },
             buyVerb: "Craft"
         },
         startingState: {

@@ -35,7 +35,7 @@ export default Vue.extend({
   },
   computed: {
     canBePaid: function(): boolean {
-      return this.building.currentPrice.reduce((acc, cv) => acc && this.resources[cv.currency].amount >= cv.amount, true);
+      return Object.keys(this.building.currentPrice).reduce((acc, cv) => acc && this.resources[cv].amount >= (this.building.currentPrice[cv] || 0), true);
     }
   }
 })

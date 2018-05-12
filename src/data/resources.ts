@@ -1,6 +1,6 @@
-import { Map, IResource } from "../classes/baseClasses";
+import { IResourcesData } from "../classes/baseClasses";
 
-let resources: Map<IResource> = {
+let resources: IResourcesData = {
   herbs: { name: "herbs", amount: 25, gainPerSecond: 0, precision: 2, limit: 250, locks: [] },
   wood: { name: "wood", amount: 0, gainPerSecond: 0, precision: 1, limit: 25, locks: [] },
   flint: { name: "flint", amount: 0, gainPerSecond: 0, precision: 1, limit: 10, locks: [] },
