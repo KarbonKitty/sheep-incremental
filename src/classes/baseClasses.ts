@@ -31,11 +31,6 @@ export interface Price extends PriceData {
   [index: string]: number | undefined;
 }
 
-export interface CurrencyValue {
-  currency: Currency;
-  amount: number;
-}
-
 export interface Map<T> {
   [index: string]: T;
 }

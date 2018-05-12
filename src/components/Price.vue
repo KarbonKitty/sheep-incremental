@@ -1,9 +1,9 @@
 <template>
-  <div v-if="values.length > 0">
+  <div>
     <p><slot></slot></p>
     <ul>
-      <div v-for="p in values" :key="p.currency">
-        <li :class="{ lacking: typeof resources[p.currency] !== 'undefined' && resources[p.currency].amount < p.amount }">{{ p.amount | decimal(resources[p.currency].precision) }} {{ resources[p.currency].name }}</li>
+      <div v-for="(amount, currency) in values" :key="currency">
+        <li :class="{ lacking: typeof resources[currency] !== 'undefined' && resources[currency].amount < amount }">{{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}</li>
       </div>
     </ul>
   </div>
@@ -12,14 +12,14 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { CurrencyValue, Map, IResource } from "../classes/baseClasses";
+import { Price, IResourcesData } from "../classes/baseClasses";
 
 import filters from "../filters";
 
 export default Vue.extend({
   props: {
-    values: Array as () => CurrencyValue[],
-    resources: Object as () => Map<IResource>
+    values: Object as () => Price,
+    resources: Object as () => IResourcesData
   },
   filters
 })

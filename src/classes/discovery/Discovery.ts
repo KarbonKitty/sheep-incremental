@@ -1,4 +1,4 @@
-import { CurrencyValue, Lock } from "../baseClasses";
+import { Lock } from "../baseClasses";
 import IDiscoveryState from "./IDiscoveryState";
 import IDiscoveryTemplate from "./IDiscoveryTemplate";
 import IBuyable from "../IBuyable";

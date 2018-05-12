@@ -1,6 +1,6 @@
 import IProducerState from "./IProducerState";
 import IProducerTemplate from "./IProducerTemplate";
-import { Price, Lock, CurrencyValue } from "../baseClasses";
+import { Price, Lock } from "../baseClasses";
 import IBuyable from "../IBuyable";
 import GameObject from "../gameObject/GameObject";
 import { PriceHelper } from "../helpers";

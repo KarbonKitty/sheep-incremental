@@ -1,7 +1,7 @@
-import { CurrencyValue, Map } from "../classes/baseClasses";
+import { Map, Price } from "../classes/baseClasses";
 
-let goals: Map<CurrencyValue[]> = {
-    tribal: [{ currency: "bread", amount: 150 }, { currency: "meat", amount: 250 }, { currency: "beer", amount: 100 }]
+let goals: Map<Price> = {
+    tribal: { bread: 150, meat: 250, beer: 100 }
 }
 
 export default goals;

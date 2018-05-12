@@ -12,17 +12,19 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { CurrencyValue, IResource, Map } from '../classes/baseClasses';
+
+import IBuyable from "../classes/IBuyable";
+import GameObject from '../classes/gameObject/GameObject';
+import { IResource,  IResourcesData } from '../classes/baseClasses';
+import filters from "../filters";
+
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
-import filters from "../filters";
-import GameObject from '../classes/gameObject/GameObject';
-import IBuyable from "../classes/IBuyable";
 
 export default Vue.extend({
   props: {
     building: Object as () => GameObject & IBuyable,
-    resources: Object as () => Map<IResource>
+    resources: Object as () => IResourcesData
   },
   components: {
     'currency-value-component': CurrencyValueComponent,

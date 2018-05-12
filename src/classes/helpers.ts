@@ -1,4 +1,4 @@
-import { Price, CurrencyValue } from "./baseClasses";
+import { Price } from "./baseClasses";
 
 export class PriceHelper {
   static mulPriceByNumber(price: Price, num: number): Price {

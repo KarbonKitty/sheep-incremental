@@ -1,4 +1,4 @@
-import { GameEvent, CurrencyValue, Lock, Map, IResource, Price, IResourcesData } from "./classes/baseClasses";
+import { GameEvent, Lock, Map, Price, IResourcesData } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
@@ -16,11 +16,11 @@ import IStorageState from "./classes/storage/IStorageState";
 export default class GameEngine {
     lastTick: number;
     currentSelection: GameObject;
-    currentGoal: CurrencyValue[];
+    currentGoal: Price;
 
     locks: Map<boolean>;
 
-    goals: Map<CurrencyValue[]>;
+    goals: Map<Price>;
 
     discoveries: Discovery[];
     producers: Producer[];
