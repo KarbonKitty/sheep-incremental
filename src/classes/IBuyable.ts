@@ -1,7 +1,7 @@
-import { CurrencyValue } from "./baseClasses";
+import { Price } from "./baseClasses";
 
 export default interface IBuyable {
   onBuy: (() => void)[];
   buy: () => void;
-  currentPrice: CurrencyValue[];
+  currentPrice: Price;
 }

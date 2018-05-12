@@ -1,4 +1,4 @@
-import { CurrencyValue, GameObjectType, Lock } from '../baseClasses';
+import { GameObjectType, Lock, Price } from '../baseClasses';
 import IGameObjectTemplate from "./IGameObjectTemplate";
 import IGameObjectState from './IGameObjectState';
 
@@ -7,7 +7,7 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
     type: GameObjectType;
     name: string;
     desc: string;
-    rawCost: CurrencyValue[];
+    rawCost: Price;
     buyVerb: string;
 
     locks: Lock[];

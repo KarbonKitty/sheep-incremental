@@ -1,10 +1,10 @@
-import { GameObjectType, CurrencyValue, Lock } from "../baseClasses";
+import { GameObjectType, Price } from "../baseClasses";
 
 export default interface IGameObjectTemplate {
   id: string;
   type: GameObjectType;
   name: string;
   desc: string;
-  rawCost: CurrencyValue[];
+  rawCost: Price;
   buyVerb: string;
 }

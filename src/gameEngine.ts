@@ -1,4 +1,4 @@
-import { GameEvent, CurrencyValue, Lock, Map, IResource } from "./classes/baseClasses";
+import { GameEvent, CurrencyValue, Lock, Map, IResource, Price } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
@@ -187,29 +187,26 @@ export default class GameEngine {
         this.accumulatePerSecondValues(deltaT, production, true);
     }
 
-    private accumulatePerSecondValues(deltaT: number, valuePerDelta: CurrencyValue[], isPositive: boolean) {
-        valuePerDelta.forEach(gpd => {
-            this.resources[gpd.currency].gainPerSecond += gpd.amount * 1000 / deltaT * (isPositive ? 1 : -1);
-        })
-    }
-
-    private payThePrice(price: CurrencyValue[]) {
-        price.forEach(singleCost => {
-            this.resources[singleCost.currency].amount -= singleCost.amount;
+    private accumulatePerSecondValues(deltaT: number, valuePerDelta: Price, isPositive: boolean) {
+        Object.keys(valuePerDelta).forEach(k => {
+            this.resources[k].gainPerSecond += valuePerDelta[k] * 1000 / deltaT * (isPositive ? 1 : -1);
         });
     }
 
-    private getPaid(price: CurrencyValue[]) {
-        price.forEach(val => {
-            if (typeof this.resources[val.currency] === 'undefined') {
-                console.log(val);
-            }
-            this.resources[val.currency].amount += val.amount;
+    private payThePrice(price: Price) {
+        Object.keys(price).forEach(currency => {
+            this.resources[currency].amount -= price[currency];
         })
     }
 
-    private canBePaid(price: CurrencyValue[]): boolean {
-        return price.reduce((acc, cost) => acc && this.resources[cost.currency].amount >= cost.amount, true);
+    private getPaid(price: Price) {
+        Object.keys(price).forEach(currency => {
+            this.resources[currency].amount += price[currency];
+        })
+    }
+
+    private canBePaid(price: Price): boolean {
+        return Object.keys(price).reduce((acc, cur) => acc && this.resources[cur].amount >= price[cur], true);
     }
 
     private clearPerSecondValues(): void {

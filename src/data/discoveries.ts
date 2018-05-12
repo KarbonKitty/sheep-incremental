@@ -14,7 +14,7 @@ let discoveries: DiscoveryData[] = [
       name: "Discover stone tools",
       desc: "While a sheep can use a sharp rock to dig or cut, it is much easier to tie that rock to a stick.",
       unlocks: ['stone-tools'],
-      rawCost: [{ currency: "flint", amount: 50 }, { currency: 'wood', amount: 20 }],
+      rawCost: { flint: 50, wood: 20 },
       buyVerb: "Try it!"
     },
     startingState: {
@@ -29,7 +29,7 @@ let discoveries: DiscoveryData[] = [
       name: "Domesticate crops",
       desc: "Instead of always looking for grass out there, maybe the tribe could plant its own grass?",
       unlocks: ['agriculture'],
-      rawCost: [{ currency: "herbs", amount: 200 }, { currency: "stone tools", amount: 15 }],
+      rawCost: { herbs: 200, "stone tools": 20 },
       buyVerb: "Dig and plant!"
     },
     startingState: {
@@ -44,7 +44,7 @@ let discoveries: DiscoveryData[] = [
       name: "Hunt for meat",
       desc: "Beware a sheep with an ax!",
       unlocks: ['hunting'],
-      rawCost: [{ currency: "stone tools", amount: 5 }],
+      rawCost: { "stone tools": 10 },
       buyVerb: "Hack and slash!"
     },
     startingState: {
@@ -59,7 +59,7 @@ let discoveries: DiscoveryData[] = [
       name: "Discover flour",
       desc: "It seems that if you hit the grains with a rock, you get something more interesting...",
       unlocks: ['flour'],
-      rawCost: [{ currency: 'grain', amount: 100 }],
+      rawCost: { grain: 100 },
       buyVerb: "Experiment!"
     },
     startingState: {
@@ -74,7 +74,7 @@ let discoveries: DiscoveryData[] = [
       name: "Fermentate grain",
       desc: "The process of fermentation is already known to sheepkind, but now there is chance to take control over it.",
       unlocks: ['fermentation'],
-      rawCost: [{ currency: 'grain', amount: 150 }, { currency: 'water', amount: 100 }],
+      rawCost: { grain: 150, water: 100 },
       buyVerb: "Fermentate!"
     },
     startingState: {
@@ -89,7 +89,7 @@ let discoveries: DiscoveryData[] = [
       name: "Discover bread",
       desc: "Just flour, water, and heat! Who would think that something so miraculous would be so easy to produce!",
       unlocks: ['bread'],
-      rawCost: [{ currency: 'flour', amount: 200 }, { currency: 'water', amount: 200 }],
+      rawCost: { flout: 200, water: 200 },
       buyVerb: "Bake away!"
     },
     startingState: {

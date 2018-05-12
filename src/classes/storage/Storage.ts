@@ -3,6 +3,7 @@ import IStorageState from "./IStorageState";
 import IBuyable from "../IBuyable";
 import { CurrencyValue } from "../baseClasses";
 import IStorageTemplate from "./IStorageTemplate";
+import { PriceHelper } from "../helpers";
 
 export default class Storage extends GameObject implements IStorageTemplate, IStorageState, IBuyable {
   readonly type = "storage";
@@ -14,7 +15,7 @@ export default class Storage extends GameObject implements IStorageTemplate, ISt
   quantity: number;
 
   public get currentPrice() {
-    return this.rawCost.map(val => ({ amount: val.amount * Math.pow(1.15, this.quantity), currency: val.currency}));
+    return PriceHelper.mulPriceByNumber(this.rawCost, Math.pow(1.15, this.quantity));
   }
 
   constructor(template: IStorageTemplate, state: IStorageState) {
