@@ -22,4 +22,6 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
 
         this.locks = state.locks;
     }
+
+    abstract save(): IGameObjectState;
 }
