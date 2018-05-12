@@ -21,7 +21,7 @@ export interface IResourcesData {
 
 export type Currency = keyof IResourcesData;
 export type GameEvent = 'buy' | 'change-selection';
-export type GameObjectType = "producer" | "discovery" | "storage";
+export type GameObjectType = "producer" | "discovery" | "storage" | "upgrade";
 
 type PriceData = {
   [P in Currency]?: number;
@@ -42,4 +42,11 @@ export interface IResource {
   gainPerSecond: number,
   precision: number,
   locks: Lock[]
+}
+
+export interface UpgradeEffect {
+  affectedObjectId: string;
+  affectedProperty: "cost" | "production" | "consumption" | "storage";
+  type: "add" | "mul";
+  scale: Price;
 }
