@@ -1,9 +1,9 @@
-import { GameEvent, Lock, Map, Price, IResourcesData } from "./classes/baseClasses";
+import { GameEvent, Lock, Map, Price, IResourcesData, UpgradeEffect } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
 import Discovery from "./classes/discovery/Discovery";
-import { ProducersData, DiscoveriesData, LocksData, StorageData, ResourcesData, GoalsData } from "./data";
+import { ProducersData, DiscoveriesData, LocksData, StorageData, ResourcesData, GoalsData, UpgradesData } from "./data";
 import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
 import IDiscoveryState from "./classes/discovery/IDiscoveryState";
 import Producer from "./classes/producer/Producer";
@@ -12,6 +12,10 @@ import IProducerState from "./classes/producer/IProducerState";
 import Storage from "./classes/storage/Storage";
 import IStorageTemplate from "./classes/storage/IStorageTemplate";
 import IStorageState from "./classes/storage/IStorageState";
+import Upgrade from "./classes/upgrade/Upgrade";
+import IUpgradeTemplate from "./classes/upgrade/IUpgradeTemplate";
+import IUpgradeState from "./classes/upgrade/IUpgradeState";
+import { PriceHelper } from "./classes/helpers";
 
 export default class GameEngine {
     lastTick: number;
@@ -25,6 +29,7 @@ export default class GameEngine {
     discoveries: Discovery[];
     producers: Producer[];
     storages: Storage[];
+    upgrades: Upgrade[];
 
     resources: IResourcesData;
 
@@ -34,6 +39,7 @@ export default class GameEngine {
         this.producers = ProducersData.map(pd => this.createProducer(pd.template, pd.startingState));
         this.discoveries = DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState));
         this.storages = StorageData.map(sd => this.createStorage(sd.template, sd.startingState));
+        this.upgrades = UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState));
 
         this.locks = LocksData;
         this.resources = ResourcesData;
@@ -70,6 +76,7 @@ export default class GameEngine {
         gameObjects = gameObjects.concat(this.producers);
         gameObjects = gameObjects.concat(this.discoveries);
         gameObjects = gameObjects.concat(this.storages);
+        gameObjects = gameObjects.concat(this.upgrades);
         return gameObjects;
     }
 
@@ -120,9 +127,9 @@ export default class GameEngine {
             lastTick: this.lastTick,
             locks: this.locks,
             resources: this.resources,
-            producersState: this.producers.map(p => ({ id: p.id, state: p.save()})),
-            discoveriesState: this.discoveries.map(d => ({ id: d.id, state: d.save()})),
-            storageState: this.storages.map(s => ({ id: s.id, state: s.save()}))
+            producersState: this.producers.map(p => ({ id: p.id, state: p.save() })),
+            discoveriesState: this.discoveries.map(d => ({ id: d.id, state: d.save() })),
+            storageState: this.storages.map(s => ({ id: s.id, state: s.save() }))
         };
 
         return JSON.stringify(state);
@@ -130,7 +137,7 @@ export default class GameEngine {
 
     load(savedState: string): void {
         let savedObject = JSON.parse(savedState);
-        
+
         // to make this generic, we would need some form of list of all the game object data
         // TODO: when creating mixin-implementation, create a list of all gameObjects and use it here
         let tempProducers = <Producer[]>[];
@@ -231,7 +238,7 @@ export default class GameEngine {
         return true;
     }
 
-    private createProducer(template: IProducerTemplate, state: IProducerState = { quantity: 0, locks: [] }): Producer {
+    private createProducer(template: IProducerTemplate, state: IProducerState): Producer {
         const producer = new Producer(template, state);
         producer.onBuy.push(() => {
             producer.quantity++;
@@ -250,7 +257,7 @@ export default class GameEngine {
         return discovery;
     }
 
-    private createStorage(template: IStorageTemplate, state: IStorageState = { quantity: 0, locks: [] }): Storage {
+    private createStorage(template: IStorageTemplate, state: IStorageState): Storage {
         const storage = new Storage(template, state);
         storage.onBuy.push(() => {
             storage.quantity++;
@@ -262,6 +269,57 @@ export default class GameEngine {
             });
         });
         return storage;
+    }
+
+    private createUpgrade(template: IUpgradeTemplate, state: IUpgradeState): Upgrade {
+        const upgrade = new Upgrade(template, state);
+        upgrade.onBuy.push(() => {
+            upgrade.done = true;
+            upgrade.effects.forEach(e => {
+                this.applyUpgradeEffect(e);
+            });
+        });
+        return upgrade;
+    }
+
+    private applyUpgradeEffect(effect: UpgradeEffect) {
+        const object = this.getGameObjectById(effect.affectedObjectId);
+        if (typeof object === 'undefined') {
+            throw new Error(`There is no object with id: ${effect.affectedObjectId}`);
+        }
+
+        switch (effect.affectedProperty) {
+            case "production":
+                if (!typeGuards.isProducer(object)) {
+                    throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve production.`);
+                } else {
+                    if (effect.type === 'add') {
+                        object.baseProduction = PriceHelper.sumPrices(object.baseProduction, effect.scale);
+                    } else if (effect.type === 'mul') {
+                        object.productionMultiplier = PriceHelper.multiplyPrices(object.productionMultiplier, effect.scale);
+                    } else {
+                        throw new Error(`Unknown effect type: ${effect.type}`);
+                    }
+                }
+                break;
+            case "consumption":
+                if (!typeGuards.isProducer(object)) {
+                    throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve consumption.`);
+                } else {
+                    if (effect.type === 'add') {
+                        object.baseConsumption = PriceHelper.sumPrices(object.baseConsumption, effect.scale);
+                    } else if (effect.type === 'mul') {
+                        object.consumptionMultiplier = PriceHelper.multiplyPrices(object.consumptionMultiplier, effect.scale);
+                    } else {
+                        throw new Error(`Unknown effect type: ${effect.type}`);
+                    }
+                }
+                break;
+            case "storage":
+                throw new Error('Storage upgrades are not yet implemented');
+            case "cost":
+                throw new Error('Cost upgrades are not yet implemented');
+        }
     }
 }
 

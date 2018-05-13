@@ -26,7 +26,7 @@
             <div class="top-column">
                 <h3>Production buildings</h3>
                 <div v-for="producer in producers">
-                    <game-object-component :game-object="producer"></producer-component>
+                    <game-object-component :game-object="producer"></game-object-component>
                 </div>
             </div>
             <div class="top-column">
@@ -38,7 +38,13 @@
             <div class="top-column">
                 <h3>Discoveries</h3>
                 <div v-for="discovery in discoveries">
-                    <game-object-component :game-object="discovery"></discovery-component>
+                    <game-object-component :game-object="discovery"></game-object-component>
+                </div>
+            </div>
+            <div class="top-column">
+                <h3>Upgrades</h3>
+                <div v-for="upgrade in upgrades">
+                    <game-object-component :game-object="upgrade"></game-object-component>
                 </div>
             </div>
         </div>

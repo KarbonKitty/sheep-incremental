@@ -20,6 +20,7 @@ export interface IResourcesData {
 }
 
 export type Currency = keyof IResourcesData;
+export type EffectProp = "cost" | "production" | "consumption" | "storage";
 export type GameEvent = 'buy' | 'change-selection';
 export type GameObjectType = "producer" | "discovery" | "storage" | "upgrade";
 
@@ -46,7 +47,7 @@ export interface IResource {
 
 export interface UpgradeEffect {
   affectedObjectId: string;
-  affectedProperty: "cost" | "production" | "consumption" | "storage";
+  affectedProperty: EffectProp;
   type: "add" | "mul";
   scale: Price;
 }

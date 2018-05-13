@@ -4,3 +4,4 @@ export { default as DiscoveriesData } from "./discoveries";
 export { default as StorageData } from "./storage";
 export { default as ResourcesData } from "./resources";
 export { default as GoalsData } from "./goals";
+export { default as UpgradesData } from "./upgrades";
