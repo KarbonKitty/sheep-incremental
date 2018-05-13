@@ -46,12 +46,20 @@ export default class Producer extends GameObject implements IProducerTemplate, I
     this.onBuy.forEach(handler => handler());
   }
 
+  public get currentConsumption(): Price {
+    return PriceHelper.multiplyPrices(this.baseConsumption, this.consumptionMultiplier);
+  }
+
+  public get currentProduction(): Price {
+    return PriceHelper.multiplyPrices(this.baseProduction, this.productionMultiplier);
+  }
+
   getConsumption(deltaT: number): Price {
-    return PriceHelper.mulPriceByNumber(PriceHelper.multiplyPrices(this.baseConsumption, this.consumptionMultiplier), this.quantity * deltaT / 1000);
+    return PriceHelper.mulPriceByNumber(this.currentConsumption, this.quantity * deltaT / 1000);
   }
 
   getProduction(deltaT: number): Price {
-    return PriceHelper.mulPriceByNumber(PriceHelper.multiplyPrices(this.baseProduction, this.productionMultiplier), this.quantity * deltaT / 1000);
+    return PriceHelper.mulPriceByNumber(this.currentProduction, this.quantity * deltaT / 1000);
   }
 
   save(): IProducerState {
