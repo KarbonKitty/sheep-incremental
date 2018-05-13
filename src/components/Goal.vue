@@ -40,10 +40,3 @@ export default Vue.extend({
   filters
 })
 </script>
-
-<style scoped>
-  button:disabled {
-    background-color: #073642;
-    color: #657b83;
-  }
-</style>

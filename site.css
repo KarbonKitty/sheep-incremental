@@ -76,8 +76,8 @@ a:active {
   background: #dc322f;
 }
 
-.btn.disabled {
-  color: #586e75;
+.btn:disabled {
+  color: #657b83;
   background: #073642;
   cursor: not-allowed;
 }
