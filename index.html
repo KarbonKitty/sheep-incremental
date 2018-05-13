@@ -41,16 +41,15 @@
                     <game-object-component :game-object="discovery"></game-object-component>
                 </div>
             </div>
-            <div class="top-column">
+            <!-- <div class="top-column">
                 <h3>Upgrades</h3>
-                <div v-for="upgrade in upgrades">
+                <div v-for="upgrade in upgrades.filter(u => typeof u.objectId == 'undefined')">
                     <game-object-component :game-object="upgrade"></game-object-component>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="main-area">
-            <!-- TODO: make separate components for producers/storage/updates etc. -->
-            <building-details-component :building="currentSelection" :resources="resources"></building-details-component>
+            <building-details-component :building="currentSelection" :resources="resources" :upgrades="currentUpgrades"></building-details-component>
         </div>
     </div>
 </body>

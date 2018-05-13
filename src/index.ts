@@ -32,6 +32,11 @@ let vm = new Vue({
             }
         }
     },
+    computed: {
+        currentUpgrades: function() {
+            return this.upgrades.filter(u => !u.done && u.objectId === this.currentSelection.id);
+        }
+    },
     components: {
         'resource-component': ResourceComponent,
         'game-object-component': GameObjectComponent,

@@ -7,6 +7,8 @@ import { Price, UpgradeEffect } from "../baseClasses";
 export default class Upgrade extends GameObject implements IUpgradeTemplate, IUpgradeState, IBuyable {
   readonly type = "upgrade";
 
+  objectId?: string;
+
   effects: UpgradeEffect[];
 
   onBuy: (() => void)[];
@@ -19,6 +21,8 @@ export default class Upgrade extends GameObject implements IUpgradeTemplate, IUp
 
   constructor(template: IUpgradeTemplate, state: IUpgradeState) {
     super(template, state);
+
+    this.objectId = template.objectId;
 
     this.effects = template.effects;
 
