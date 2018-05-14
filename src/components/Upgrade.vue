@@ -6,6 +6,9 @@
     <div v-if="details" class="details">
       <p>{{ upgrade.desc }}</p>
       <price-component :values="upgrade.currentPrice" :resources="resources">Price:</price-component>
+      <div v-for="effect in upgrade.effects" :key="effect.property">
+        <effect-component :effect="effect"></effect-component>
+      </div>
       <button class="btn" @click="emitBuyEvent" :disabled="!canBePaid">{{ upgrade.buyVerb }}</button>
     </div>
   </div>
@@ -18,6 +21,7 @@ import Upgrade from "../classes/upgrade/Upgrade";
 import { IResourcesData } from "../classes/baseClasses";
 
 import PriceComponent from "./Price.vue";
+import EffectComponent from "./Effect.vue";
 
 import filters from "../filters";
 
@@ -53,7 +57,8 @@ export default Vue.extend({
     }
   },
   components: {
-    'price-component': PriceComponent
+    'price-component': PriceComponent,
+    'effect-component': EffectComponent
   },
   filters
 });
