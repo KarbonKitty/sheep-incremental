@@ -156,7 +156,7 @@ let producersData: ProducerData[] = [
             id: 'bread-oven',
             type: 'producer',
             name: "Bread oven",
-            desc: "A high-temperature oven made out of stone, heated with wood. Used to bake bread.",
+            desc: "Simple earth oven used to bake bread.",
             rawCost: { herbs: 300, flour: 100 },
             rawProduction: { bread: 1 },
             rawConsumption: { flour: 2, water: 5 },
