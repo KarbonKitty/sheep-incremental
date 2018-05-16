@@ -7,6 +7,7 @@ import ResourceComponent from "./components/Resource.vue";
 import GameObjectComponent from "./components/GameObject.vue";
 import BuildingDetailsComponent from "./components/BuildingDetails.vue";
 import GoalComponent from "./components/Goal.vue";
+import ToastComponent from "./components/Toast.vue";
 
 const interval = 50;
 
@@ -14,7 +15,7 @@ let engine = new GameEngine();
 
 EventBus.$on('game-event', (data: any) => {
     engine.handleEvent(data);
-})
+});
 
 let vm = new Vue({
     el: "#app",
@@ -43,7 +44,8 @@ let vm = new Vue({
         'resource-component': ResourceComponent,
         'game-object-component': GameObjectComponent,
         'building-details-component': BuildingDetailsComponent,
-        'goal-component': GoalComponent
+        'goal-component': GoalComponent,
+        'toast-component': ToastComponent
     }
 });
 
