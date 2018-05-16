@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import EventBus from '../eventBus';
 
 import IBuyable from "../classes/IBuyable";
 import GameObject from '../classes/gameObject/GameObject';
@@ -44,7 +45,7 @@ export default Vue.extend({
   },
   methods: {
     emitBuyEvent: function() {
-      this.$parent.$emit('game-event', { type: 'buy', value: this.building.id });
+      EventBus.$emit('game-event', { type: 'buy', value: this.building.id });
     }
   },
   computed: {

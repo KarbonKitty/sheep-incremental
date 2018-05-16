@@ -1,4 +1,5 @@
 import Vue from "vue";
+import EventBus from "./eventBus";
 
 import GameEngine from "./gameEngine";
 
@@ -11,12 +12,13 @@ const interval = 50;
 
 let engine = new GameEngine();
 
+EventBus.$on('game-event', (data: any) => {
+    engine.handleEvent(data);
+})
+
 let vm = new Vue({
     el: "#app",
     data: engine,
-    created() {
-        this.$on('game-event', (data: any) => engine.handleEvent(data))
-    },
     methods: {
         saveGame: function(event: any) {
             console.log("Game saved");

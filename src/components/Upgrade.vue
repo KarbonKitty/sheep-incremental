@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import EventBus from "../eventBus";
 
 import Upgrade from "../classes/upgrade/Upgrade";
 import { IResourcesData } from "../classes/baseClasses";
@@ -37,7 +38,7 @@ export default Vue.extend({
   },
   methods: {
     emitBuyEvent: function() {
-      this.$root.$emit("game-event", {
+      EventBus.$emit("game-event", {
         type: "buy",
         value: this.upgrade.id
       });

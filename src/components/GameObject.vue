@@ -6,12 +6,13 @@
 
 <script lang="ts">
 import Vue from "vue";
+import EventBus from "../eventBus";
 import GameObject from "../classes/gameObject/GameObject";
 
 export default Vue.extend({
   methods: {
     changeSelection: function() {
-      this.$parent.$emit('game-event', { type: 'change-selection', value: this.gameObject.id });
+      EventBus.$emit('game-event', { type: 'change-selection', value: this.gameObject.id });
     }
   },
   props: {
