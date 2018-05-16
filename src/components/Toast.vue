@@ -13,11 +13,9 @@ export default Vue.extend({
   data: function() {
     return { visible: false }
   },
-  props: {
-    msg: Object as () => string
-  },
+  props: [ 'lastActivationTime', 'msg' ],
   watch: {
-    'msg': function() {
+    'lastActivationTime': function() {
       this.visible = true;
       const hide = () => this.visible = false;
       setTimeout(hide, 3000);

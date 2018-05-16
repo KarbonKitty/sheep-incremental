@@ -14,7 +14,7 @@
 <body>
     <h1>Sheep Incremental</h1>
     <div id="app" class="container">
-        <toast-component msg="tempToastMsg"></toast-component>
+        <toast-component :msg="toastMsg" :last-activation-time="toastActivationTime"></toast-component>
         <div class="sidebar">
             <div v-for="res in resources">
                 <resource-component :resource="res"></resource-component>

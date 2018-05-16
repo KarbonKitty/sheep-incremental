@@ -20,6 +20,8 @@ import { PriceHelper } from "./classes/helpers";
 export default class GameEngine {
     lastTick: number;
     currentSelection: GameObject;
+    toastActivationTime: number;
+    toastMsg: string;
     currentGoal: Price;
 
     locks: Map<boolean>;
@@ -35,6 +37,9 @@ export default class GameEngine {
 
     constructor() {
         this.lastTick = Date.now();
+
+        this.toastActivationTime = 0;
+        this.toastMsg = '';
 
         this.producers = ProducersData.map(pd => this.createProducer(pd.template, pd.startingState));
         this.discoveries = DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState));
@@ -61,7 +66,11 @@ export default class GameEngine {
     handleEvent(data: { type: GameEvent, value: any }) {
         switch (data.type) {
             case 'buy':
-                this.tryBuyItem(data.value);
+                var boughtItem = this.tryBuyItem(data.value);
+                if (typeof boughtItem !== 'undefined') {
+                    this.toastActivationTime = Date.now();
+                    this.toastMsg = `${boughtItem.name} was bought!`;
+                }
                 break;
             case 'change-selection':
                 this.changeSelection(data.value);
@@ -86,7 +95,7 @@ export default class GameEngine {
         return item;
     }
 
-    tryBuyItem(itemId: string): IBuyable | undefined {
+    tryBuyItem(itemId: string): GameObject | undefined {
         const item = this.getGameObjectById(itemId);
 
         if (typeof item === 'undefined' || !typeGuards.isBuyable(item)) {
