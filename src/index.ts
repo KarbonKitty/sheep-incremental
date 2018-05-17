@@ -38,6 +38,18 @@ let vm = new Vue({
     computed: {
         currentUpgrades: function() {
             return this.upgrades.filter(u => !u.done && u.objectId === this.currentSelection.id && u.locks.length === 0);
+        },
+        upgrades: function() {
+            return this.concepts.filter(c => c.type === 'upgrade');
+        },
+        producers: function() {
+            return this.buildings.filter(b => b.type === 'producer');
+        },
+        storages: function() {
+            return this.buildings.filter(b => b.type === 'storage');
+        },
+        discoveries: function() {
+            return this.concepts.filter(c => c.type === 'discovery');
         }
     },
     components: {

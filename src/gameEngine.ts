@@ -28,10 +28,8 @@ export default class GameEngine {
 
     goals: Map<Price>;
 
-    discoveries: Discovery[];
-    producers: Producer[];
-    storages: Storage[];
-    upgrades: Upgrade[];
+    buildings: GameObject[];
+    concepts: GameObject[];
 
     resources: IResourcesData;
 
@@ -41,17 +39,32 @@ export default class GameEngine {
         this.toastActivationTime = 0;
         this.toastMsg = '';
 
-        this.producers = ProducersData.map(pd => this.createProducer(pd.template, pd.startingState));
-        this.discoveries = DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState));
-        this.storages = StorageData.map(sd => this.createStorage(sd.template, sd.startingState));
-        this.upgrades = UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState));
+        this.buildings = (ProducersData.map(pd => this.createProducer(pd.template, pd.startingState)) as GameObject[]).concat(StorageData.map(sd => this.createStorage(sd.template, sd.startingState)));
+
+        this.concepts = (DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState)) as GameObject[]).concat(UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState)));
 
         this.locks = LocksData;
         this.resources = ResourcesData;
         this.goals = GoalsData;
 
-        this.currentSelection = this.producers[0];
+        this.currentSelection = this.buildings[0];
         this.currentGoal = this.goals.tribal;
+    }
+
+    get producers(): Producer[] {
+        return this.buildings.filter(b => typeGuards.isProducer(b)) as Producer[];
+    }
+
+    get storages(): Storage[] {
+        return this.buildings.filter(b => typeGuards.isStorage(b)) as Storage[];
+    }
+
+    get upgrades(): Upgrade[] {
+        return this.concepts.filter(c => typeGuards.isUpgrade(c)) as Upgrade[];
+    }
+
+    get discoveries(): Discovery[] {
+        return this.concepts.filter(c => typeGuards.isDiscovery(c)) as Discovery[];
     }
 
     tick(currentTick: number) {
@@ -82,10 +95,8 @@ export default class GameEngine {
 
     getAllGameObjects(): GameObject[] {
         let gameObjects = <GameObject[]>[];
-        gameObjects = gameObjects.concat(this.producers);
-        gameObjects = gameObjects.concat(this.discoveries);
-        gameObjects = gameObjects.concat(this.storages);
-        gameObjects = gameObjects.concat(this.upgrades);
+        gameObjects = gameObjects.concat(this.buildings);
+        gameObjects = gameObjects.concat(this.concepts);
         return gameObjects;
     }
 
@@ -190,10 +201,8 @@ export default class GameEngine {
         this.lastTick = savedObject.lastTick;
         this.locks = savedObject.locks;
         this.resources = savedObject.resources;
-        this.producers = tempProducers;
-        this.discoveries = tempDiscoveries;
-        this.storages = tempStorage;
-        this.upgrades = tempUpgrades;
+        this.buildings = ([] as GameObject[]).concat(tempProducers).concat(tempStorage);
+        this.concepts = ([] as GameObject[]).concat(tempUpgrades).concat(tempDiscoveries);
         this.currentSelection = this.producers[0];
     }
 
