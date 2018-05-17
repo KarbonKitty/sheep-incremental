@@ -1,11 +1,10 @@
 import GameObject from "../gameObject/GameObject";
 import IStorageState from "./IStorageState";
-import IBuyable from "../IBuyable";
 import { Price } from "../baseClasses";
 import IStorageTemplate from "./IStorageTemplate";
 import { PriceHelper } from "../helpers";
 
-export default class Storage extends GameObject implements IStorageTemplate, IStorageState, IBuyable {
+export default class Storage extends GameObject implements IStorageTemplate, IStorageState {
   readonly type = "storage";
 
   storage: Price;

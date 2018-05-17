@@ -1,8 +1,9 @@
 import { GameObjectType, Lock, Price } from '../baseClasses';
 import IGameObjectTemplate from "./IGameObjectTemplate";
 import IGameObjectState from './IGameObjectState';
+import IBuyable from '../IBuyable';
 
-export default abstract class GameObject implements IGameObjectTemplate, IGameObjectState {
+export default abstract class GameObject implements IGameObjectTemplate, IGameObjectState, IBuyable {
     id: string;
     type: GameObjectType;
     name: string;
@@ -24,4 +25,7 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
     }
 
     abstract save(): IGameObjectState;
+    abstract onBuy: (() => void)[];
+    abstract buy(): void;
+    abstract currentPrice: Price;
 }

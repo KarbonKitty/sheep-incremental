@@ -1,10 +1,9 @@
 import { Lock } from "../baseClasses";
 import IDiscoveryState from "./IDiscoveryState";
 import IDiscoveryTemplate from "./IDiscoveryTemplate";
-import IBuyable from "../IBuyable";
 import GameObject from "../gameObject/GameObject";
 
-export default class Discovery extends GameObject implements IDiscoveryTemplate, IDiscoveryState, IBuyable {
+export default class Discovery extends GameObject implements IDiscoveryTemplate, IDiscoveryState {
   readonly type = "discovery";
 
   unlocks: Lock[];

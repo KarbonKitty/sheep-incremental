@@ -1,10 +1,9 @@
 import GameObject from "../gameObject/GameObject";
 import IUpgradeTemplate from "./IUpgradeTemplate";
 import IUpgradeState from "./IUpgradeState";
-import IBuyable from "../IBuyable";
 import { Price, UpgradeEffect } from "../baseClasses";
 
-export default class Upgrade extends GameObject implements IUpgradeTemplate, IUpgradeState, IBuyable {
+export default class Upgrade extends GameObject implements IUpgradeTemplate, IUpgradeState {
   readonly type = "upgrade";
 
   objectId?: string;

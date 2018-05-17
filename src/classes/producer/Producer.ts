@@ -1,11 +1,10 @@
 import IProducerState from "./IProducerState";
 import IProducerTemplate from "./IProducerTemplate";
 import { Price, Lock } from "../baseClasses";
-import IBuyable from "../IBuyable";
 import GameObject from "../gameObject/GameObject";
 import { PriceHelper } from "../helpers";
 
-export default class Producer extends GameObject implements IProducerTemplate, IProducerState, IBuyable {
+export default class Producer extends GameObject implements IProducerTemplate, IProducerState {
   readonly type = "producer";
 
   rawProduction: Price;
