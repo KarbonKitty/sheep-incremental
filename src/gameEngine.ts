@@ -138,7 +138,8 @@ export default class GameEngine {
             resources: this.resources,
             producersState: this.producers.map(p => ({ id: p.id, state: p.save() })),
             discoveriesState: this.discoveries.map(d => ({ id: d.id, state: d.save() })),
-            storageState: this.storages.map(s => ({ id: s.id, state: s.save() }))
+            storageState: this.storages.map(s => ({ id: s.id, state: s.save() })),
+            upgradesState: this.upgrades.map(u => ({ id: u.id, state: u.save() }))
         };
 
         return JSON.stringify(state);
@@ -176,6 +177,15 @@ export default class GameEngine {
             tempStorage.push(this.createStorage(storageData.template, ss.state));
         });
 
+        let tempUpgrades = [] as Upgrade[];
+        savedObject.upgradesState.forEach((us: { id: string, state: IUpgradeState }) => {
+            const upgradeData = UpgradesData.filter(ud => ud.template.id === us.id).pop();
+            if (typeof upgradeData === 'undefined') {
+                throw new Error("Unknown upgrade id:" + us.id);
+            }
+            tempUpgrades.push(this.createUpgrade(upgradeData.template, us.state));
+        });
+
         // nothing threw, we can replace the state
         this.lastTick = savedObject.lastTick;
         this.locks = savedObject.locks;
@@ -183,6 +193,7 @@ export default class GameEngine {
         this.producers = tempProducers;
         this.discoveries = tempDiscoveries;
         this.storages = tempStorage;
+        this.upgrades = tempUpgrades;
         this.currentSelection = this.producers[0];
     }
 
