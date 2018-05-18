@@ -25,7 +25,7 @@ let upgrades: UpgradeData[] = [
         affectedObjectId: 'flint-knapper',
         affectedProperty: "consumption",
         type: "add",
-        scale: { wood: 0.25, flint: -0.05 }
+        scale: { wood: 0.2, flint: -0.1 }
       }],
       buyVerb: "Train"
     },
@@ -46,7 +46,7 @@ let upgrades: UpgradeData[] = [
         affectedObjectId: 'flint-gatherer',
         affectedProperty: 'production',
         type: 'add',
-        scale: { flint: 0.25 }
+        scale: { flint: 0.2 }
       }],
       buyVerb: "Gather"
     },

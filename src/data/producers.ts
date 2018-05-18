@@ -191,7 +191,7 @@ let producersData: ProducerData[] = [
             desc: "Sheep that makes simple bricks out of sun-dried mud",
             rawCost: { herbs: 50, "stone tools": 2 },
             rawConsumption: { wood: 0.5, "stone tools": 0.01 },
-            rawProduction: { "mud bricks": 0.25 },
+            rawProduction: { "mud bricks": 0.3 },
             buyVerb: "Recruit"
         },
         startingState: {
