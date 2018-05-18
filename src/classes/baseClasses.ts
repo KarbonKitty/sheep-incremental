@@ -23,6 +23,7 @@ export type Currency = keyof IResourcesData;
 export type EffectProp = "cost" | "production" | "consumption" | "storage";
 export type GameEvent = 'buy' | 'change-selection';
 export type GameObjectType = "producer" | "discovery" | "storage" | "upgrade";
+export type IndustryBranch = "herbs" | "building" | "agriculture" | "hunting" | "other" | "tools";
 
 type PriceData = {
   [P in Currency]?: number;

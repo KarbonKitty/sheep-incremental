@@ -13,6 +13,7 @@ let upgrades: UpgradeData[] = [
       type: "upgrade",
       name: "Soft hammer percussion",
       desc: "With time, your flint knappers can learn a new technique for creation of sharp edges: instead of striking rocks with other rocks, strike them with softer material, like wood. It takes more work, but wastes less material and leads to better tools.",
+      branch: "tools",
       objectId: 'flint-knapper',
       rawCost: { herbs: 100, wood: 50, flint: 25, "stone tools": 1 },
       effects: [{
@@ -40,6 +41,7 @@ let upgrades: UpgradeData[] = [
       type: "upgrade",
       name: "Gather different rocks",
       desc: "It seems that other rocks can be used to make tools, just like flint!",
+      branch: "tools",
       objectId: 'flint-gatherer',
       rawCost: { herbs: 50, flint: 10, "stone tools": 1 },
       effects: [{
@@ -61,6 +63,7 @@ let upgrades: UpgradeData[] = [
       type: "upgrade",
       name: "Mud brick oven",
       desc: "Building the inside wall of the oven out of dry mud bricks mean that the food will have less dirt in it, which makes the sheep happier.",
+      branch: "agriculture",
       objectId: 'bread-oven',
       rawCost: { "mud bricks": 100 },
       effects: [{

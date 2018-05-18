@@ -1,4 +1,4 @@
-import { GameObjectType, Lock, Price } from '../baseClasses';
+import { GameObjectType, Lock, Price, IndustryBranch } from '../baseClasses';
 import IGameObjectTemplate from "./IGameObjectTemplate";
 import IGameObjectState from './IGameObjectState';
 import IBuyable from '../IBuyable';
@@ -8,6 +8,7 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
     type: GameObjectType;
     name: string;
     desc: string;
+    branch: IndustryBranch;
     rawCost: Price;
     buyVerb: string;
 
@@ -18,6 +19,7 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
         this.type = template.type;
         this.name = template.name;
         this.desc = template.desc;
+        this.branch = template.branch;
         this.rawCost = template.rawCost;
         this.buyVerb = template.buyVerb;
 
