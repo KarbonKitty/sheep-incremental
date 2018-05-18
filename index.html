@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="site.css">
-    <link href="https://fonts.googleapis.com/css?family=Assistant" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Assistant" rel="stylesheet">
 
     <title>Sheep Incremental</title>
 </head>
@@ -25,7 +25,15 @@
             <goal-component :values="currentGoal" :resources="resources"></goal-component>
         </div>
         <div class="top">
-            <div class="top-column">
+            <div class="top-column" v-for="branch in branches">
+                <div v-if="availableBuildingsFromBranch(branch).length > 0">
+                    <h3>{{ branch | capitalize }}</h3>
+                    <div v-for="b in availableBuildingsFromBranch(branch)">
+                        <game-object-component :game-object="b"></game-object-component>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="top-column">
                 <h3>Production buildings</h3>
                 <div v-for="producer in producers">
                     <game-object-component :game-object="producer"></game-object-component>
@@ -36,7 +44,7 @@
                 <div v-for="storage in storages">
                     <game-object-component :game-object="storage"></game-object-component>
                 </div>
-            </div>
+            </div> -->
             <div class="top-column">
                 <h3>Discoveries</h3>
                 <div v-for="discovery in discoveries">

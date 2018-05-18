@@ -1,6 +1,7 @@
 import Vue from "vue";
 import EventBus from "./eventBus";
 
+import filters from "./filters";
 import GameEngine from "./gameEngine";
 
 import ResourceComponent from "./components/Resource.vue";
@@ -8,6 +9,8 @@ import GameObjectComponent from "./components/GameObject.vue";
 import BuildingDetailsComponent from "./components/BuildingDetails.vue";
 import GoalComponent from "./components/Goal.vue";
 import ToastComponent from "./components/Toast.vue";
+
+import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 
 const interval = 50;
 
@@ -33,20 +36,20 @@ let vm = new Vue({
                 console.log("Game loaded");
                 this.$data.load(savedGame);
             }
+        },
+        availableBuildingsFromBranch(branch: IndustryBranch) {
+            return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
         }
     },
     computed: {
         currentUpgrades: function() {
             return this.upgrades.filter(u => !u.done && u.objectId === this.currentSelection.id && u.locks.length === 0);
         },
+        branches: function () {
+            return Branches;
+        },
         upgrades: function() {
             return this.concepts.filter(c => c.type === 'upgrade');
-        },
-        producers: function() {
-            return this.buildings.filter(b => b.type === 'producer');
-        },
-        storages: function() {
-            return this.buildings.filter(b => b.type === 'storage');
         },
         discoveries: function() {
             return this.concepts.filter(c => c.type === 'discovery');
@@ -58,7 +61,8 @@ let vm = new Vue({
         'building-details-component': BuildingDetailsComponent,
         'goal-component': GoalComponent,
         'toast-component': ToastComponent
-    }
+    },
+    filters: filters
 });
 
 let handle = window.setInterval(() => engine.tick(Date.now()), interval);
