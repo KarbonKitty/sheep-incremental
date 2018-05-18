@@ -89,7 +89,7 @@ let discoveries: DiscoveryData[] = [
       name: "Discover bread",
       desc: "Just flour, water, and heat! Who would think that something so miraculous would be so easy to produce!",
       unlocks: ['bread'],
-      rawCost: { flout: 200, water: 200 },
+      rawCost: { flour: 200, water: 200 },
       buyVerb: "Bake away!"
     },
     startingState: {
