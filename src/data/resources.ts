@@ -12,7 +12,8 @@ let resources: IResourcesData = {
   beer: { name: "beer", amount: 0, gainPerSecond: 0, precision: 2, limit: 0, locks: ['fermentation'] },
   "mud bricks": { name: "mud bricks", amount: 0, gainPerSecond: 0, precision: 1, limit: 0, locks: ['stone-tools'] },
   "raw meat": { name: "raw meat", amount: 0, gainPerSecond: 0, precision: 2, limit: 50, locks: ['hunting'] },
-  meat: { name: "meat", amount: 0, gainPerSecond: 0, precision: 2, limit: 0, locks: ['hunting'] }
+  meat: { name: "meat", amount: 0, gainPerSecond: 0, precision: 2, limit: 0, locks: ['hunting'] },
+  advancement: { name: "advancement", amount: 0, gainPerSecond: 0, precision: 0, locks: ['__prestige__'] }
 }
 
 export default resources;

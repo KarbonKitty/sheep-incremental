@@ -15,6 +15,7 @@
 import Vue from 'vue'
 import { Map, IResource, Price, Currency, IResourcesData } from "../classes/baseClasses";
 import filters from "../filters";
+import EventBus from "../eventBus";
 
 export default Vue.extend({
   props: {
@@ -34,7 +35,7 @@ export default Vue.extend({
       return this.resources[currency].locks.length === 0;
     },
     finish: function() {
-      alert("Congratulations! You have finished the current portion of the Sheep Tribe!");
+      EventBus.$emit('game-event', { type: 'prestige' });
     }
   },
   filters

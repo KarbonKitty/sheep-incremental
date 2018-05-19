@@ -3,7 +3,7 @@ import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
 import Discovery from "./classes/discovery/Discovery";
-import { ProducersData, DiscoveriesData, LocksData, StorageData, ResourcesData, GoalsData, UpgradesData } from "./data";
+import { ProducersData, DiscoveriesData, LocksData, StorageData, ResourcesData, GoalsData, UpgradesData, AdvancementData } from "./data";
 import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
 import IDiscoveryState from "./classes/discovery/IDiscoveryState";
 import Producer from "./classes/producer/Producer";
@@ -33,6 +33,8 @@ export default class GameEngine {
 
     resources: IResourcesData;
 
+    advancements: Discovery[];
+
     constructor() {
         this.lastTick = Date.now();
 
@@ -49,6 +51,8 @@ export default class GameEngine {
 
         this.currentSelection = this.buildings[0];
         this.currentGoal = this.goals.tribal;
+
+        this.advancements = AdvancementData.map(ad => this.createDiscovery(ad.template, ad.startingState));
     }
 
     get producers(): Producer[] {
@@ -88,6 +92,9 @@ export default class GameEngine {
             case 'change-selection':
                 this.changeSelection(data.value);
                 break;
+            case 'prestige':
+                alert('Prestige successfult!');
+                break;
             default:
                 console.error(`Event unhandled: ${data.type}. Reason: no relevant case in a switch!`);
         }
@@ -124,24 +131,6 @@ export default class GameEngine {
         }
     }
 
-    removeLock(lock: Lock) {
-        this.locks[lock] = false;
-        let unlockables = this.getAllGameObjects();
-        unlockables.forEach(unlockable => {
-            const lockIndex = unlockable.locks.indexOf(lock);
-            if (lockIndex > -1) {
-                unlockable.locks.splice(lockIndex, 1);
-            }
-        });
-        Object.keys(this.resources).forEach(k => {
-            let resource = this.resources[k];
-            const lockIndex = resource.locks.indexOf(lock);
-            if (lockIndex > -1) {
-                resource.locks.splice(lockIndex, 1);
-            }
-        });
-    }
-
     save(): string {
         const state = {
             lastTick: this.lastTick,
@@ -150,7 +139,8 @@ export default class GameEngine {
             producersState: this.producers.map(p => ({ id: p.id, state: p.save() })),
             discoveriesState: this.discoveries.map(d => ({ id: d.id, state: d.save() })),
             storageState: this.storages.map(s => ({ id: s.id, state: s.save() })),
-            upgradesState: this.upgrades.map(u => ({ id: u.id, state: u.save() }))
+            upgradesState: this.upgrades.map(u => ({ id: u.id, state: u.save() })),
+            advancementsState: this.advancements.map(a => ({ id: a.id, state: a.save() }))
         };
 
         return JSON.stringify(state);
@@ -178,7 +168,7 @@ export default class GameEngine {
             }
             tempDiscoveries.push(this.createDiscovery(discoveryData.template, ds.state));
         });
-
+        
         let tempStorage = <Storage[]>[];
         savedObject.storageState.forEach((ss: { id: string, state: IProducerState }) => {
             const storageData = StorageData.filter(sd => sd.template.id === ss.id).pop();
@@ -187,7 +177,7 @@ export default class GameEngine {
             }
             tempStorage.push(this.createStorage(storageData.template, ss.state));
         });
-
+        
         let tempUpgrades = [] as Upgrade[];
         savedObject.upgradesState.forEach((us: { id: string, state: IUpgradeState }) => {
             const upgradeData = UpgradesData.filter(ud => ud.template.id === us.id).pop();
@@ -197,6 +187,15 @@ export default class GameEngine {
             tempUpgrades.push(this.createUpgrade(upgradeData.template, us.state));
         });
 
+        let tempAdvancements = [] as Discovery[];
+        savedObject.advancementsState.forEach((as: { id: string, state: IDiscoveryState }) => {
+            const advData = AdvancementData.filter(ad => ad.template.id === as.id).pop();
+            if (typeof advData === 'undefined') {
+                throw new Error("Unknown advancement id:" + as.id);
+            }
+            tempAdvancements.push(this.createDiscovery(advData.template, as.state));
+        });
+        
         // nothing threw, we can replace the state
         this.lastTick = savedObject.lastTick;
         this.locks = savedObject.locks;
@@ -204,6 +203,30 @@ export default class GameEngine {
         this.buildings = ([] as GameObject[]).concat(tempProducers).concat(tempStorage);
         this.concepts = ([] as GameObject[]).concat(tempUpgrades).concat(tempDiscoveries);
         this.currentSelection = this.producers[0];
+        this.advancements = tempAdvancements;
+    }
+
+    private removeLock(lock: Lock) {
+        this.locks[lock] = true;
+        let unlockables = this.getAllGameObjects();
+        unlockables.forEach(unlockable => {
+            const lockIndex = unlockable.locks.indexOf(lock);
+            if (lockIndex > -1) {
+                unlockable.locks.splice(lockIndex, 1);
+            }
+        });
+        Object.keys(this.resources).forEach(k => {
+            let resource = this.resources[k];
+            const lockIndex = resource.locks.indexOf(lock);
+            if (lockIndex > -1) {
+                resource.locks.splice(lockIndex, 1);
+            }
+        });
+    }
+
+    private removeLocksFromObjects() {
+        const openLocks = Object.keys(this.locks).filter(l => this.locks[l]) as Lock[];
+        openLocks.forEach(ol => this.removeLock(ol));
     }
 
     private activateProducers(deltaT: number) {
