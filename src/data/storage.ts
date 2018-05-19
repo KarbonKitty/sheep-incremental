@@ -13,7 +13,7 @@ let storages: StorageData[] = [
             type: 'storage',
             name: "Shed",
             desc: "Barely more than a stack of sticks itself, but sheep can store some excess material here.",
-            branch: "tools",
+            branch: "construction",
             rawCost: { wood: 20 },
             storage: { wood: 50, flint: 50, "stone tools": 20, "mud bricks": 10 },
             buyVerb: "Build"
@@ -45,7 +45,7 @@ let storages: StorageData[] = [
             type: 'storage',
             name: "Grain silo",
             desc: "A place to store the grain gathered from the fields.",
-            branch: "agriculture",
+            branch: "bread",
             rawCost: { "stone tools": 1, "mud bricks": 20 },
             storage: { grain: 100 },
             buyVerb: "Buy"
@@ -61,7 +61,7 @@ let storages: StorageData[] = [
             type: 'storage',
             name: "Water tank",
             desc: "Large cistern that can store some water for later use.",
-            branch: "agriculture",
+            branch: "beer",
             rawCost: { wood: 50, "stone tools": 1 },
             storage: { water: 200 },
             buyVerb: "Buy"
@@ -77,9 +77,9 @@ let storages: StorageData[] = [
             type: 'storage',
             name: "Pantry",
             desc: "Little more than a simple shed, but it can protect food from being eaten by pests too quickly.",
-            branch: "agriculture",
+            branch: "bread",
             rawCost: { wood: 30, "mud bricks": 15 },
-            storage: { flour: 30, bread: 10, meat: 30 },
+            storage: { flour: 30, bread: 15, meat: 30 },
             buyVerb: "Build"
         },
         startingState: {
@@ -93,7 +93,7 @@ let storages: StorageData[] = [
             type: 'storage',
             name: "Beer cask",
             desc: "Very simple cask made out of wood to keep beer.",
-            branch: "agriculture",
+            branch: "beer",
             rawCost: { wood: 15 },
             storage: { beer: 5 },
             buyVerb: "Craft"

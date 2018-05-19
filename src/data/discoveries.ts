@@ -13,7 +13,7 @@ let discoveries: DiscoveryData[] = [
       type: 'discovery',
       name: "Discover stone tools",
       desc: "While a sheep can use a sharp rock to dig or cut, it is much easier to tie that rock to a stick.",
-      branch: "tools",
+      branch: "construction",
       unlocks: ['stone-tools'],
       rawCost: { flint: 50, wood: 20 },
       buyVerb: "Try it!"
@@ -29,7 +29,7 @@ let discoveries: DiscoveryData[] = [
       type: 'discovery',
       name: "Domesticate crops",
       desc: "Instead of always looking for grass out there, maybe the tribe could plant its own grass?",
-      branch: "agriculture",
+      branch: "bread",
       unlocks: ['agriculture'],
       rawCost: { herbs: 200, "stone tools": 20 },
       buyVerb: "Dig and plant!"
@@ -61,7 +61,7 @@ let discoveries: DiscoveryData[] = [
       type: 'discovery',
       name: "Discover flour",
       desc: "It seems that if you hit the grains with a rock, you get something more interesting...",
-      branch: "agriculture",
+      branch: "bread",
       unlocks: ['flour'],
       rawCost: { grain: 100 },
       buyVerb: "Experiment!"
@@ -77,7 +77,7 @@ let discoveries: DiscoveryData[] = [
       type: 'discovery',
       name: "Fermentate grain",
       desc: "The process of fermentation is already known to sheepkind, but now there is chance to take control over it.",
-      branch: "agriculture",
+      branch: "beer",
       unlocks: ['fermentation'],
       rawCost: { grain: 150, water: 100 },
       buyVerb: "Fermentate!"
@@ -93,7 +93,7 @@ let discoveries: DiscoveryData[] = [
       type: 'discovery',
       name: "Discover bread",
       desc: "Just flour, water, and heat! Who would think that something so miraculous would be so easy to produce!",
-      branch: "agriculture",
+      branch: "bread",
       unlocks: ['bread'],
       rawCost: { flour: 200, water: 200 },
       buyVerb: "Bake away!"

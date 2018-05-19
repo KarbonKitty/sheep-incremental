@@ -24,7 +24,7 @@ export type EffectProp = "cost" | "production" | "consumption" | "storage";
 export type GameEvent = 'buy' | 'change-selection';
 export type GameObjectType = "producer" | "discovery" | "storage" | "upgrade";
 
-const industryBranchesObject = { "herbs": true, "construction": true, "agriculture": true, "hunting": true, "tools": true, "other": true };
+const industryBranchesObject = { "herbs": true, "construction": true, "bread": true, "beer": true, "hunting": true };
 export const branchesArray = Object.keys(industryBranchesObject) as IndustryBranch[];
 
 export type IndustryBranch = keyof typeof industryBranchesObject;
