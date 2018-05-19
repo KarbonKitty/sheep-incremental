@@ -26,7 +26,7 @@ export default Vue.extend({
 
 <style scoped>
   .toast {
-    position:absolute;
+    position: fixed;
     right: 4rem;
     top: 4rem;
     background-color: #383838;

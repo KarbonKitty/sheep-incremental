@@ -36,6 +36,7 @@ a:active {
   grid-column: 1;
   grid-row-start: 1;
   grid-row-end: 3;
+  margin-right: 0.5rem;
 }
 
 .main-area {

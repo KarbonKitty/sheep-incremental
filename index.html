@@ -34,9 +34,11 @@
                 </div>
             </div>
             <div class="top-column">
-                <h3>Discoveries</h3>
-                <div v-for="discovery in discoveries">
-                    <game-object-component :game-object="discovery"></game-object-component>
+                <div>
+                    <h3>Discoveries</h3>
+                    <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
+                        <game-object-component :game-object="discovery"></game-object-component>
+                    </div>
                 </div>
             </div>
             <!-- <div class="top-column">
