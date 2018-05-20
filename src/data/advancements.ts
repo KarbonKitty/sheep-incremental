@@ -22,6 +22,22 @@ let advancements: DiscoveryData[] = [
     done: false,
     locks: ['__prestige__']
   }
+},
+{
+  template: {
+    id: 'bronze-working',
+    name: "Bronze working",
+    desc: "The art of mixing copper with other metals to create harder and stronger alloys.",
+    type: "discovery",
+    branch: "construction",
+    buyVerb: "Mix",
+    rawCost: { advancement: 2 },
+    unlocks: [ 'bronze' ]
+  },
+  startingState: {
+    done: false,
+    locks: ['__prestige__']
+  }
 }];
 
 export default advancements;

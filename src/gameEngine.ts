@@ -22,6 +22,7 @@ export default class GameEngine {
     currentSelection: GameObject;
     toastActivationTime: number;
     toastMsg: string;
+    prestiging = false;
     currentGoal: Price;
 
     locks: Map<boolean>;
@@ -83,6 +84,9 @@ export default class GameEngine {
     handleEvent(data: { type: GameEvent, value: any }) {
         switch (data.type) {
             case 'buy':
+                if (typeof data.value === 'undefined') {
+                    throw new Error("Game event data needs to define value!");
+                }
                 var boughtItem = this.tryBuyItem(data.value);
                 if (typeof boughtItem !== 'undefined') {
                     this.toastActivationTime = Date.now();
@@ -93,7 +97,13 @@ export default class GameEngine {
                 this.changeSelection(data.value);
                 break;
             case 'prestige':
-                alert('Prestige successfult!');
+                if (data.value === 'start') {
+                    this.prestiging = true;
+                } else if (data.value === 'end') {
+                    this.prestiging = false;
+                } else {
+                    throw new Error("Unknown data for 'prestige' event:" + data.value);
+                }
                 break;
             default:
                 console.error(`Event unhandled: ${data.type}. Reason: no relevant case in a switch!`);
@@ -104,6 +114,7 @@ export default class GameEngine {
         let gameObjects = <GameObject[]>[];
         gameObjects = gameObjects.concat(this.buildings);
         gameObjects = gameObjects.concat(this.concepts);
+        gameObjects = gameObjects.concat(this.advancements);
         return gameObjects;
     }
 

@@ -35,7 +35,7 @@ export default Vue.extend({
       return this.resources[currency].locks.length === 0;
     },
     finish: function() {
-      EventBus.$emit('game-event', { type: 'prestige' });
+      EventBus.$emit('game-event', { type: 'prestige', value: 'start' });
     }
   },
   filters

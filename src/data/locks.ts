@@ -7,5 +7,6 @@ export default {
   'stone-tools': false,
   'fermentation': false,
   'hunting': false,
-  'copper': false
+  'copper': false,
+  'bronze': false
 }

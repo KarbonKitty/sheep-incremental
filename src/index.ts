@@ -9,6 +9,7 @@ import GameObjectComponent from "./components/GameObject.vue";
 import BuildingDetailsComponent from "./components/BuildingDetails.vue";
 import GoalComponent from "./components/Goal.vue";
 import ToastComponent from "./components/Toast.vue";
+import PrestigeModalComponent from "./components/PrestigeModal.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 
@@ -60,7 +61,8 @@ let vm = new Vue({
         'game-object-component': GameObjectComponent,
         'building-details-component': BuildingDetailsComponent,
         'goal-component': GoalComponent,
-        'toast-component': ToastComponent
+        'toast-component': ToastComponent,
+        'prestige-modal-component': PrestigeModalComponent
     },
     filters: filters
 });
