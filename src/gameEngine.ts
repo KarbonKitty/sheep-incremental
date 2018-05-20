@@ -18,25 +18,35 @@ import IUpgradeState from "./classes/upgrade/IUpgradeState";
 import { PriceHelper } from "./classes/helpers";
 
 export default class GameEngine {
-    lastTick: number;
-    currentSelection: GameObject;
-    toastActivationTime: number;
-    toastMsg: string;
+    lastTick = 0;
+    toastActivationTime = 0;
+    toastMsg = '';
     prestiging = false;
+
+    currentSelection: GameObject;
     currentGoal: Price;
 
-    locks: Map<boolean>;
+    locks = {} as Map<boolean>;
 
-    goals: Map<Price>;
+    goals = {} as Map<Price>;
 
-    buildings: GameObject[];
-    concepts: GameObject[];
+    buildings = [] as GameObject[];
+    concepts = [] as GameObject[];
 
-    resources: IResourcesData;
+    resources = {} as IResourcesData;
 
-    advancements: Discovery[];
+    advancements = [] as Discovery[];
 
     constructor() {
+        this.init();
+
+        this.currentSelection = this.buildings[0];
+        // TODO: work on goals
+        this.currentGoal = this.goals.tribal;
+    }
+
+    // TODO: rethink that
+    private init() {
         this.lastTick = Date.now();
 
         this.toastActivationTime = 0;
@@ -46,12 +56,9 @@ export default class GameEngine {
 
         this.concepts = (DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState)) as GameObject[]).concat(UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState)));
 
-        this.locks = LocksData;
-        this.resources = ResourcesData;
-        this.goals = GoalsData;
-
-        this.currentSelection = this.buildings[0];
-        this.currentGoal = this.goals.tribal;
+        this.locks = JSON.parse(JSON.stringify(LocksData));
+        this.resources = JSON.parse(JSON.stringify(ResourcesData));
+        this.goals = JSON.parse(JSON.stringify(GoalsData));
 
         this.advancements = AdvancementData.map(ad => this.createDiscovery(ad.template, ad.startingState));
     }
@@ -98,6 +105,8 @@ export default class GameEngine {
                 break;
             case 'prestige':
                 if (data.value === 'start') {
+                    this.save();
+                    this.prestige();
                     this.prestiging = true;
                 } else if (data.value === 'end') {
                     this.prestiging = false;
@@ -215,6 +224,22 @@ export default class GameEngine {
         this.concepts = ([] as GameObject[]).concat(tempUpgrades).concat(tempDiscoveries);
         this.currentSelection = this.producers[0];
         this.advancements = tempAdvancements;
+    }
+
+    private prestige() {
+        let survivors = {
+            advancements: this.advancements
+        }
+
+        this.init();
+
+        this.advancements = survivors.advancements;
+
+        // TODO: different amount of points per goal
+        this.resources['advancement'].amount += 1;
+
+        this.currentSelection = this.buildings[0];
+        this.currentGoal = this.goals.copper;
     }
 
     private removeLock(lock: Lock) {
