@@ -13,6 +13,7 @@ let resources: IResourcesData = {
   "mud bricks": { name: "mud bricks", amount: 0, gainPerSecond: 0, precision: 1, limit: 0, locks: ['stone-tools'] },
   "raw meat": { name: "raw meat", amount: 0, gainPerSecond: 0, precision: 2, limit: 50, locks: ['hunting'] },
   meat: { name: "meat", amount: 0, gainPerSecond: 0, precision: 2, limit: 0, locks: ['hunting'] },
+  copper: { name: "copper", amount: 0, gainPerSecond: 0, precision: 1, limit: 0, locks: ['copper'] },
   advancement: { name: "advancement", amount: 0, gainPerSecond: 0, precision: 0, locks: ['__prestige__'] }
 }
 
