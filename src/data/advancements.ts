@@ -9,14 +9,14 @@ type DiscoveryData = {
 let advancements: DiscoveryData[] = [
 {
   template: {
-    id: 'copper-processing',
-    name: "Copper processing",
-    desc: "Your tribe finds out how to use and smelt copper, an easy to find, but soft, metal.",
+    id: 'pyrotechnology',
+    name: "Pyrotechnology",
+    desc: "The tribe discovers new way to create, control and use fire.",
     type: "discovery",
     branch: "construction",
-    buyVerb: "Discover",
+    buyVerb: "Burn!",
     rawCost: { advancement: 1 },
-    unlocks: ['copper']
+    unlocks: ['pyrotechnology']
   },
   startingState: {
     done: false,

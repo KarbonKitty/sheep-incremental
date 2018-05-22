@@ -3,9 +3,10 @@ export default {
   '__prestige__': false,
   'agriculture': false,
   'flour': false,
-  'bread': false,
+  'fire': false,
   'stone-tools': false,
   'fermentation': false,
   'hunting': false,
-  'copper': false
+  'pyrotechnology': false,
+  'pottery': false
 }

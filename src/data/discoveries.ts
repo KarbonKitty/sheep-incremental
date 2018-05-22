@@ -89,18 +89,34 @@ let discoveries: DiscoveryData[] = [
   },
   {
     template: {
-      id: "bread-discovery",
+      id: "controlled-fire",
       type: 'discovery',
-      name: "Discover bread",
-      desc: "Just flour, water, and heat! Who would think that something so miraculous would be so easy to produce!",
-      branch: "bread",
-      unlocks: ['bread'],
-      rawCost: { flour: 200, water: 200 },
-      buyVerb: "Bake away!"
+      name: "Tame the fire!",
+      desc: "Once the domain of nature, now the fire rests solely in the hands of the sheep!... Well, with the sheep, anyway.",
+      branch: "construction",
+      unlocks: ['fire'],
+      rawCost: { wood: 100 },
+      buyVerb: "Stoke the fires!"
     },
     startingState: {
       done: false,
-      locks: ['flour']
+      locks: []
+    }
+  },
+  {
+    template: {
+      id: 'pottery',
+      type: 'discovery',
+      name: "Create pottery",
+      desc: "Clay, when burned in high temperature, becomes strong and beautiful ceramics. Time to put that knowledge to use!",
+      branch: "pottery",
+      unlocks: ['pottery'],
+      rawCost: { charcoal: 50, clay: 100 },
+      buyVerb: "Bake!"
+    },
+    startingState: {
+      done: false,
+      locks: ['pyrotechnology', 'fire']
     }
   }
 ];

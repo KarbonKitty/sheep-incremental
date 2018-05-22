@@ -167,14 +167,14 @@ let producersData: ProducerData[] = [
             name: "Bread oven",
             desc: "Simple earth oven used to bake bread.",
             branch: "bread",
-            rawCost: { herbs: 300, flour: 100 },
+            rawCost: { herbs: 200, flour: 100, water: 100 },
             rawProduction: { bread: 0.5 },
             rawConsumption: { flour: 2, water: 5 },
             buyVerb: "Build"
         },
         startingState: {
             quantity: 0,
-            locks: ['bread']
+            locks: ['fire', 'flour']
         }
     },
     {
@@ -259,7 +259,92 @@ let producersData: ProducerData[] = [
         },
         startingState: {
             quantity: 0,
-            locks: ['hunting', 'stone-tools']
+            locks: ['hunting', 'fire']
+        }
+    },
+    {
+        template: {
+            id: 'clay-digger',
+            type: 'producer',
+            name: "Clay digger",
+            desc: "Large hole by the water, where the sheep are toiling away digging the clay from the earth.",
+            branch: "construction",
+            rawCost: { "stone tools": 3, herbs: 50 },
+            rawConsumption: { "stone tools": 0.1 },
+            rawProduction: { "clay": 2 },
+            buyVerb: "Dig"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['pyrotechnology']
+        }
+    },
+    {
+        template: {
+            id: 'pottery-fire-pit',
+            type: 'producer',
+            name: "Fire pit",
+            desc: "Large hole where the simple clay vessels can be put alongside wood to be baked.",
+            branch: "pottery",
+            rawCost: { "stone tools": 3 },
+            rawConsumption: { clay: 3, wood: 3 },
+            rawProduction: { pottery: 0.5 },
+            buyVerb: "Dig"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['pyrotechnology', 'fire', 'pottery']
+        }
+    },
+    {
+        template: {
+            id: 'charcoal-burner',
+            type: 'producer',
+            name: "Charcoal burner",
+            desc: "There are sheep in the woods with wool always black, covered in soot. They are burning wood to producer charcoal.",
+            branch: "pottery",
+            rawCost: { wood: 50 },
+            rawConsumption: { wood: 4.5 },
+            rawProduction: { charcoal: 1 },
+            buyVerb: "Recruit"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['pyrotechnology', 'fire']
+        }
+    },
+    {
+        template: {
+            id: 'stone-gatherer',
+            type: 'producer',
+            name: "Stone gatherer",
+            desc: "Some of the building require something non-flammable and harder than mud bricks. Those sheep collect stones for use in such buildings.",
+            branch: "construction",
+            rawCost: { herbs: 50 },
+            rawConsumption: { herbs: 0.25 },
+            rawProduction: { stone: 1 },
+            buyVerb: "Recruit"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['pyrotechnology', 'fire']
+        }
+    },
+    {
+        template: {
+            id: 'stone-kiln',
+            type: 'producer',
+            name: "Stone pottery kiln",
+            desc: "Primitive kiln used for baking simple pottery. Much more efficient use of fuel than a simple burning pit.",
+            branch: "pottery",
+            rawCost: { stone: 100, charcoal: 10 },
+            rawConsumption: { clay: 7.5, charcoal: 1 },
+            rawProduction: { pottery: 1.25 },
+            buyVerb: "Build"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['pyrotechnology', 'pottery', 'fire']
         }
     }
 ];
