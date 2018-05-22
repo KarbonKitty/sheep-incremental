@@ -1,9 +1,7 @@
-<template>
-  <transition name="inOut">
-    <div class="toast" v-show="visible">
-      <p>{{ msg }}</p>
-    </div>
-  </transition>
+<template lang="pug">
+  transition(name="inOut")
+    .toast(v-show="visible")
+      p {{ msg }}
 </template>
 
 <script lang="ts">

@@ -1,21 +1,17 @@
-<template>
-  <div class="miniGrid">
-    <div class="mainData">
-      <h3>{{ building.name }}</h3>
-      <p>{{ building.desc }}</p>
-      <price-component :values="building.currentPrice" :resources="resources">Price:</price-component>
-      <currency-value-component v-if="typeof building.rawConsumption !== 'undefined'" :values="building.currentConsumption" :resources="resources">Inputs:</currency-value-component>
-      <currency-value-component v-if="typeof building.rawProduction !== 'undefined'" :values="building.currentProduction" :resources="resources">Outputs:</currency-value-component>
-      <currency-value-component v-if="typeof building.storage !== 'undefined'" :values="building.storage" :resources="resources">Storage:</currency-value-component>
-      <button class="btn buyButton" @click="emitBuyEvent" :disabled="!canBePaid">{{ building.buyVerb }}</button>
-    </div>
-    <div v-if="upgrades.length > 0" class="upgradeData">
-      <p>Available upgrades:</p>
-      <div v-for="upgrade in upgrades" :key="upgrade.id">
-        <upgrade-component :upgrade="upgrade" :resources="resources"></upgrade-component>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+  .miniGrid
+    .mainData
+      h3 {{ building.name }}
+      p {{ building.desc }}
+      price-component(:values="building.currentPrice" :resources="resources") Price:
+      currency-value-component(v-if="hasConsumption" :values="building.currentConsumption" :resources="resources") Inputs:
+      currency-value-component(v-if="hasProduction" :values="building.currentProduction" :resources="resources") Outputs:
+      currency-value-component(v-if="hasStorage" :values="building.storage" :resources="resources") Storage:
+      button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBePaid") {{ building.buyVerb }}
+    .upgradeData(v-if="upgrades.length > 0")
+      p Available upgrades:
+      div(v-for="upgrade in upgrades" :key="upgrade.id")
+        upgrade-component(:upgrade="upgrade" :resources="resources")
 </template>
 
 <script lang="ts">
@@ -25,8 +21,9 @@ import EventBus from '../eventBus';
 import IBuyable from "../classes/IBuyable";
 import GameObject from '../classes/gameObject/GameObject';
 import Upgrade from "../classes/upgrade/Upgrade";
-import { IResource,  IResourcesData } from '../classes/baseClasses';
+import { IResource, IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
+import typeGuards from "../classes/typeGuards";
 
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
@@ -51,6 +48,18 @@ export default Vue.extend({
   computed: {
     canBePaid: function(): boolean {
       return Object.keys(this.building.currentPrice).reduce((acc, cv) => acc && this.resources[cv].amount >= (this.building.currentPrice[cv] || 0), true);
+    },
+    hasConsumption: function(): boolean {
+      if (typeGuards.isProducer(this.building)) {
+        return Object.keys(this.building.rawConsumption).length > 0;
+      }
+      return false;
+    },
+    hasProduction: function(): boolean {
+      return typeGuards.isProducer(this.building);
+    },
+    hasStorage: function(): boolean {
+      return typeGuards.isStorage(this.building);
     }
   }
 })

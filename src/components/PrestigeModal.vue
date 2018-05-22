@@ -1,30 +1,22 @@
-<template>
-  <div class="backdrop" v-if="visible">
-    <div class="modal">
-      <div class="header">
-        <h1>You have {{ points }} Advancement Points</h1>
-      </div>
-      <div class="body">
-        <table>
-          <thead>
-            <th>Name</th>
-            <th>Cost</th>
-            <th>Buy</th>
-          </thead>
-          <tbody>
-            <tr v-for="advancement in advancements" :key="advancement.id" :title="advancement.desc">
-              <td class="name"><strong>{{ advancement.name }}</strong></td>
-              <td class="cost">{{ advancement.rawCost.advancement }}</td>
-              <td><button class="btn" @click="buyAdvancement(advancement.id)" :disabled="advancement.rawCost.advancement > points">{{ advancement.buyVerb }}</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="footer">
-        <button class="btn" @click="finishPrestige">Done</button>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+  .backdrop(v-if="visible")
+    .modal
+      .header
+        h1 You have {{ points }} Advancement Points
+      .body
+        table
+          thead
+            th Name
+            th Cost
+            th Buy
+          tbody
+            tr(v-for="advancement in advancements" :key="advancement.id" :title="advancement.desc")
+              td.name #[strong {{ advancement.name }}]
+              td.cost {{ advancement.rawCost.advancement }}
+              td
+                button.btn(@click="buyAdvancement(advancement.id)" :disabled="advancement.rawCost.advancement > points") {{ advancement.buyVerb }}
+      .footer
+        button.btn(@click="finishPrestige") Done
 </template>
 
 <script lang="ts">

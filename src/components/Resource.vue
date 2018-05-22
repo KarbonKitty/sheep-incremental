@@ -1,5 +1,6 @@
-<template>
-    <p v-if="resource.locks.length === 0">{{ resource.name | capitalize }}: {{ resource.amount | decimal(resource.precision) }} <span v-if="resource.limit != null">/ {{ resource.limit | decimal(resource.precision) }}</span> <span :class="{ warning: resource.gainPerSecond < 0 }">({{ resource.gainPerSecond | signedDecimal(resource.precision) }} / sec)</span></p>
+<template lang="pug">
+  p(v-if="resource.locks.length === 0").
+    {{ resource.name | capitalize }}: {{ resource.amount | decimal(resource.precision) }} / #[span(v-if="resource.limit != null") {{ resource.limit | decimal(resource.precision) }}] #[span(:class="{ warning: resource.gainPerSecond < 0 }") ({{ resource.gainPerSecond | signedDecimal(resource.precision) }} / sec)]
 </template>
 
 <script lang="ts">

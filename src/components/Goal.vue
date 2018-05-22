@@ -1,14 +1,11 @@
-<template>
-  <div>
-    <p>Goal:</p>
-    <p v-if="!allVisible">You need to discover more resources to view entire goal!</p>
-    <ul>
-      <div v-for="(amount, currency) in values" :key="currency">
-        <li v-if="resourceAvailable(currency)">{{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}</li>
-      </div>
-    </ul>
-    <button :disabled="!canComplete" @click="finish" class="btn">{{ canComplete ? "Complete!" : "Not enough resources" }}</button>
-  </div>
+<template lang="pug">
+  div
+    p Goal:
+    p(v-if="!allVisible") You need to discover more resources to view entire goal!
+    ul
+      div(v-for="(amount, currency) in values" :key="currency")
+        li(v-if="resourceAvailable(currency)") {{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}
+    button.btn(:disabled="!canComplete" @click="finish") {{ canComplete ? "Complete!" : "Not enough resources" }}
 </template>
 
 <script lang="ts">

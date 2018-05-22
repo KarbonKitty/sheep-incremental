@@ -1,17 +1,13 @@
-<template>
-  <div>
-    <div class="upgradeButton" @click="switchDetails">
-      <p>{{ upgrade.name }}</p>
-    </div>
-    <div v-if="details" class="details">
-      <p>{{ upgrade.desc }}</p>
-      <price-component :values="upgrade.currentPrice" :resources="resources">Price:</price-component>
-      <div v-for="effect in upgrade.effects" :key="effect.property">
-        <effect-component :effect="effect"></effect-component>
-      </div>
-      <button class="btn" @click="emitBuyEvent" :disabled="!canBePaid">{{ upgrade.buyVerb }}</button>
-    </div>
-  </div>
+<template lang="pug">
+  div
+    .upgradeButton(@click="switchDetails")
+      p {{ upgrade.name }}
+    .details(v-if="details")
+      p {{ upgrade.desc }}
+      price-component(:values="upgrade.currentPrice" :resources="resources") Price:
+      div(v-for="effect in upgrade.effects" :key="effect.property")
+        effect-component(:effect="effect")
+      button.btn(@click="emitBuyEvent" :disabled="!canBePaid") {{ upgrade.buyVerb }}
 </template>
 
 <script lang="ts">
