@@ -15,7 +15,7 @@ let storages: StorageData[] = [
             desc: "Barely more than a stack of sticks itself, but sheep can store some excess material here.",
             branch: "construction",
             rawCost: { wood: 20 },
-            storage: { wood: 50, flint: 50, "stone tools": 20, "mud bricks": 10 },
+            storage: { wood: 50, flint: 50, "stone tools": 10, "mud bricks": 10, charcoal: 15, pottery: 15 },
             buyVerb: "Build"
         },
         startingState: {
@@ -101,6 +101,38 @@ let storages: StorageData[] = [
         startingState: {
             quantity: 0,
             locks: ['fermentation']
+        }
+    },
+    {
+        template: {
+            id: 'cellar',
+            type: 'storage',
+            name: "Cellar",
+            desc: "Underground room used for food storage",
+            branch: "bread",
+            rawCost: { "stone tools": 1, pottery: 15 },
+            storage: { bread: 5, meat: 15, beer: 10, flour: 15 },
+            buyVerb: "Dig"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['pottery']
+        }
+    },
+    {
+        template: {
+            id: 'storage-yard',
+            type: 'storage',
+            name: "Storage yard",
+            desc: "Some clear ground with a low fence around. It can be used to easily store a lot of non-perishable materials.",
+            branch: "construction",
+            rawCost: { stone: 50, "stone tools": 1 },
+            storage: { clay: 100, stone: 75, "stone tools": 10, "mud bricks": 15 },
+            buyVerb: "Fence"
+        },
+        startingState: {
+            quantity: 0,
+            locks: ['pyrotechnology']
         }
     }
 ]

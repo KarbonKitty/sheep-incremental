@@ -75,7 +75,7 @@ let upgrades: UpgradeData[] = [
       buyVerb: "Build"
     },
     startingState: {
-      locks: ['bread'],
+      locks: ['fire'],
       done: false
     }
   }
