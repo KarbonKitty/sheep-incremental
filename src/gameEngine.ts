@@ -242,6 +242,8 @@ export default class GameEngine {
         }
 
         this.init();
+        localStorage.removeItem('industrial-incremental-save');
+        localStorage.setItem('industrial-incremental-save', this.save());
 
         this.advancements = survivors.advancements;
 
