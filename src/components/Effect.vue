@@ -1,13 +1,10 @@
-<template>
-  <div>
-    <p>{{ effect.affectedProperty | capitalize }}:</p>
-    <ul>
-      <li v-for="(amount, currency) in effect.scale" :key="currency">
-        <span v-if="effect.type === 'add'">{{ currency }}: {{ sign * amount | signed }} / sec</span>
-        <span v-else>{{ currency }}: {{ 100 * sign * (amount - 1) | signed }}%</span>
-      </li>
-    </ul>
-  </div>
+<template lang="pug">
+  div
+    p {{ effect.affectedProperty | capitalize }}:
+    ul
+      li(v-for="(amount, currency) in effect.scale" :key="currency")
+        span(v-if="effect.type === 'add'") {{ currency }}: {{ sign * amount | signed }} / sec
+        span(v-else) {{ currency }}: {{ 100 * sign * (amount - 1) | signed }}%
 </template>
 
 <script lang="ts">

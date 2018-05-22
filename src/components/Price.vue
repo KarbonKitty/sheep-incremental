@@ -1,12 +1,10 @@
-<template>
-  <div>
-    <p><slot></slot></p>
-    <ul>
-      <div v-for="(amount, currency) in values" :key="currency">
-        <li :class="{ lacking: typeof resources[currency] !== 'undefined' && resources[currency].amount < amount }">{{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}</li>
-      </div>
-    </ul>
-  </div>
+<template lang="pug">
+  div
+    p
+      slot
+    ul
+      div(v-for="(amount, currency) in values" :key="currency")
+        li(:class="{ lacking: typeof resources[currency] !== 'undefined' && resources[currency].amount < amount }") {{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}
 </template>
 
 <script lang="ts">

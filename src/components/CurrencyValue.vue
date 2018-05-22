@@ -1,12 +1,10 @@
-<template>
-  <div v-if="Object.keys(values).length !== 0">
-    <p><slot></slot></p>
-    <ul>
-      <div v-for="(amount, currency) in values" :key="currency">
-        <li v-if="resources[currency].locks.length === 0">{{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}</li>
-      </div>
-    </ul>
-  </div>
+<template lang="pug">
+  div(v-if="Object.keys(values).length !== 0")
+    p
+      slot
+    ul
+      div(v-for="(amount, currency) in values" :key="currency")
+        li(v-if="resources[currency].locks.length === 0") {{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}
 </template>
 
 <script lang="ts">

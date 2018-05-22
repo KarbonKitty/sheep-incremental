@@ -1,7 +1,7 @@
-<template>
-  <div v-if="gameObject.locks.length === 0 && !gameObject.done" class="gameObject" @click="changeSelection">
-    <p><strong>{{ gameObject.name }} <span v-if="typeof gameObject.quantity === 'number'">({{ gameObject.quantity }})</span></strong></p>
-  </div>
+<template lang="pug">
+  div(v-if="gameObject.locks.length === 0 && !gameObject.done" class="gameObject" @click="changeSelection")
+    p.
+      #[strong {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] ]
 </template>
 
 <script lang="ts">
