@@ -39,10 +39,20 @@ export default class GameEngine {
 
     constructor() {
         this.init();
-
         this.currentSelection = this.buildings[0];
         // TODO: work on goals
         this.currentGoal = this.goals.tribal;
+
+        let savedGame = localStorage.getItem('industrial-incremental-save');
+        if (savedGame !== null) {
+            try {
+                this.load(savedGame);
+                console.log("Game loaded");
+            }
+            catch (error) {
+                console.error(error);
+            }
+        }
     }
 
     // TODO: rethink that
@@ -105,7 +115,7 @@ export default class GameEngine {
                 break;
             case 'prestige':
                 if (data.value === 'start') {
-                    this.save();
+                    localStorage.setItem('industrial-incremental-save', this.save());
                     this.prestige();
                     this.prestiging = true;
                 } else if (data.value === 'end') {
@@ -188,7 +198,7 @@ export default class GameEngine {
             }
             tempDiscoveries.push(this.createDiscovery(discoveryData.template, ds.state));
         });
-        
+
         let tempStorage = <Storage[]>[];
         savedObject.storageState.forEach((ss: { id: string, state: IProducerState }) => {
             const storageData = StorageData.filter(sd => sd.template.id === ss.id).pop();
@@ -197,7 +207,7 @@ export default class GameEngine {
             }
             tempStorage.push(this.createStorage(storageData.template, ss.state));
         });
-        
+
         let tempUpgrades = [] as Upgrade[];
         savedObject.upgradesState.forEach((us: { id: string, state: IUpgradeState }) => {
             const upgradeData = UpgradesData.filter(ud => ud.template.id === us.id).pop();
@@ -215,7 +225,7 @@ export default class GameEngine {
             }
             tempAdvancements.push(this.createDiscovery(advData.template, as.state));
         });
-        
+
         // nothing threw, we can replace the state
         this.lastTick = savedObject.lastTick;
         this.locks = savedObject.locks;

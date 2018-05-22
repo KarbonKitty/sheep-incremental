@@ -13,7 +13,8 @@ import PrestigeModalComponent from "./components/PrestigeModal.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 
-const interval = 50;
+const tickInterval = 50;
+const autosaveInterval = 15000;
 
 let engine = new GameEngine();
 
@@ -37,6 +38,9 @@ let vm = new Vue({
                 console.log("Game loaded");
                 this.$data.load(savedGame);
             }
+        },
+        clearSave: function() {
+            localStorage.removeItem('industrial-incremental-save');
         },
         availableBuildingsFromBranch(branch: IndustryBranch) {
             return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
@@ -67,4 +71,6 @@ let vm = new Vue({
     filters: filters
 });
 
-let handle = window.setInterval(() => engine.tick(Date.now()), interval);
+let handle = window.setInterval(() => engine.tick(Date.now()), tickInterval);
+
+let autoSaveHandle = window.setInterval(() => localStorage.setItem('industrial-incremental-save', engine.save()), autosaveInterval);
