@@ -100,7 +100,7 @@ let discoveries: DiscoveryData[] = [
     },
     startingState: {
       done: false,
-      locks: []
+      locks: ['hunting']
     }
   },
   {

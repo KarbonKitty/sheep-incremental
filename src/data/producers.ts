@@ -133,8 +133,8 @@ let producersData: ProducerData[] = [
             name: "Quern",
             desc: "Two simple stones, but good enough to make flour out of wheat",
             branch: "bread",
-            rawCost: { herbs: 100, grain: 100, "stone tools": 2 },
-            rawProduction: { flour: 2 },
+            rawCost: { herbs: 50, grain: 50, "stone tools": 1 },
+            rawProduction: { flour: 1.5 },
             rawConsumption: { grain: 5 },
             buyVerb: "Build"
         },
