@@ -218,9 +218,9 @@ const producersData: ProducerData[] = [
             name: "Hunter",
             desc: "Well armed sheep that hunts animals for their meat.",
             branch: "hunting",
-            rawCost: { "stone tools": 2, herbs: 50 },
-            rawConsumption: { "stone tools": 0.05, herbs: 0.25 },
-            rawProduction: { "raw meat": 1 },
+            rawCost: { "stone tools": 1, herbs: 50 },
+            rawConsumption: { "stone tools": 0.03, herbs: 0.25 },
+            rawProduction: { "raw meat": 0.6 },
             buyVerb: "Recruit"
         },
         startingState: {
