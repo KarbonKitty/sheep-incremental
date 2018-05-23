@@ -26,7 +26,7 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
         this.rawCost = template.rawCost;
         this.buyVerb = template.buyVerb;
 
-        this.locks = state.locks;
+        this.locks = state.locks.slice();
     }
 
     abstract save(): IGameObjectState;
