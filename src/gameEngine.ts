@@ -124,6 +124,14 @@ export default class GameEngine {
                     throw new Error("Unknown data for 'prestige' event:" + data.value);
                 }
                 break;
+            case 'disable':
+                const item = this.getGameObjectById(data.value);
+                if (typeof item !== 'undefined' && typeGuards.isProducer(item)) {
+                    item.disabled = !item.disabled;
+                } else {
+                    throw new Error(`Object with id ${data.value} is not a producer and cannot be disabled`);
+                }
+                break;
             default:
                 console.error(`Event unhandled: ${data.type}. Reason: no relevant case in a switch!`);
         }
@@ -278,7 +286,7 @@ export default class GameEngine {
     }
 
     private activateProducers(deltaT: number) {
-        this.producers.forEach(producer => {
+        this.producers.filter(p => !p.disabled).forEach(producer => {
             if (this.canBePaid(producer.getConsumption(deltaT))) {
                 this.activateProducer(producer, deltaT);
             }

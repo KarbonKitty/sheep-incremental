@@ -20,6 +20,8 @@ export default class Producer extends GameObject implements IProducerTemplate, I
 
   quantity: number;
 
+  disabled: boolean;
+
   public get currentPrice(): Price {
     return PriceHelper.mulPriceByNumber(this.rawCost, Math.pow(1.15, this.quantity));
   }
@@ -37,6 +39,8 @@ export default class Producer extends GameObject implements IProducerTemplate, I
     this.consumptionMultiplier = state.consumptionMultiplier || {};
 
     this.quantity = state.quantity;
+
+    this.disabled = state.disabled || false;
 
     this.onBuy = [];
   }
@@ -62,6 +66,6 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   }
 
   save(): IProducerState {
-    return { quantity: this.quantity, locks: this.locks, baseProduction: this.baseProduction, baseConsumption: this.baseConsumption, productionMultiplier: this.productionMultiplier, consumptionMultiplier: this.consumptionMultiplier };
+    return { quantity: this.quantity, locks: this.locks, baseProduction: this.baseProduction, baseConsumption: this.baseConsumption, productionMultiplier: this.productionMultiplier, consumptionMultiplier: this.consumptionMultiplier, disabled: this.disabled };
   }
 }

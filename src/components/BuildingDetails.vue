@@ -8,6 +8,7 @@
       currency-value-component(v-if="hasProduction" :values="building.currentProduction" :resources="resources") Outputs:
       currency-value-component(v-if="hasStorage" :values="building.storage" :resources="resources") Storage:
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBePaid") {{ building.buyVerb }}
+      button.btn.disableButton(v-if="canBeDisabled" @click="emitDisableEvent" :disabled="building.quantity === 0") {{ building.disabled ? "Enable" : "Disable" }}
     .upgradeData(v-if="upgrades.length > 0")
       p Available upgrades:
       div(v-for="upgrade in upgrades" :key="upgrade.id")
@@ -43,6 +44,9 @@ export default Vue.extend({
   methods: {
     emitBuyEvent: function() {
       EventBus.$emit('game-event', { type: 'buy', value: this.building.id });
+    },
+    emitDisableEvent: function() {
+      EventBus.$emit('game-event', { type: 'disable', value: this.building.id });
     }
   },
   computed: {
@@ -60,6 +64,9 @@ export default Vue.extend({
     },
     hasStorage: function(): boolean {
       return typeGuards.isStorage(this.building);
+    },
+    canBeDisabled: function(): boolean {
+      return typeGuards.isProducer(this.building);
     }
   }
 })
@@ -80,5 +87,9 @@ export default Vue.extend({
   .upgradeData {
     grid-column: 2;
     grid-row: 1;
+  }
+
+  .disableButton {
+    float: right;
   }
 </style>

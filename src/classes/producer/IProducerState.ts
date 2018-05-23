@@ -7,4 +7,5 @@ export default interface IProducerState extends IGameObjectState {
   baseConsumption?: Price;
   productionMultiplier?: Price;
   consumptionMultiplier?: Price;
+  disabled?: boolean;
 }
