@@ -2,7 +2,6 @@ import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect } from "./cl
 import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
-// tslint:disable-next-line:max-line-length
 import { AdvancementData, DiscoveriesData, GoalsData, LocksData, ProducersData, ResourcesData, StorageData, UpgradesData } from "./data";
 
 import Discovery from "./classes/discovery/Discovery";
@@ -49,34 +48,15 @@ export default class GameEngine {
         // TODO: work on goals
         this.currentGoal = this.goals.tribal;
 
-        let savedGame = localStorage.getItem('industrial-incremental-save');
+        const savedGame = localStorage.getItem('industrial-incremental-save');
         if (savedGame !== null) {
             try {
                 this.load(savedGame);
                 console.log("Game loaded");
-            }
-            catch (error) {
+            } catch (error) {
                 console.error(error);
             }
         }
-    }
-
-    // TODO: rethink that
-    private init() {
-        this.lastTick = Date.now();
-
-        this.toastActivationTime = 0;
-        this.toastMsg = '';
-
-        this.buildings = (ProducersData.map(pd => this.createProducer(pd.template, pd.startingState)) as GameObject[]).concat(StorageData.map(sd => this.createStorage(sd.template, sd.startingState)));
-
-        this.concepts = (DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState)) as GameObject[]).concat(UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState)));
-
-        this.locks = JSON.parse(JSON.stringify(LocksData));
-        this.resources = JSON.parse(JSON.stringify(ResourcesData));
-        this.goals = JSON.parse(JSON.stringify(GoalsData));
-
-        this.advancements = AdvancementData.map(ad => this.createDiscovery(ad.template, ad.startingState));
     }
 
     get producers(): Producer[] {
@@ -96,7 +76,7 @@ export default class GameEngine {
     }
 
     tick(currentTick: number) {
-        let deltaT = currentTick - this.lastTick;
+        const deltaT = currentTick - this.lastTick;
         this.lastTick = currentTick;
 
         this.clearPerSecondValues();
@@ -110,7 +90,7 @@ export default class GameEngine {
                 if (typeof data.value === 'undefined') {
                     throw new Error("Game event data needs to define value!");
                 }
-                var boughtItem = this.tryBuyItem(data.value);
+                const boughtItem = this.tryBuyItem(data.value);
                 if (typeof boughtItem !== 'undefined') {
                     this.toastActivationTime = Date.now();
                     this.toastMsg = `${boughtItem.name} was bought!`;
@@ -144,7 +124,7 @@ export default class GameEngine {
     }
 
     getAllGameObjects(): GameObject[] {
-        let gameObjects = <GameObject[]>[];
+        let gameObjects = [] as GameObject[];
         gameObjects = gameObjects.concat(this.buildings);
         gameObjects = gameObjects.concat(this.concepts);
         gameObjects = gameObjects.concat(this.advancements);
@@ -191,11 +171,11 @@ export default class GameEngine {
     }
 
     load(savedState: string): void {
-        let savedObject = JSON.parse(savedState);
+        const savedObject = JSON.parse(savedState);
 
         // to make this generic, we would need some form of list of all the game object data
         // TODO: when creating mixin-implementation, create a list of all gameObjects and use it here
-        let tempProducers = <Producer[]>[];
+        const tempProducers = [] as Producer[];
         savedObject.producersState.forEach((ps: { id: string, state: IProducerState }) => {
             const producerData = ProducersData.filter(pd => pd.template.id === ps.id).pop();
             if (typeof producerData === 'undefined') {
@@ -204,7 +184,7 @@ export default class GameEngine {
             tempProducers.push(this.createProducer(producerData.template, ps.state));
         });
 
-        let tempDiscoveries = <Discovery[]>[];
+        const tempDiscoveries = [] as Discovery[];
         savedObject.discoveriesState.forEach((ds: { id: string, state: IDiscoveryState }) => {
             const discoveryData = DiscoveriesData.filter(dd => dd.template.id === ds.id).pop();
             if (typeof discoveryData === 'undefined') {
@@ -213,7 +193,7 @@ export default class GameEngine {
             tempDiscoveries.push(this.createDiscovery(discoveryData.template, ds.state));
         });
 
-        let tempStorage = <Storage[]>[];
+        const tempStorage = [] as Storage[];
         savedObject.storageState.forEach((ss: { id: string, state: IProducerState }) => {
             const storageData = StorageData.filter(sd => sd.template.id === ss.id).pop();
             if (typeof storageData === 'undefined') {
@@ -222,7 +202,7 @@ export default class GameEngine {
             tempStorage.push(this.createStorage(storageData.template, ss.state));
         });
 
-        let tempUpgrades = [] as Upgrade[];
+        const tempUpgrades = [] as Upgrade[];
         savedObject.upgradesState.forEach((us: { id: string, state: IUpgradeState }) => {
             const upgradeData = UpgradesData.filter(ud => ud.template.id === us.id).pop();
             if (typeof upgradeData === 'undefined') {
@@ -231,7 +211,7 @@ export default class GameEngine {
             tempUpgrades.push(this.createUpgrade(upgradeData.template, us.state));
         });
 
-        let tempAdvancements = [] as Discovery[];
+        const tempAdvancements = [] as Discovery[];
         savedObject.advancementsState.forEach((as: { id: string, state: IDiscoveryState }) => {
             const advData = AdvancementData.filter(ad => ad.template.id === as.id).pop();
             if (typeof advData === 'undefined') {
@@ -250,10 +230,28 @@ export default class GameEngine {
         this.advancements = tempAdvancements;
     }
 
+    // TODO: rethink that
+    private init() {
+        this.lastTick = Date.now();
+
+        this.toastActivationTime = 0;
+        this.toastMsg = '';
+
+        this.buildings = (ProducersData.map(pd => this.createProducer(pd.template, pd.startingState)) as GameObject[]).concat(StorageData.map(sd => this.createStorage(sd.template, sd.startingState)));
+
+        this.concepts = (DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState)) as GameObject[]).concat(UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState)));
+
+        this.locks = JSON.parse(JSON.stringify(LocksData));
+        this.resources = JSON.parse(JSON.stringify(ResourcesData));
+        this.goals = JSON.parse(JSON.stringify(GoalsData));
+
+        this.advancements = AdvancementData.map(ad => this.createDiscovery(ad.template, ad.startingState));
+    }
+
     private prestige() {
-        let survivors = {
+        const survivors = {
             advancements: this.advancements
-        }
+        };
 
         this.init();
         localStorage.removeItem('industrial-incremental-save');
@@ -262,6 +260,7 @@ export default class GameEngine {
         this.advancements = survivors.advancements;
 
         // TODO: different amount of points per goal
+        // tslint:disable-next-line:no-string-literal
         this.resources['advancement'].amount += 1;
 
         this.currentSelection = this.buildings[0];
@@ -270,7 +269,7 @@ export default class GameEngine {
 
     private removeLock(lock: Lock) {
         this.locks[lock] = true;
-        let unlockables = this.getAllGameObjects();
+        const unlockables = this.getAllGameObjects();
         unlockables.forEach(unlockable => {
             const lockIndex = unlockable.locks.indexOf(lock);
             if (lockIndex > -1) {
@@ -278,7 +277,7 @@ export default class GameEngine {
             }
         });
         Object.keys(this.resources).forEach(k => {
-            let resource = this.resources[k];
+            const resource = this.resources[k];
             const lockIndex = resource.locks.indexOf(lock);
             if (lockIndex > -1) {
                 resource.locks.splice(lockIndex, 1);
@@ -317,13 +316,13 @@ export default class GameEngine {
     private payThePrice(price: Price) {
         Object.keys(price).forEach(currency => {
             this.resources[currency].amount -= (price[currency] || 0);
-        })
+        });
     }
 
     private getPaid(price: Price) {
         Object.keys(price).forEach(currency => {
             this.resources[currency].amount += (price[currency] || 0);
-        })
+        });
     }
 
     private canBePaid(price: Price): boolean {
