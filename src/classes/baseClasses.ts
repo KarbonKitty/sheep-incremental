@@ -25,10 +25,10 @@ export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable';
 export type GameObjectType = "producer" | "discovery" | "storage" | "upgrade";
 
 const industryBranchesObject = {
-  beer: true,
-  bread: true,
-  construction: true,
   herbs: true,
+  construction: true,
+  bread: true,
+  beer: true,
   hunting: true,
   pottery: true };
 export const branchesArray = Object.keys(industryBranchesObject) as IndustryBranch[];
