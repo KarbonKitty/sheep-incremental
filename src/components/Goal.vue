@@ -4,7 +4,7 @@
     p(v-if="!allVisible") You need to discover more resources to view entire goal!
     ul
       div(v-for="(amount, currency) in values" :key="currency")
-        li(v-if="resourceAvailable(currency)") {{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}
+        li(v-if="resourceAvailable(currency)") {{ resources[currency].amount | decimal(resources[currency].precision) }} / {{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}
     button.btn(:disabled="!canComplete" @click="finish") {{ canComplete ? "Complete!" : "Not enough resources" }}
 </template>
 
