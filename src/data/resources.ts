@@ -1,6 +1,6 @@
 import { IResourcesData } from "../classes/baseClasses";
 
-let resources: IResourcesData = {
+const resources: IResourcesData = {
   herbs: { name: "herbs", amount: 25, gainPerSecond: 0, precision: 2, limit: 250, locks: [] },
   wood: { name: "wood", amount: 0, gainPerSecond: 0, precision: 1, limit: 25, locks: [] },
   flint: { name: "flint", amount: 0, gainPerSecond: 0, precision: 1, limit: 10, locks: [] },
@@ -18,6 +18,6 @@ let resources: IResourcesData = {
   charcoal: { name: "charcoal", amount: 0, gainPerSecond: 0, precision: 1, limit: 10, locks: ['pyrotechnology'] },
   pottery: { name: "pottery", amount: 0, gainPerSecond: 0, precision: 2, limit: 10, locks: ['pottery'] },
   advancement: { name: "advancement", amount: 0, gainPerSecond: 0, precision: 0, locks: ['__prestige__'] }
-}
+};
 
 export default resources;

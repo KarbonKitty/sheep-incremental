@@ -1,7 +1,7 @@
 import { Lock } from "../baseClasses";
+import GameObject from "../gameObject/GameObject";
 import IDiscoveryState from "./IDiscoveryState";
 import IDiscoveryTemplate from "./IDiscoveryTemplate";
-import GameObject from "../gameObject/GameObject";
 
 export default class Discovery extends GameObject implements IDiscoveryTemplate, IDiscoveryState {
   readonly type = "discovery";
@@ -10,11 +10,11 @@ export default class Discovery extends GameObject implements IDiscoveryTemplate,
 
   done: boolean;
 
-  onBuy: (() => void)[];
+  onBuy: Array<() => void>;
 
   constructor(template: IDiscoveryTemplate, state: IDiscoveryState) {
     super(template, state);
-    
+
     this.unlocks = template.unlocks;
 
     this.done = state.done;

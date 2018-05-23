@@ -1,4 +1,4 @@
-import { GameObjectType, Price, IndustryBranch } from "../baseClasses";
+import { GameObjectType, IndustryBranch, Price } from "../baseClasses";
 
 export default interface IGameObjectTemplate {
   id: string;

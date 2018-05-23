@@ -4,9 +4,9 @@ import IUpgradeTemplate from "../classes/upgrade/IUpgradeTemplate";
 type UpgradeData = {
   template: IUpgradeTemplate,
   startingState: IUpgradeState
-}
+};
 
-let upgrades: UpgradeData[] = [
+const upgrades: UpgradeData[] = [
   {
     template: {
       id: 'soft-hammer-percussion',
@@ -79,6 +79,6 @@ let upgrades: UpgradeData[] = [
       done: false
     }
   }
-]
+];
 
 export default upgrades;

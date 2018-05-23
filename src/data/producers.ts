@@ -1,12 +1,12 @@
-import IProducerTemplate from "../classes/producer/IProducerTemplate";
 import IProducerState from "../classes/producer/IProducerState";
+import IProducerTemplate from "../classes/producer/IProducerTemplate";
 
 type ProducerData = {
     template: IProducerTemplate,
     startingState: IProducerState
-}
+};
 
-let producersData: ProducerData[] = [
+const producersData: ProducerData[] = [
     {
         template: {
             id: 'herbs-gatherer',

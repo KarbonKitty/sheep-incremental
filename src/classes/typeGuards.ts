@@ -1,24 +1,24 @@
-import Producer from "./producer/Producer";
 import Discovery from "./discovery/Discovery";
 import GameObject from "./gameObject/GameObject";
 import IBuyable from "./IBuyable";
-import Upgrade from "./upgrade/Upgrade";
+import Producer from "./producer/Producer";
 import Storage from "./storage/Storage";
+import Upgrade from "./upgrade/Upgrade";
 
 export default {
     isProducer(gameObject: GameObject): gameObject is Producer {
-        return (<Producer>gameObject).type === 'producer';
+        return (gameObject as Producer).type === 'producer';
     },
     isDiscovery(gameObject: GameObject): gameObject is Discovery {
-        return (<Discovery>gameObject).type === 'discovery';
+        return (gameObject as Discovery).type === 'discovery';
     },
-    isBuyable(gameObject: Object): gameObject is IBuyable {
-        return typeof (<IBuyable>gameObject).buy !== 'undefined';
+    isBuyable(gameObject: object): gameObject is IBuyable {
+        return typeof (gameObject as IBuyable).buy !== 'undefined';
     },
-    isStorage(gameObject: Object): gameObject is Storage {
-        return (<Storage>gameObject).type === 'storage';
+    isStorage(gameObject: object): gameObject is Storage {
+        return (gameObject as Storage).type === 'storage';
     },
-    isUpgrade(gameObject: Object): gameObject is Upgrade {
-        return (<Upgrade>gameObject).type === 'upgrade';
+    isUpgrade(gameObject: object): gameObject is Upgrade {
+        return (gameObject as Upgrade).type === 'upgrade';
     }
-}
+};

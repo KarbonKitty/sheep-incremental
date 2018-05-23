@@ -1,7 +1,7 @@
 import { Price } from "./baseClasses";
 
 export default interface IBuyable {
-  onBuy: (() => void)[];
+  onBuy: Array<() => void>;
   buy: () => void;
   currentPrice: Price;
 }

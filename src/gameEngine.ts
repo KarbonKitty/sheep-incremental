@@ -1,20 +1,26 @@
-import { GameEvent, Lock, Map, Price, IResourcesData, UpgradeEffect } from "./classes/baseClasses";
+import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
+// tslint:disable-next-line:max-line-length
+import { AdvancementData, DiscoveriesData, GoalsData, LocksData, ProducersData, ResourcesData, StorageData, UpgradesData } from "./data";
+
 import Discovery from "./classes/discovery/Discovery";
-import { ProducersData, DiscoveriesData, LocksData, StorageData, ResourcesData, GoalsData, UpgradesData, AdvancementData } from "./data";
-import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
 import IDiscoveryState from "./classes/discovery/IDiscoveryState";
-import Producer from "./classes/producer/Producer";
-import IProducerTemplate from "./classes/producer/IProducerTemplate";
+import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
+
 import IProducerState from "./classes/producer/IProducerState";
-import Storage from "./classes/storage/Storage";
-import IStorageTemplate from "./classes/storage/IStorageTemplate";
+import IProducerTemplate from "./classes/producer/IProducerTemplate";
+import Producer from "./classes/producer/Producer";
+
 import IStorageState from "./classes/storage/IStorageState";
-import Upgrade from "./classes/upgrade/Upgrade";
-import IUpgradeTemplate from "./classes/upgrade/IUpgradeTemplate";
+import IStorageTemplate from "./classes/storage/IStorageTemplate";
+import Storage from "./classes/storage/Storage";
+
 import IUpgradeState from "./classes/upgrade/IUpgradeState";
+import IUpgradeTemplate from "./classes/upgrade/IUpgradeTemplate";
+import Upgrade from "./classes/upgrade/Upgrade";
+
 import { PriceHelper } from "./classes/helpers";
 
 export default class GameEngine {

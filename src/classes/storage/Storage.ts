@@ -1,15 +1,15 @@
-import GameObject from "../gameObject/GameObject";
-import IStorageState from "./IStorageState";
 import { Price } from "../baseClasses";
-import IStorageTemplate from "./IStorageTemplate";
+import GameObject from "../gameObject/GameObject";
 import { PriceHelper } from "../helpers";
+import IStorageState from "./IStorageState";
+import IStorageTemplate from "./IStorageTemplate";
 
 export default class Storage extends GameObject implements IStorageTemplate, IStorageState {
   readonly type = "storage";
 
   storage: Price;
 
-  onBuy: (() => void)[];
+  onBuy: Array<() => void>;
 
   quantity: number;
 

@@ -1,7 +1,7 @@
-import { GameObjectType, Lock, Price, IndustryBranch } from '../baseClasses';
-import IGameObjectTemplate from "./IGameObjectTemplate";
-import IGameObjectState from './IGameObjectState';
+import { GameObjectType, IndustryBranch, Lock, Price } from '../baseClasses';
 import IBuyable from '../IBuyable';
+import IGameObjectState from './IGameObjectState';
+import IGameObjectTemplate from "./IGameObjectTemplate";
 
 export default abstract class GameObject implements IGameObjectTemplate, IGameObjectState, IBuyable {
     id: string;
@@ -13,6 +13,9 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
     buyVerb: string;
 
     locks: Lock[];
+
+    abstract currentPrice: Price;
+    abstract onBuy: Array<() => void>;
 
     constructor(template: IGameObjectTemplate, state: IGameObjectState) {
         this.id = template.id;
@@ -27,7 +30,5 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
     }
 
     abstract save(): IGameObjectState;
-    abstract onBuy: (() => void)[];
     abstract buy(): void;
-    abstract currentPrice: Price;
 }

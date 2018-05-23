@@ -1,12 +1,12 @@
-import IStorageTemplate from "../classes/storage/IStorageTemplate";
 import IStorageState from "../classes/storage/IStorageState";
+import IStorageTemplate from "../classes/storage/IStorageTemplate";
 
 type StorageData = {
     template: IStorageTemplate,
     startingState: IStorageState
-}
+};
 
-let storages: StorageData[] = [
+const storages: StorageData[] = [
     {
         template: {
             id: 'shed',
@@ -135,6 +135,6 @@ let storages: StorageData[] = [
             locks: ['pyrotechnology']
         }
     }
-]
+];
 
 export default storages;

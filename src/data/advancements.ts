@@ -1,12 +1,12 @@
-import IDiscoveryTemplate from '../classes/discovery/IDiscoveryTemplate';
-import IDiscoveryState from '../classes/discovery/IDiscoveryState';
+import IDiscoveryState from "../classes/discovery/IDiscoveryState";
+import IDiscoveryTemplate from "../classes/discovery/IDiscoveryTemplate";
 
 type DiscoveryData = {
   template: IDiscoveryTemplate,
   startingState: IDiscoveryState
-}
+};
 
-let advancements: DiscoveryData[] = [
+const advancements: DiscoveryData[] = [
 {
   template: {
     id: 'pyrotechnology',

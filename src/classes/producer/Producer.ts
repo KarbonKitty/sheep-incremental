@@ -1,8 +1,8 @@
-import IProducerState from "./IProducerState";
-import IProducerTemplate from "./IProducerTemplate";
-import { Price, Lock } from "../baseClasses";
+import { Lock, Price } from "../baseClasses";
 import GameObject from "../gameObject/GameObject";
 import { PriceHelper } from "../helpers";
+import IProducerState from "./IProducerState";
+import IProducerTemplate from "./IProducerTemplate";
 
 export default class Producer extends GameObject implements IProducerTemplate, IProducerState {
   readonly type = "producer";
@@ -16,7 +16,7 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   productionMultiplier: Price;
   consumptionMultiplier: Price;
 
-  onBuy: (() => void)[];
+  onBuy: Array<() => void>;
 
   quantity: number;
 
@@ -66,6 +66,13 @@ export default class Producer extends GameObject implements IProducerTemplate, I
   }
 
   save(): IProducerState {
-    return { quantity: this.quantity, locks: this.locks, baseProduction: this.baseProduction, baseConsumption: this.baseConsumption, productionMultiplier: this.productionMultiplier, consumptionMultiplier: this.consumptionMultiplier, disabled: this.disabled };
+    return {
+      quantity: this.quantity,
+      locks: this.locks,
+      baseProduction: this.baseProduction,
+      baseConsumption: this.baseConsumption,
+      productionMultiplier: this.productionMultiplier,
+      consumptionMultiplier: this.consumptionMultiplier,
+      disabled: this.disabled};
   }
 }

@@ -1,7 +1,7 @@
-import GameObject from "../gameObject/GameObject";
-import IUpgradeTemplate from "./IUpgradeTemplate";
-import IUpgradeState from "./IUpgradeState";
 import { Price, UpgradeEffect } from "../baseClasses";
+import GameObject from "../gameObject/GameObject";
+import IUpgradeState from "./IUpgradeState";
+import IUpgradeTemplate from "./IUpgradeTemplate";
 
 export default class Upgrade extends GameObject implements IUpgradeTemplate, IUpgradeState {
   readonly type = "upgrade";
@@ -10,7 +10,7 @@ export default class Upgrade extends GameObject implements IUpgradeTemplate, IUp
 
   effects: UpgradeEffect[];
 
-  onBuy: (() => void)[];
+  onBuy: Array<() => void>;
 
   done: boolean;
 

@@ -4,43 +4,43 @@ import EventBus from "./eventBus";
 import filters from "./filters";
 import GameEngine from "./gameEngine";
 
-import ResourceComponent from "./components/Resource.vue";
-import GameObjectComponent from "./components/GameObject.vue";
 import BuildingDetailsComponent from "./components/BuildingDetails.vue";
+import GameObjectComponent from "./components/GameObject.vue";
 import GoalComponent from "./components/Goal.vue";
-import ToastComponent from "./components/Toast.vue";
 import PrestigeModalComponent from "./components/PrestigeModal.vue";
+import ResourceComponent from "./components/Resource.vue";
+import ToastComponent from "./components/Toast.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 
 const tickInterval = 50;
 const autosaveInterval = 15000;
 
-let engine = new GameEngine();
+const engine = new GameEngine();
 
-EventBus.$on('game-event', (data: any) => {
+EventBus.$on("game-event", (data: any) => {
     engine.handleEvent(data);
 });
 
-let vm = new Vue({
+const vm = new Vue({
     el: "#app",
     data: engine,
     methods: {
         saveGame: function(event: any) {
             console.log("Game saved");
-            localStorage.setItem('industrial-incremental-save', engine.save());
+            localStorage.setItem("industrial-incremental-save", engine.save());
         },
         loadGame() {
-            let savedGame = localStorage.getItem('industrial-incremental-save');
+            const savedGame = localStorage.getItem("industrial-incremental-save");
             if (savedGame === null) {
-                alert("There is no game to load!")
+                alert("There is no game to load!");
             } else {
                 console.log("Game loaded");
                 this.$data.load(savedGame);
             }
         },
         clearSave: function() {
-            localStorage.removeItem('industrial-incremental-save');
+            localStorage.removeItem("industrial-incremental-save");
         },
         availableBuildingsFromBranch(branch: IndustryBranch) {
             return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
@@ -48,29 +48,34 @@ let vm = new Vue({
     },
     computed: {
         currentUpgrades: function() {
-            return this.upgrades.filter(u => !u.done && u.objectId === this.currentSelection.id && u.locks.length === 0);
+            return this.upgrades.filter(
+                u => !u.done && u.objectId === this.currentSelection.id && u.locks.length === 0
+            );
         },
-        branches: function () {
+        branches: function() {
             return Branches;
         },
         upgrades: function() {
-            return this.concepts.filter(c => c.type === 'upgrade');
+            return this.concepts.filter(c => c.type === "upgrade");
         },
         discoveries: function() {
-            return this.concepts.filter(c => c.type === 'discovery');
+            return this.concepts.filter(c => c.type === "discovery");
         }
     },
     components: {
-        'resource-component': ResourceComponent,
-        'game-object-component': GameObjectComponent,
-        'building-details-component': BuildingDetailsComponent,
-        'goal-component': GoalComponent,
-        'toast-component': ToastComponent,
-        'prestige-modal-component': PrestigeModalComponent
+        "resource-component": ResourceComponent,
+        "game-object-component": GameObjectComponent,
+        "building-details-component": BuildingDetailsComponent,
+        "goal-component": GoalComponent,
+        "toast-component": ToastComponent,
+        "prestige-modal-component": PrestigeModalComponent
     },
-    filters: filters
+    filters
 });
 
-let handle = window.setInterval(() => engine.tick(Date.now()), tickInterval);
+const handle = window.setInterval(() => engine.tick(Date.now()), tickInterval);
 
-let autoSaveHandle = window.setInterval(() => localStorage.setItem('industrial-incremental-save', engine.save()), autosaveInterval);
+const autoSaveHandle = window.setInterval(
+    () => localStorage.setItem("industrial-incremental-save", engine.save()),
+    autosaveInterval
+);

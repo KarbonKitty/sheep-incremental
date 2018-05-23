@@ -9,4 +9,4 @@ export default {
   'hunting': false,
   'pyrotechnology': false,
   'pottery': false
-}
+};

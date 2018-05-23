@@ -29,4 +29,4 @@ export default {
   signed,
   signedDecimal,
   capitalize
-}
+};
