@@ -64,8 +64,14 @@ export default class GameEngine {
     }
 
     tick(currentTick: number) {
-        const deltaT = currentTick - this.lastTick;
-        this.lastTick = currentTick;
+        let deltaT = currentTick - this.lastTick;
+
+        if (deltaT > 1000) {
+            deltaT = 1000;
+            this.lastTick += deltaT;
+        } else {
+            this.lastTick = currentTick;
+        }
 
         this.clearPerSecondValues();
         this.activateProducers(deltaT);
