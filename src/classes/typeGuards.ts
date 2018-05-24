@@ -1,9 +1,9 @@
-import Discovery from "./discovery/Discovery";
+import { Discovery } from "./discovery/Discovery";
 import GameObject from "./gameObject/GameObject";
 import IBuyable from "./IBuyable";
-import Producer from "./producer/Producer";
-import Storage from "./storage/Storage";
-import Upgrade from "./upgrade/Upgrade";
+import { Producer } from "./producer/Producer";
+import { Storage } from "./storage/Storage";
+import { Upgrade } from "./upgrade/Upgrade";
 
 export default {
     isProducer(gameObject: GameObject): gameObject is Producer {

@@ -3,7 +3,9 @@ import GameObject from "../gameObject/GameObject";
 import IUpgradeState from "./IUpgradeState";
 import IUpgradeTemplate from "./IUpgradeTemplate";
 
-export default class Upgrade extends GameObject implements IUpgradeTemplate, IUpgradeState {
+export { IUpgradeState, IUpgradeTemplate };
+
+export class Upgrade extends GameObject implements IUpgradeTemplate, IUpgradeState {
   readonly type = "upgrade";
 
   objectId?: string;

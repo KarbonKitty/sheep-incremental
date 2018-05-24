@@ -14,7 +14,7 @@
 import Vue from "vue";
 import EventBus from "../eventBus";
 
-import Upgrade from "../classes/upgrade/Upgrade";
+import { Upgrade } from "../classes/upgrade/Upgrade";
 import { IResourcesData } from "../classes/baseClasses";
 
 import PriceComponent from "./Price.vue";

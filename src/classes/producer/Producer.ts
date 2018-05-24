@@ -4,7 +4,9 @@ import { PriceHelper } from "../helpers";
 import IProducerState from "./IProducerState";
 import IProducerTemplate from "./IProducerTemplate";
 
-export default class Producer extends GameObject implements IProducerTemplate, IProducerState {
+export { IProducerState, IProducerTemplate };
+
+export class Producer extends GameObject implements IProducerTemplate, IProducerState {
   readonly type = "producer";
 
   rawProduction: Price;

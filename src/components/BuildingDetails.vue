@@ -19,9 +19,8 @@
 import Vue from 'vue'
 import EventBus from '../eventBus';
 
-import IBuyable from "../classes/IBuyable";
 import GameObject from '../classes/gameObject/GameObject';
-import Upgrade from "../classes/upgrade/Upgrade";
+import { Upgrade } from "../classes/upgrade/Upgrade";
 import { IResource, IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
 import typeGuards from "../classes/typeGuards";
@@ -32,7 +31,7 @@ import UpgradeComponent from "./Upgrade.vue";
 
 export default Vue.extend({
   props: {
-    building: Object as () => GameObject & IBuyable,
+    building: Object as () => GameObject,
     resources: Object as () => IResourcesData,
     upgrades: Array as () => Upgrade[]
   },

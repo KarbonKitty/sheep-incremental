@@ -4,7 +4,9 @@ import { PriceHelper } from "../helpers";
 import IStorageState from "./IStorageState";
 import IStorageTemplate from "./IStorageTemplate";
 
-export default class Storage extends GameObject implements IStorageTemplate, IStorageState {
+export { IStorageState, IStorageTemplate };
+
+export class Storage extends GameObject implements IStorageTemplate, IStorageState {
   readonly type = "storage";
 
   storage: Price;

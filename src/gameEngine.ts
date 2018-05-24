@@ -1,24 +1,12 @@
 import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
-import IBuyable from "./classes/IBuyable";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, DiscoveriesData, GoalsData, LocksData, ProducersData, ResourcesData, StorageData, UpgradesData } from "./data";
 
-import Discovery from "./classes/discovery/Discovery";
-import IDiscoveryState from "./classes/discovery/IDiscoveryState";
-import IDiscoveryTemplate from "./classes/discovery/IDiscoveryTemplate";
-
-import IProducerState from "./classes/producer/IProducerState";
-import IProducerTemplate from "./classes/producer/IProducerTemplate";
-import Producer from "./classes/producer/Producer";
-
-import IStorageState from "./classes/storage/IStorageState";
-import IStorageTemplate from "./classes/storage/IStorageTemplate";
-import Storage from "./classes/storage/Storage";
-
-import IUpgradeState from "./classes/upgrade/IUpgradeState";
-import IUpgradeTemplate from "./classes/upgrade/IUpgradeTemplate";
-import Upgrade from "./classes/upgrade/Upgrade";
+import { Discovery, IDiscoveryState, IDiscoveryTemplate} from "./classes/discovery/Discovery";
+import { Producer, IProducerState, IProducerTemplate } from "./classes/producer/Producer";
+import { Storage, IStorageState, IStorageTemplate } from "./classes/storage/Storage";
+import { Upgrade, IUpgradeState, IUpgradeTemplate } from "./classes/upgrade/Upgrade";
 
 import { PriceHelper } from "./classes/helpers";
 
@@ -435,5 +423,3 @@ export default class GameEngine {
         }
     }
 }
-
-// TODO: think about the production/consumption ideas
