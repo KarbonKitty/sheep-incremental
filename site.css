@@ -1,6 +1,7 @@
 body {
   background-color: #002b36;
   color: #839496;
+  font-family: 'Assistant', sans-serif;
 }
 
 a {
@@ -34,7 +35,8 @@ a:active {
 .sidebar {
   grid-column: 1;
   grid-row-start: 1;
-  grid-row-end: 2;
+  grid-row-end: 3;
+  margin-right: 0.5rem;
 }
 
 .main-area {
@@ -76,8 +78,8 @@ a:active {
   background: #dc322f;
 }
 
-.btn.disabled {
-  color: #586e75;
+.btn:disabled {
+  color: #657b83;
   background: #073642;
   cursor: not-allowed;
 }
