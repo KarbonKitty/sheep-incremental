@@ -1,11 +1,10 @@
 import { Price } from "../baseClasses";
 import IGameObjectState from "../gameObject/IGameObjectState";
+import { IProductionState } from "../production";
 
 export default interface IProducerState extends IGameObjectState {
   quantity: number;
-  baseProduction?: Price;
-  baseConsumption?: Price;
-  productionMultiplier?: Price;
-  consumptionMultiplier?: Price;
+  production?: IProductionState;
+  consumption?: IProductionState;
   disabled?: boolean;
 }

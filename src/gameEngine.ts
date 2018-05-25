@@ -3,7 +3,7 @@ import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, DiscoveriesData, GoalsData, LocksData, ProducersData, ResourcesData, StorageData, UpgradesData } from "./data";
 
-import { Discovery, IDiscoveryState, IDiscoveryTemplate} from "./classes/discovery/Discovery";
+import { Discovery, IDiscoveryState, IDiscoveryTemplate } from "./classes/discovery/Discovery";
 import { Producer, IProducerState, IProducerTemplate } from "./classes/producer/Producer";
 import { Storage, IStorageState, IStorageTemplate } from "./classes/storage/Storage";
 import { Upgrade, IUpgradeState, IUpgradeTemplate } from "./classes/upgrade/Upgrade";
@@ -397,29 +397,17 @@ export default class GameEngine {
 
         switch (effect.affectedProperty) {
             case "production":
-                if (!typeGuards.isProducer(object)) {
-                    throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve production.`);
+                if (typeGuards.isProducer(object)) {
+                    object.production.addModifier(effect);
                 } else {
-                    if (effect.type === 'add') {
-                        object.baseProduction = PriceHelper.sumPrices(object.baseProduction, effect.scale);
-                    } else if (effect.type === 'mul') {
-                        object.productionMultiplier = PriceHelper.multiplyPrices(object.productionMultiplier, effect.scale);
-                    } else {
-                        throw new Error(`Unknown effect type: ${effect.type}`);
-                    }
+                    throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve production.`);
                 }
                 break;
             case "consumption":
-                if (!typeGuards.isProducer(object)) {
-                    throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve consumption.`);
+                if (typeGuards.isProducer(object)) {
+                    object.consumption.addModifier(effect);
                 } else {
-                    if (effect.type === 'add') {
-                        object.baseConsumption = PriceHelper.sumPrices(object.baseConsumption, effect.scale);
-                    } else if (effect.type === 'mul') {
-                        object.consumptionMultiplier = PriceHelper.multiplyPrices(object.consumptionMultiplier, effect.scale);
-                    } else {
-                        throw new Error(`Unknown effect type: ${effect.type}`);
-                    }
+                    throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve production.`);
                 }
                 break;
             case "storage":

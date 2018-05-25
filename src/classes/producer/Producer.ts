@@ -3,6 +3,7 @@ import GameObject from "../gameObject/GameObject";
 import { PriceHelper } from "../helpers";
 import IProducerState from "./IProducerState";
 import IProducerTemplate from "./IProducerTemplate";
+import { Production } from "../production";
 
 export { IProducerState, IProducerTemplate };
 
@@ -12,11 +13,8 @@ export class Producer extends GameObject implements IProducerTemplate, IProducer
   rawProduction: Price;
   rawConsumption: Price;
 
-  baseProduction: Price;
-  baseConsumption: Price;
-
-  productionMultiplier: Price;
-  consumptionMultiplier: Price;
+  production: Production;
+  consumption: Production;
 
   onBuy: Array<() => void>;
 
@@ -34,11 +32,17 @@ export class Producer extends GameObject implements IProducerTemplate, IProducer
     this.rawProduction = template.rawProduction;
     this.rawConsumption = template.rawConsumption;
 
-    this.baseProduction = state.baseProduction || template.rawProduction;
-    this.baseConsumption = state.baseConsumption || template.rawConsumption;
+    if (typeof state !== 'undefined' && typeof state.production !== 'undefined') {
+      this.production = new Production(state.production);
+    } else {
+      this.production = new Production({ baseProduction: template.rawProduction });
+    }
 
-    this.productionMultiplier = state.productionMultiplier || {};
-    this.consumptionMultiplier = state.consumptionMultiplier || {};
+    if (typeof state !== 'undefined' && typeof state.consumption !== 'undefined') {
+      this.consumption = new Production(state.consumption);
+    } else {
+      this.consumption = new Production({ baseProduction: template.rawConsumption });
+    }
 
     this.quantity = state.quantity;
 
@@ -52,11 +56,11 @@ export class Producer extends GameObject implements IProducerTemplate, IProducer
   }
 
   public get currentConsumption(): Price {
-    return PriceHelper.multiplyPrices(this.baseConsumption, this.consumptionMultiplier);
+    return this.consumption.getTotal();
   }
 
   public get currentProduction(): Price {
-    return PriceHelper.multiplyPrices(this.baseProduction, this.productionMultiplier);
+    return this.production.getTotal();
   }
 
   getConsumption(deltaT: number): Price {
@@ -71,10 +75,9 @@ export class Producer extends GameObject implements IProducerTemplate, IProducer
     return {
       quantity: this.quantity,
       locks: this.locks,
-      baseProduction: this.baseProduction,
-      baseConsumption: this.baseConsumption,
-      productionMultiplier: this.productionMultiplier,
-      consumptionMultiplier: this.consumptionMultiplier,
-      disabled: this.disabled};
+      production: this.production.save(),
+      consumption: this.consumption.save(),
+      disabled: this.disabled
+    };
   }
 }
