@@ -16,11 +16,11 @@ const discoveries: DiscoveryData[] = [
       branch: "construction",
       unlocks: ['stone-tools'],
       rawCost: { flint: 50, wood: 20 },
-      buyVerb: "Try it!"
+      buyVerb: "Try it!",
+      originalLocks: []
     },
     startingState: {
       done: false,
-      locks: []
     }
   },
   {
@@ -32,11 +32,11 @@ const discoveries: DiscoveryData[] = [
       branch: "bread",
       unlocks: ['agriculture'],
       rawCost: { herbs: 200, "stone tools": 20 },
-      buyVerb: "Dig and plant!"
+      buyVerb: "Dig and plant!",
+      originalLocks: ['stone-tools']
     },
     startingState: {
       done: false,
-      locks: ['stone-tools']
     }
   },
   {
@@ -48,11 +48,11 @@ const discoveries: DiscoveryData[] = [
       branch: "hunting",
       unlocks: ['hunting'],
       rawCost: { "stone tools": 10 },
-      buyVerb: "Hack and slash!"
+      buyVerb: "Hack and slash!",
+      originalLocks: ['stone-tools']
     },
     startingState: {
       done: false,
-      locks: ['stone-tools']
     }
   },
   {
@@ -64,11 +64,11 @@ const discoveries: DiscoveryData[] = [
       branch: "bread",
       unlocks: ['flour'],
       rawCost: { grain: 100 },
-      buyVerb: "Experiment!"
+      buyVerb: "Experiment!",
+      originalLocks: ['agriculture']
     },
     startingState: {
       done: false,
-      locks: ['agriculture']
     }
   },
   {
@@ -80,11 +80,11 @@ const discoveries: DiscoveryData[] = [
       branch: "beer",
       unlocks: ['fermentation'],
       rawCost: { grain: 150, water: 100 },
-      buyVerb: "Fermentate!"
+      buyVerb: "Fermentate!",
+      originalLocks: ['agriculture']
     },
     startingState: {
       done: false,
-      locks: ['agriculture']
     }
   },
   {
@@ -96,11 +96,11 @@ const discoveries: DiscoveryData[] = [
       branch: "construction",
       unlocks: ['fire'],
       rawCost: { wood: 100 },
-      buyVerb: "Stoke the fires!"
+      buyVerb: "Stoke the fires!",
+      originalLocks: ['hunting']
     },
     startingState: {
       done: false,
-      locks: ['hunting']
     }
   },
   {
@@ -112,11 +112,11 @@ const discoveries: DiscoveryData[] = [
       branch: "pottery",
       unlocks: ['pottery'],
       rawCost: { charcoal: 50, clay: 100 },
-      buyVerb: "Bake!"
+      buyVerb: "Bake!",
+      originalLocks: ['pyrotechnology', 'fire']
     },
     startingState: {
       done: false,
-      locks: ['pyrotechnology', 'fire']
     }
   }
 ];

@@ -17,11 +17,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 20 },
             rawProduction: { herbs: 1 },
             rawConsumption: {},
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: []
         },
         startingState: {
-            quantity: 1,
-            locks: []
+            quantity: 1
         }
     },
     {
@@ -34,11 +34,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 30 },
             rawProduction: { wood: 1 },
             rawConsumption: { herbs: 0.25 },
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: []
         },
         startingState: {
-            quantity: 0,
-            locks: []
+            quantity: 0
         }
     },
     {
@@ -51,11 +51,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 25 },
             rawProduction: { flint: 0.5 },
             rawConsumption: { herbs: 0.25 },
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: []
         },
         startingState: {
-            quantity: 0,
-            locks: []
+            quantity: 0
         }
     },
     {
@@ -68,11 +68,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 100, "stone tools": 3 },
             rawProduction: { herbs: 3 },
             rawConsumption: { "stone tools": 0.02 },
-            buyVerb: "Plant"
+            buyVerb: "Plant",
+            originalLocks: ['stone-tools']
         },
         startingState: {
             quantity: 0,
-            locks: ['stone-tools']
         }
     },
     {
@@ -85,11 +85,11 @@ const producersData: ProducerData[] = [
             rawCost: { "stone tools": 2, herbs: 50 },
             rawProduction: { grain: 3 },
             rawConsumption: {},
-            buyVerb: "Buy"
+            buyVerb: "Buy",
+            originalLocks: ['agriculture']
         },
         startingState: {
             quantity: 0,
-            locks: ['agriculture']
         }
     },
     {
@@ -102,11 +102,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 100, flint: 10, wood: 10 },
             rawConsumption: { herbs: 1, flint: 2, wood: 1 },
             rawProduction: { "stone tools": 0.1 },
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: ['stone-tools']
         },
         startingState: {
             quantity: 0,
-            locks: ['stone-tools']
         }
     },
     {
@@ -119,11 +119,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 125, "stone tools": 2 },
             rawConsumption: { herbs: 1, "stone tools": 0.04 },
             rawProduction: { wood: 4 },
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: ['stone-tools']
         },
         startingState: {
             quantity: 0,
-            locks: ['stone-tools']
         }
     },
     {
@@ -136,11 +136,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 50, grain: 50, "stone tools": 1 },
             rawProduction: { flour: 1.5 },
             rawConsumption: { grain: 5 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: ['flour']
         },
         startingState: {
             quantity: 0,
-            locks: ['flour']
         }
     },
     {
@@ -153,11 +153,11 @@ const producersData: ProducerData[] = [
             rawCost: { wood: 40, grain: 50, water: 50 },
             rawConsumption: { grain: 5, water: 5 },
             rawProduction: { beer: 1 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: ['fermentation']
         },
         startingState: {
             quantity: 0,
-            locks: ['fermentation']
         }
     },
     {
@@ -170,11 +170,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 200, flour: 100, water: 100 },
             rawProduction: { bread: 0.5 },
             rawConsumption: { flour: 2, water: 5 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: ['fire', 'flour']
         },
         startingState: {
             quantity: 0,
-            locks: ['fire', 'flour']
         }
     },
     {
@@ -187,11 +187,11 @@ const producersData: ProducerData[] = [
             rawCost: { "stone tools": 2, wood: 25 },
             rawProduction: { water: 3 },
             rawConsumption: {},
-            buyVerb: "Dig"
+            buyVerb: "Dig",
+            originalLocks: ['stone-tools']
         },
         startingState: {
             quantity: 0,
-            locks: ['stone-tools']
         }
     },
     {
@@ -204,11 +204,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 50, "stone tools": 2 },
             rawConsumption: { wood: 0.5, "stone tools": 0.01 },
             rawProduction: { "mud bricks": 0.3 },
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: ['stone-tools']
         },
         startingState: {
             quantity: 0,
-            locks: ['stone-tools']
         }
     },
     {
@@ -221,11 +221,11 @@ const producersData: ProducerData[] = [
             rawCost: { "stone tools": 1, herbs: 50 },
             rawConsumption: { "stone tools": 0.03, herbs: 0.25 },
             rawProduction: { "raw meat": 0.6 },
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: ['hunting']
         },
         startingState: {
             quantity: 0,
-            locks: ['hunting']
         }
     },
     {
@@ -238,11 +238,11 @@ const producersData: ProducerData[] = [
             rawCost: { wood: 33 },
             rawConsumption: { "raw meat": 1 },
             rawProduction: { meat: 0.25 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: ['hunting']
         },
         startingState: {
             quantity: 0,
-            locks: ['hunting']
         }
     },
     {
@@ -255,11 +255,11 @@ const producersData: ProducerData[] = [
             rawCost: { "mud bricks": 40, wood: 35 },
             rawConsumption: { "raw meat": 3, wood: 2 },
             rawProduction: { meat: 1.5 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: ['hunting', 'fire']
         },
         startingState: {
             quantity: 0,
-            locks: ['hunting', 'fire']
         }
     },
     {
@@ -272,11 +272,11 @@ const producersData: ProducerData[] = [
             rawCost: { "stone tools": 3, herbs: 50 },
             rawConsumption: { "stone tools": 0.1 },
             rawProduction: { "clay": 2 },
-            buyVerb: "Dig"
+            buyVerb: "Dig",
+            originalLocks: ['pyrotechnology']
         },
         startingState: {
             quantity: 0,
-            locks: ['pyrotechnology']
         }
     },
     {
@@ -289,11 +289,11 @@ const producersData: ProducerData[] = [
             rawCost: { "stone tools": 3 },
             rawConsumption: { clay: 3, wood: 3 },
             rawProduction: { pottery: 0.5 },
-            buyVerb: "Dig"
+            buyVerb: "Dig",
+            originalLocks: ['pyrotechnology', 'fire', 'pottery']
         },
         startingState: {
             quantity: 0,
-            locks: ['pyrotechnology', 'fire', 'pottery']
         }
     },
     {
@@ -306,11 +306,11 @@ const producersData: ProducerData[] = [
             rawCost: { wood: 50 },
             rawConsumption: { wood: 4.5 },
             rawProduction: { charcoal: 1 },
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: ['pyrotechnology', 'fire']
         },
         startingState: {
             quantity: 0,
-            locks: ['pyrotechnology', 'fire']
         }
     },
     {
@@ -323,11 +323,11 @@ const producersData: ProducerData[] = [
             rawCost: { herbs: 50 },
             rawConsumption: { herbs: 0.25 },
             rawProduction: { stone: 1 },
-            buyVerb: "Recruit"
+            buyVerb: "Recruit",
+            originalLocks: ['pyrotechnology', 'fire']
         },
         startingState: {
             quantity: 0,
-            locks: ['pyrotechnology', 'fire']
         }
     },
     {
@@ -340,11 +340,11 @@ const producersData: ProducerData[] = [
             rawCost: { stone: 100, charcoal: 10 },
             rawConsumption: { clay: 7.5, charcoal: 1 },
             rawProduction: { pottery: 1.25 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: ['pyrotechnology', 'pottery', 'fire']
         },
         startingState: {
             quantity: 0,
-            locks: ['pyrotechnology', 'pottery', 'fire']
         }
     }
 ];

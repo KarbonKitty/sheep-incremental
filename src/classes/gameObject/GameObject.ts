@@ -11,6 +11,7 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
     branch: IndustryBranch;
     rawCost: Price;
     buyVerb: string;
+    originalLocks: Lock[];
 
     locks: Lock[];
 
@@ -25,8 +26,13 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
         this.branch = template.branch;
         this.rawCost = template.rawCost;
         this.buyVerb = template.buyVerb;
+        this.originalLocks = template.originalLocks;
 
-        this.locks = state.locks.slice();
+        if (typeof state !== 'undefined' && typeof state.locks !== 'undefined') {
+            this.locks = state.locks.slice();
+        } else {
+            this.locks = template.originalLocks.slice();
+        }
     }
 
     abstract save(): IGameObjectState;

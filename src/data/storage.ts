@@ -16,11 +16,11 @@ const storages: StorageData[] = [
             branch: "construction",
             rawCost: { wood: 20 },
             storage: { wood: 50, flint: 50, "stone tools": 10, "mud bricks": 10, charcoal: 15, pottery: 15 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: []
         },
         startingState: {
             quantity: 0,
-            locks: []
         }
     },
     {
@@ -32,11 +32,11 @@ const storages: StorageData[] = [
             branch: "herbs",
             rawCost: { wood: 15 },
             storage: { herbs: 150 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: []
         },
         startingState: {
-            quantity: 0,
-            locks: []
+            quantity: 0
         }
     },
     {
@@ -48,11 +48,11 @@ const storages: StorageData[] = [
             branch: "bread",
             rawCost: { "stone tools": 1, "mud bricks": 20 },
             storage: { grain: 100 },
-            buyVerb: "Buy"
+            buyVerb: "Buy",
+            originalLocks: ['agriculture']
         },
         startingState: {
             quantity: 0,
-            locks: ['agriculture']
         }
     },
     {
@@ -64,12 +64,13 @@ const storages: StorageData[] = [
             branch: "beer",
             rawCost: { wood: 50, "stone tools": 1 },
             storage: { water: 200 },
-            buyVerb: "Buy"
-        }, startingState:
-            {
-                quantity: 0,
-                locks: ['stone-tools']
-            }
+            buyVerb: "Buy",
+            originalLocks: ['stone-tools']
+        },
+        startingState:
+        {
+            quantity: 0,
+        }
     },
     {
         template: {
@@ -80,11 +81,11 @@ const storages: StorageData[] = [
             branch: "bread",
             rawCost: { wood: 30, "mud bricks": 15 },
             storage: { flour: 30, bread: 15, meat: 30 },
-            buyVerb: "Build"
+            buyVerb: "Build",
+            originalLocks: ['hunting']
         },
         startingState: {
             quantity: 0,
-            locks: ['hunting']
         }
     },
     {
@@ -96,11 +97,11 @@ const storages: StorageData[] = [
             branch: "beer",
             rawCost: { wood: 15 },
             storage: { beer: 5 },
-            buyVerb: "Craft"
+            buyVerb: "Craft",
+            originalLocks: ['fermentation']
         },
         startingState: {
             quantity: 0,
-            locks: ['fermentation']
         }
     },
     {
@@ -112,11 +113,11 @@ const storages: StorageData[] = [
             branch: "bread",
             rawCost: { "stone tools": 1, pottery: 15 },
             storage: { bread: 5, meat: 15, beer: 10, flour: 15 },
-            buyVerb: "Dig"
+            buyVerb: "Dig",
+            originalLocks: ['pottery']
         },
         startingState: {
             quantity: 0,
-            locks: ['pottery']
         }
     },
     {
@@ -128,11 +129,11 @@ const storages: StorageData[] = [
             branch: "construction",
             rawCost: { stone: 50, "stone tools": 1 },
             storage: { clay: 100, stone: 75, "stone tools": 10, "mud bricks": 15 },
-            buyVerb: "Fence"
+            buyVerb: "Fence",
+            originalLocks: ['pyrotechnology']
         },
         startingState: {
             quantity: 0,
-            locks: ['pyrotechnology']
         }
     }
 ];

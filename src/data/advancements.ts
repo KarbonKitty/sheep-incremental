@@ -16,11 +16,11 @@ const advancements: DiscoveryData[] = [
     branch: "construction",
     buyVerb: "Burn!",
     rawCost: { advancement: 1 },
-    unlocks: ['pyrotechnology']
+    unlocks: ['pyrotechnology'],
+    originalLocks: ['__prestige__']
   },
   startingState: {
     done: false,
-    locks: ['__prestige__']
   }
 }];
 

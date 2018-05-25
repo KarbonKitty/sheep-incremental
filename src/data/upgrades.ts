@@ -28,10 +28,10 @@ const upgrades: UpgradeData[] = [
         type: "add",
         scale: { wood: 0.2, flint: -0.1 }
       }],
-      buyVerb: "Train"
+      buyVerb: "Train",
+      originalLocks: ['stone-tools'],
     },
     startingState: {
-      locks: ['stone-tools'],
       done: false
     }
   },
@@ -50,10 +50,10 @@ const upgrades: UpgradeData[] = [
         type: 'add',
         scale: { flint: 0.2 }
       }],
-      buyVerb: "Gather"
+      buyVerb: "Gather",
+      originalLocks: ['stone-tools'],
     },
     startingState: {
-      locks: ['stone-tools'],
       done: false
     }
   },
@@ -72,10 +72,10 @@ const upgrades: UpgradeData[] = [
         type: 'mul',
         scale: { bread: 1.25 }
       }],
-      buyVerb: "Build"
+      buyVerb: "Build",
+      originalLocks: ['fire'],
     },
     startingState: {
-      locks: ['fire'],
       done: false
     }
   }
