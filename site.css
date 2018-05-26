@@ -63,14 +63,10 @@ a:active {
   font-size: 16px;
   padding: 6px 12px 6px 12px;
   text-decoration: none;
+  cursor: pointer;
 
   color: #eee8d5;
   background: #268bd2;
-}
-
-.btn.active {
-  color: #eee8d5;
-  background: #6c71c4;
 }
 
 .btn.danger {
@@ -79,7 +75,8 @@ a:active {
 }
 
 .btn:disabled {
-  color: #657b83;
-  background: #073642;
-  cursor: not-allowed;
+  background-color: #002b36;
+  color: #839496;
+  border: 1px solid #839496;
+  cursor: default;
 }
