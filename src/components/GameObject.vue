@@ -1,14 +1,16 @@
 <template lang="pug">
   div(v-if="gameObject.locks.length === 0 && !gameObject.done" class="gameObject" @click="changeSelection" :class="{ available: canBeBought }")
     p.
-      {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})]
+      {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝]
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import EventBus from "../eventBus";
 import GameObject from "../classes/gameObject/GameObject";
+import { Upgrade } from "../classes/upgrade/Upgrade";
 import { IResourcesData } from "../classes/baseClasses";
+import { PriceHelper } from "../classes/helpers";
 
 export default Vue.extend({
   methods: {
@@ -18,11 +20,15 @@ export default Vue.extend({
   },
   props: {
     gameObject: Object as () => GameObject,
-    resources: Object as () => IResourcesData
+    resources: Object as () => IResourcesData,
+    upgrades: Array as () => Upgrade[]
   },
   computed: {
     canBeBought: function(): boolean {
-        return Object.keys(this.gameObject.currentPrice).reduce((acc, cur) => acc && this.resources[cur].amount >= (this.gameObject.currentPrice[cur] || 0), true);
+      return PriceHelper.canBePaid(this.gameObject.currentPrice, this.resources);
+    },
+    hasAvailableUpgrades: function(): boolean {
+      return this.upgrades.filter(u => PriceHelper.canBePaid(u.currentPrice, this.resources)).length > 0;
     }
   }
 });

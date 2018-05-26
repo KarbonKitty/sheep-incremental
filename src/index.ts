@@ -12,6 +12,7 @@ import ResourceComponent from "./components/Resource.vue";
 import ToastComponent from "./components/Toast.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
+import GameObject from "./classes/gameObject/GameObject";
 
 const tickInterval = 50;
 const autosaveInterval = 15000;
@@ -44,6 +45,9 @@ const vm = new Vue({
         },
         availableBuildingsFromBranch(branch: IndustryBranch) {
             return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
+        },
+        availableUpgradesFor(gameObject: GameObject) {
+            return this.upgrades.filter(u => u.objectId === gameObject.id);
         }
     },
     computed: {
@@ -57,6 +61,9 @@ const vm = new Vue({
         },
         upgrades: function() {
             return this.concepts.filter(c => c.type === "upgrade");
+        },
+        availableUpgrades: function() {
+            return this.upgrades.filter(u => u.locks.length === 0 && !u.done);
         },
         discoveries: function() {
             return this.concepts.filter(c => c.type === "discovery");
