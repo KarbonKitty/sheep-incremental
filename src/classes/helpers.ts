@@ -1,4 +1,4 @@
-import { Price } from "./baseClasses";
+import { Price, IResourcesData } from "./baseClasses";
 
 export class PriceHelper {
   static mulPriceByNumber(price: Price, num: number): Price {
@@ -39,6 +39,10 @@ export class PriceHelper {
       prices.push(price);
       return prices.reduce((a, b) => this.addTwoPrices(a, b));
     }
+  }
+
+  static canBePaid(price: Price, resources: IResourcesData): boolean {
+    return Object.keys(price).reduce((acc, cur) => acc && resources[cur].amount >= (price[cur] || 0), true);
   }
 
   private static addTwoPrices(price1: Price, price2: Price): Price {

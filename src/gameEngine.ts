@@ -320,7 +320,7 @@ export default class GameEngine {
     }
 
     private canBePaid(price: Price): boolean {
-        return Object.keys(price).reduce((acc, cur) => acc && this.resources[cur].amount >= (price[cur] || 0), true);
+        return PriceHelper.canBePaid(price, this.resources);
     }
 
     private clearPerSecondValues(): void {
