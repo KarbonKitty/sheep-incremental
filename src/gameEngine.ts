@@ -24,7 +24,8 @@ export default class GameEngine {
 
     goals = {} as Map<Price>;
 
-    buildings = [] as GameObject[];
+    oldBuildings = [] as GameObject[];
+    buildings = [] as Building[];
     concepts = [] as GameObject[];
 
     resources = {} as IResourcesData;
@@ -33,7 +34,7 @@ export default class GameEngine {
 
     constructor() {
         this.init();
-        this.currentSelection = this.buildings[0];
+        this.currentSelection = this.oldBuildings[0];
         // TODO: work on goals
         this.currentGoal = this.goals.tribal;
 
@@ -49,11 +50,11 @@ export default class GameEngine {
     }
 
     get producers(): Producer[] {
-        return this.buildings.filter(b => typeGuards.isProducer(b)) as Producer[];
+        return this.oldBuildings.filter(b => typeGuards.isProducer(b)) as Producer[];
     }
 
     get storages(): Storage[] {
-        return this.buildings.filter(b => typeGuards.isStorage(b)) as Storage[];
+        return this.oldBuildings.filter(b => typeGuards.isStorage(b)) as Storage[];
     }
 
     get upgrades(): Upgrade[] {
@@ -120,7 +121,7 @@ export default class GameEngine {
 
     getAllGameObjects(): GameObject[] {
         let gameObjects = [] as GameObject[];
-        gameObjects = gameObjects.concat(this.buildings);
+        gameObjects = gameObjects.concat(this.oldBuildings);
         gameObjects = gameObjects.concat(this.concepts);
         gameObjects = gameObjects.concat(this.advancements);
         return gameObjects;
@@ -219,7 +220,7 @@ export default class GameEngine {
         this.lastTick = savedObject.lastTick;
         this.locks = savedObject.locks;
         this.resources = savedObject.resources;
-        this.buildings = ([] as GameObject[]).concat(tempProducers).concat(tempStorage);
+        this.oldBuildings = ([] as GameObject[]).concat(tempProducers).concat(tempStorage);
         this.concepts = ([] as GameObject[]).concat(tempUpgrades).concat(tempDiscoveries);
         this.currentSelection = this.producers[0];
         this.advancements = tempAdvancements;
@@ -232,7 +233,7 @@ export default class GameEngine {
         this.toastActivationTime = 0;
         this.toastMsg = '';
 
-        this.buildings = (ProducersData.map(pd => this.createProducer(pd.template, pd.startingState)) as GameObject[]).concat(StorageData.map(sd => this.createStorage(sd.template, sd.startingState)));
+        this.oldBuildings = (ProducersData.map(pd => this.createProducer(pd.template, pd.startingState)) as GameObject[]).concat(StorageData.map(sd => this.createStorage(sd.template, sd.startingState)));
 
         this.concepts = (DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState)) as GameObject[]).concat(UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState)));
 
@@ -266,7 +267,7 @@ export default class GameEngine {
         // tslint:disable-next-line:no-string-literal
         this.resources['advancement'].amount += 1;
 
-        this.currentSelection = this.buildings[0];
+        this.currentSelection = this.oldBuildings[0];
         this.currentGoal = this.goals.copper;
     }
 
@@ -418,7 +419,12 @@ export default class GameEngine {
     }
 
     private recalculateStorage(): void {
-        // TODO: implement
+        CurrencyArray.forEach(c => {
+            const resource = this.resources[c];
+            if (typeof resource.template.baseLimit !== 'undefined') {
+                resource.limit = this.buildings.filter(b => typeof b.storage !== 'undefined' && typeof b.storage[c] !== 'undefined').reduce((limit, b) => limit += ((b.storage as Price)[c] as number), resource.template.baseLimit || 0);
+            }
+        });
     }
 
     private applyUpgradeEffect(effect: UpgradeEffect) {
