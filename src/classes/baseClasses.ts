@@ -22,7 +22,7 @@ export interface IResourcesData {
 export type Currency = keyof IResourcesData;
 export type EffectProp = "cost" | "production" | "consumption" | "storage";
 export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable';
-export type GameObjectType = "producer" | "discovery" | "storage" | "upgrade";
+export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade";
 
 const industryBranchesObject = {
   herbs: true,
