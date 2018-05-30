@@ -1,4 +1,4 @@
-import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect } from "./classes/baseClasses";
+import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, Currency, IResource, CurrencyArray, IResourceTemplate } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, DiscoveriesData, GoalsData, LocksData, ProducersData, ResourcesData, StorageData, UpgradesData } from "./data";
@@ -9,6 +9,7 @@ import { Storage, IStorageState, IStorageTemplate } from "./classes/storage/Stor
 import { Upgrade, IUpgradeState, IUpgradeTemplate } from "./classes/upgrade/Upgrade";
 
 import { PriceHelper } from "./classes/helpers";
+import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
 
 export default class GameEngine {
     lastTick = 0;
@@ -236,10 +237,18 @@ export default class GameEngine {
         this.concepts = (DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState)) as GameObject[]).concat(UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState)));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
-        this.resources = JSON.parse(JSON.stringify(ResourcesData));
+        this.resources = this.createResourcesData(ResourcesData);
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
         this.advancements = AdvancementData.map(ad => this.createDiscovery(ad.template, ad.startingState));
+    }
+
+    private createResourcesData(template: IResourcesTemplateData): IResourcesData {
+        const returnObject = {} as IResourcesData;
+
+        CurrencyArray.forEach(c => returnObject[c] = this.createResource(template[c]));
+
+        return returnObject;
     }
 
     private prestige() {
@@ -270,8 +279,8 @@ export default class GameEngine {
                 unlockable.locks.splice(lockIndex, 1);
             }
         });
-        Object.keys(this.resources).forEach(k => {
-            const resource = this.resources[k];
+        CurrencyArray.forEach(c => {
+            const resource = this.resources[c];
             const lockIndex = resource.locks.indexOf(lock);
             if (lockIndex > -1) {
                 resource.locks.splice(lockIndex, 1);
@@ -302,19 +311,19 @@ export default class GameEngine {
     }
 
     private accumulatePerSecondValues(deltaT: number, valuePerDelta: Price, isPositive: boolean) {
-        Object.keys(valuePerDelta).forEach(k => {
-            this.resources[k].gainPerSecond += (valuePerDelta[k] || 0) * 1000 / deltaT * (isPositive ? 1 : -1);
+        PriceHelper.getPriceCurrencies(valuePerDelta).forEach(c => {
+            this.resources[c].gainPerSecond += (valuePerDelta[c] || 0) * 1000 / deltaT * (isPositive ? 1 : -1);
         });
     }
 
     private payThePrice(price: Price) {
-        Object.keys(price).forEach(currency => {
+        PriceHelper.getPriceCurrencies(price).forEach(currency => {
             this.resources[currency].amount -= (price[currency] || 0);
         });
     }
 
     private getPaid(price: Price) {
-        Object.keys(price).forEach(currency => {
+        PriceHelper.getPriceCurrencies(price).forEach(currency => {
             this.resources[currency].amount += (price[currency] || 0);
         });
     }
@@ -324,11 +333,11 @@ export default class GameEngine {
     }
 
     private clearPerSecondValues(): void {
-        Object.keys(this.resources).forEach(k => this.resources[k].gainPerSecond = 0);
+        CurrencyArray.forEach(k => this.resources[k].gainPerSecond = 0);
     }
 
     private discardResourcesOverLimit(): void {
-        Object.keys(this.resources).forEach(k => {
+        CurrencyArray.forEach(k => {
             const resource = this.resources[k];
             if (typeof resource.limit !== 'undefined' && resource.limit < resource.amount) {
                 resource.amount = resource.limit;
@@ -368,7 +377,7 @@ export default class GameEngine {
         const storage = new Storage(template, state);
         storage.onBuy.push(() => {
             storage.quantity++;
-            Object.keys(template.storage).forEach(k => {
+            PriceHelper.getPriceCurrencies(template.storage).forEach(k => {
                 const res = this.resources[k];
                 if (typeof (res.limit) !== 'undefined') {
                     res.limit += (template.storage[k] || 0);
@@ -387,6 +396,29 @@ export default class GameEngine {
             });
         });
         return upgrade;
+    }
+
+    private createBuilding(template: IBuildingTemplate, state: IBuildingState): Building {
+        const building = new Building(template, state);
+        building.onBuy.push(() => {
+            building.quantity++;
+            this.recalculateStorage();
+        });
+        return building;
+    }
+
+    private createResource(template: IResourceTemplate): IResource {
+        return {
+            template: template,
+            amount: 0,
+            gainPerSecond: 0,
+            limit: template.baseLimit,
+            locks: template.originalLocks.slice()
+        };
+    }
+
+    private recalculateStorage(): void {
+        // TODO: implement
     }
 
     private applyUpgradeEffect(effect: UpgradeEffect) {

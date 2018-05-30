@@ -2,24 +2,37 @@ import { LocksData as LockList } from "../data";
 
 export type Lock = keyof typeof LockList;
 
-export interface IResourcesData {
-  [index: string]: IResource;
+type Indexed<T extends string, U> = {
+  [P in T]: U;
+};
 
-  herbs: IResource;
-  wood: IResource;
-  flint: IResource;
-  "stone tools": IResource;
-  grain: IResource;
-  flour: IResource;
-  water: IResource;
-  bread: IResource;
-  beer: IResource;
-  "mud bricks": IResource;
-  "raw meat": IResource;
-  meat: IResource;
-}
+export interface IResourcesTemplateData extends Indexed<Currency, IResourceTemplate> { }
 
-export type Currency = keyof IResourcesData;
+export interface IResourcesData extends Indexed<Currency, IResource> { }
+
+const CurrencyObject = {
+  herbs: true,
+  wood: true,
+  flint: true,
+  "stone tools": true,
+  grain: true,
+  flour: true,
+  water: true,
+  bread: true,
+  beer: true,
+  "mud bricks": true,
+  "raw meat": true,
+  meat: true,
+  clay: true,
+  stone: true,
+  charcoal: true,
+  pottery: true,
+  advancement: true,
+};
+
+export const CurrencyArray = Object.keys(CurrencyObject) as Currency[];
+
+export type Currency = keyof typeof CurrencyObject;
 export type EffectProp = "cost" | "production" | "consumption" | "storage";
 export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable';
 export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade";
@@ -35,11 +48,7 @@ export const branchesArray = Object.keys(industryBranchesObject) as IndustryBran
 
 export type IndustryBranch = keyof typeof industryBranchesObject;
 
-type PriceData = {
-  [P in Currency]?: number;
-};
-
-export interface Price extends PriceData {
+export interface Price extends Partial<Indexed<Currency, number>> {
   [index: string]: number | undefined;
 }
 
@@ -47,12 +56,18 @@ export interface Map<T> {
   [index: string]: T;
 }
 
-export interface IResource {
+export interface IResourceTemplate {
   name: string;
+  baseLimit?: number;
+  precision: number;
+  originalLocks: Lock[];
+}
+
+export interface IResource {
+  template: IResourceTemplate;
   limit?: number;
   amount: number;
   gainPerSecond: number;
-  precision: number;
   locks: Lock[];
 }
 

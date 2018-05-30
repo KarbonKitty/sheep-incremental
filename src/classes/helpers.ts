@@ -1,4 +1,4 @@
-import { Price, IResourcesData } from "./baseClasses";
+import { Price, IResourcesData, CurrencyArray, Currency } from "./baseClasses";
 
 export class PriceHelper {
   static mulPriceByNumber(price: Price, num: number): Price {
@@ -41,8 +41,16 @@ export class PriceHelper {
     }
   }
 
+  static getPriceCurrencies(price: Price): Currency[] {
+    const currencies = Object.keys(price);
+    if (currencies.filter(c => CurrencyArray.indexOf(c as Currency) === -1).length > 0) {
+      throw new Error("Price has a currency that doesn't exist: " + JSON.stringify(price));
+    }
+    return currencies as Currency[];
+  }
+
   static canBePaid(price: Price, resources: IResourcesData): boolean {
-    return Object.keys(price).reduce((acc, cur) => acc && resources[cur].amount >= (price[cur] || 0), true);
+    return PriceHelper.getPriceCurrencies(price).reduce((acc, cur) => acc && resources[cur].amount >= (price[cur] || 0), true);
   }
 
   private static addTwoPrices(price1: Price, price2: Price): Price {

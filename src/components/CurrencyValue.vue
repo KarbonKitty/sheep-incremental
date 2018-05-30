@@ -4,7 +4,7 @@
       slot
     ul
       div(v-for="(amount, currency) in values" :key="currency")
-        li(v-if="resources[currency].locks.length === 0") {{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}
+        li(v-if="resources[currency].locks.length === 0") {{ amount | decimal(resources[currency].template.precision) }} {{ resources[currency].template.name }}
 </template>
 
 <script lang="ts">

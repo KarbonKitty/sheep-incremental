@@ -28,6 +28,7 @@ import typeGuards from "../classes/typeGuards";
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
 import UpgradeComponent from "./Upgrade.vue";
+import { PriceHelper } from '../classes/helpers';
 
 export default Vue.extend({
   props: {
@@ -50,7 +51,7 @@ export default Vue.extend({
   },
   computed: {
     canBePaid: function(): boolean {
-      return Object.keys(this.building.currentPrice).reduce((acc, cv) => acc && this.resources[cv].amount >= (this.building.currentPrice[cv] || 0), true);
+      return PriceHelper.getPriceCurrencies(this.building.currentPrice).reduce((acc, cv) => acc && this.resources[cv].amount >= (this.building.currentPrice[cv] || 0), true);
     },
     hasConsumption: function(): boolean {
       if (typeGuards.isProducer(this.building)) {

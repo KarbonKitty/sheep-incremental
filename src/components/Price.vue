@@ -4,7 +4,7 @@
       slot
     ul
       div(v-for="(amount, currency) in values" :key="currency")
-        li(:class="{ lacking: typeof resources[currency] !== 'undefined' && resources[currency].amount < amount }") {{ amount | decimal(resources[currency].precision) }} {{ resources[currency].name }}
+        li(:class="{ lacking: typeof resources[currency] !== 'undefined' && resources[currency].amount < amount }") {{ amount | decimal(resources[currency].template.precision) }} {{ resources[currency].template.name }}
 </template>
 
 <script lang="ts">
