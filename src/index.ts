@@ -44,7 +44,7 @@ const vm = new Vue({
             localStorage.removeItem("industrial-incremental-save");
         },
         availableBuildingsFromBranch(branch: IndustryBranch) {
-            return this.oldBuildings.filter(b => b.locks.length === 0 && b.branch === branch);
+            return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
         },
         availableUpgradesFor(gameObject: GameObject) {
             return this.upgrades.filter(u => u.objectId === gameObject.id);

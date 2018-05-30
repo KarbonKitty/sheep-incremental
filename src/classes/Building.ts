@@ -63,6 +63,30 @@ export class Building extends GameObject {
         this.disabled = state.disabled || false;
     }
 
+    getProduction(deltaT: number) {
+        if (typeof this.production === 'undefined') {
+            return undefined;
+        } else {
+            return PriceHelper.mulPriceByNumber(this.production.getTotal(), this.quantity * deltaT / 1000);
+        }
+    }
+
+    getConsumption(deltaT: number) {
+        if (typeof this.consumption === 'undefined') {
+            return undefined;
+        } else {
+            return PriceHelper.mulPriceByNumber(this.consumption.getTotal(), this.quantity * deltaT / 1000);
+        }
+    }
+
+    getStorage() {
+        if (typeof this.storage === 'undefined') {
+            return undefined;
+        } else {
+            return PriceHelper.mulPriceByNumber(this.storage, this.quantity);
+        }
+    }
+
     buy() {
         this.onBuy.forEach(handler => handler());
     }
