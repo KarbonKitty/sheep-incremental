@@ -20,7 +20,7 @@ import Vue from 'vue'
 import EventBus from '../eventBus';
 
 import GameObject from '../classes/gameObject/GameObject';
-import { Upgrade } from "../classes/upgrade/Upgrade";
+import { Idea } from '../classes/Idea';
 import { IResource, IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
 import typeGuards from "../classes/typeGuards";
@@ -34,7 +34,7 @@ export default Vue.extend({
   props: {
     building: Object as () => GameObject,
     resources: Object as () => IResourcesData,
-    upgrades: Array as () => Upgrade[]
+    upgrades: Array as () => Idea[]
   },
   components: {
     'currency-value-component': CurrencyValueComponent,

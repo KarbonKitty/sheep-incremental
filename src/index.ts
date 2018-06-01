@@ -47,7 +47,7 @@ const vm = new Vue({
             return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
         },
         availableUpgradesFor(gameObject: GameObject) {
-            return this.ideas.filter(i => i.template.objectId === gameObject.id);
+            return this.ideas.filter(i => i.template.objectId === gameObject.id && !i.done);
         }
     },
     computed: {

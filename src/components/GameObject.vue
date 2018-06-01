@@ -8,7 +8,7 @@
 import Vue from "vue";
 import EventBus from "../eventBus";
 import GameObject from "../classes/gameObject/GameObject";
-import { Upgrade } from "../classes/upgrade/Upgrade";
+import { Idea } from "../classes/Idea";
 import { IResourcesData } from "../classes/baseClasses";
 import { PriceHelper } from "../classes/helpers";
 
@@ -21,7 +21,7 @@ export default Vue.extend({
   props: {
     gameObject: Object as () => GameObject,
     resources: Object as () => IResourcesData,
-    upgrades: Array as () => Upgrade[]
+    upgrades: Array as () => Idea[]
   },
   computed: {
     canBeBought: function(): boolean {
@@ -52,6 +52,5 @@ export default Vue.extend({
   .available {
     font-weight: bold;
     background-color: #073642;
-    /* color: #93a1a1; */
   }
 </style>
