@@ -266,7 +266,7 @@ export default class GameEngine {
 
     private prestige() {
         const survivors = {
-            advancements: this.advancements
+            advancements: this.advancements.slice()
         };
 
         this.init();
