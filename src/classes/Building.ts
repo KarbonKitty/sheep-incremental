@@ -96,7 +96,8 @@ export class Building extends GameObject {
             quantity: this.quantity,
             production: this.production,
             consumption: this.consumption,
-            disabled: this.disabled
+            disabled: this.disabled,
+            locks: this.locks
         };
     }
 }
