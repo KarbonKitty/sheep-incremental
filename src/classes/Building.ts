@@ -1,9 +1,9 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
+import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { IProductionState, Production } from "./production";
 import { Price } from "./baseClasses";
 import { PriceHelper } from "./helpers";
-import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 
 export interface IBuildingState extends IGameObjectState {
     quantity: number;
@@ -46,13 +46,13 @@ export class Building extends GameObject {
             this.storage = template.rawStorage;
         }
 
-        if (typeof state !== 'undefined' && typeof state.production !== 'undefined') {
+        if (typeof state.production !== 'undefined') {
             this.production = new Production(state.production);
         } else if (typeof template.rawProduction !== 'undefined') {
             this.production = new Production({ baseProduction: template.rawProduction });
         }
 
-        if (typeof state !== 'undefined' && typeof state.consumption !== 'undefined') {
+        if (typeof state.consumption !== 'undefined') {
             this.consumption = new Production(state.consumption);
         } else if (typeof template.rawConsumption !== 'undefined') {
             this.consumption = new Production({ baseProduction: template.rawConsumption });
