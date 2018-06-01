@@ -377,9 +377,9 @@ const producersData: BuildingData[] = [
             name: "Smoke house",
             desc: "Primitive building of mud bricks, used to smoke meat.",
             branch: "hunting",
-            rawCost: { "mud bricks": 40, wood: 35 },
-            rawConsumption: { "raw meat": 3, wood: 2 },
-            rawProduction: { meat: 1.5 },
+            rawCost: { "mud bricks": 40, wood: 40 },
+            rawConsumption: { "raw meat": 4, wood: 2.5 },
+            rawProduction: { meat: 2 },
             buyVerb: "Build",
             originalLocks: ['hunting', 'fire']
         },
