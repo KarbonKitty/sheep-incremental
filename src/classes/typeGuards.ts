@@ -1,24 +1,16 @@
-import { Discovery } from "./discovery/Discovery";
 import GameObject from "./gameObject/GameObject";
 import IBuyable from "./IBuyable";
-import { Producer } from "./producer/Producer";
-import { Storage } from "./storage/Storage";
-import { Upgrade } from "./upgrade/Upgrade";
+import { Building } from "./Building";
+import { Idea } from "./Idea";
 
 export default {
-    isProducer(gameObject: GameObject): gameObject is Producer {
-        return (gameObject as Producer).type === 'producer';
+    isBuilding(gameObject: GameObject): gameObject is Building {
+        return (gameObject as Building).type === 'building';
     },
-    isDiscovery(gameObject: GameObject): gameObject is Discovery {
-        return (gameObject as Discovery).type === 'discovery';
+    isIdea(gameObject: GameObject): gameObject is Idea {
+        return (gameObject as Idea).type === 'idea';
     },
     isBuyable(gameObject: object): gameObject is IBuyable {
         return typeof (gameObject as IBuyable).buy !== 'undefined';
     },
-    isStorage(gameObject: object): gameObject is Storage {
-        return (gameObject as Storage).type === 'storage';
-    },
-    isUpgrade(gameObject: object): gameObject is Upgrade {
-        return (gameObject as Upgrade).type === 'upgrade';
-    }
 };

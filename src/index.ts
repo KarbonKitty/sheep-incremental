@@ -47,26 +47,26 @@ const vm = new Vue({
             return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
         },
         availableUpgradesFor(gameObject: GameObject) {
-            return this.upgrades.filter(u => u.objectId === gameObject.id);
+            return this.ideas.filter(i => i.template.objectId === gameObject.id);
         }
     },
     computed: {
         currentUpgrades: function() {
-            return this.upgrades.filter(
-                u => !u.done && u.objectId === this.currentSelection.id && u.locks.length === 0
+            return this.ideas.filter(
+                i => !i.done && i.template.objectId === this.currentSelection.id && i.locks.length === 0
             );
         },
         branches: function() {
             return Branches;
         },
         upgrades: function() {
-            return this.concepts.filter(c => c.type === "upgrade");
+            return this.ideas.filter(i => typeof i.template.effects !== 'undefined');
         },
         availableUpgrades: function() {
             return this.upgrades.filter(u => u.locks.length === 0 && !u.done);
         },
         discoveries: function() {
-            return this.concepts.filter(c => c.type === "discovery");
+            return this.ideas.filter(i => typeof i.template.unlocks !== 'undefined');
         }
     },
     components: {

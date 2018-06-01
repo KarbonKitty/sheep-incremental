@@ -1,16 +1,12 @@
 import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, Currency, IResource, CurrencyArray, IResourceTemplate } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
-import { AdvancementData, BuildingData, DiscoveriesData, GoalsData, LocksData, ResourcesData, UpgradesData } from "./data";
-
-import { Discovery, IDiscoveryState, IDiscoveryTemplate } from "./classes/discovery/Discovery";
-//import { Producer, IProducerState, IProducerTemplate } from "./classes/producer/Producer";
-//import { Storage, IStorageState, IStorageTemplate } from "./classes/storage/Storage";
-import { Upgrade, IUpgradeState, IUpgradeTemplate } from "./classes/upgrade/Upgrade";
+import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData } from "./data";
 
 import { PriceHelper } from "./classes/helpers";
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
 import { Production } from "./classes/production";
+import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
 
 interface IProducer extends Building {
     production: Production;
@@ -24,6 +20,14 @@ type IProcessor = IProducer & IConsumer;
 
 interface IStorage extends Building {
     storage: Price;
+}
+
+interface IUpgrade extends Idea {
+    effects: UpgradeEffect[];
+}
+
+interface IDiscovery extends Idea {
+    unlocks: Lock[];
 }
 
 export default class GameEngine {
@@ -40,11 +44,11 @@ export default class GameEngine {
     goals = {} as Map<Price>;
 
     buildings = [] as Building[];
-    concepts = [] as GameObject[];
+    ideas = [] as Idea[];
 
     resources = {} as IResourcesData;
 
-    advancements = [] as Discovery[];
+    advancements = [] as Idea[];
 
     constructor() {
         this.init();
@@ -83,12 +87,12 @@ export default class GameEngine {
         return this.buildings.filter(b => typeof b.storage !== 'undefined') as IStorage[];
     }
 
-    get upgrades(): Upgrade[] {
-        return this.concepts.filter(c => typeGuards.isUpgrade(c)) as Upgrade[];
+    get upgrades(): IUpgrade[] {
+        return this.ideas.filter(i => typeof i.template.effects !== 'undefined') as IUpgrade[];
     }
 
-    get discoveries(): Discovery[] {
-        return this.concepts.filter(c => typeGuards.isDiscovery(c)) as Discovery[];
+    get discoveries(): IDiscovery[] {
+        return this.ideas.filter(i => typeof i.template.unlocks !== 'undefined') as IDiscovery[];
     }
 
     tick(currentTick: number) {
@@ -135,7 +139,7 @@ export default class GameEngine {
                 break;
             case 'disable':
                 const item = this.getGameObjectById(data.value);
-                if (typeof item !== 'undefined' && typeGuards.isProducer(item)) {
+                if (typeof item !== 'undefined' && typeGuards.isBuilding(item)) {
                     item.disabled = !item.disabled;
                 } else {
                     throw new Error(`Object with id ${data.value} is not a producer and cannot be disabled`);
@@ -149,7 +153,7 @@ export default class GameEngine {
     getAllGameObjects(): GameObject[] {
         let gameObjects = [] as GameObject[];
         gameObjects = gameObjects.concat(this.buildings);
-        gameObjects = gameObjects.concat(this.concepts);
+        gameObjects = gameObjects.concat(this.ideas);
         gameObjects = gameObjects.concat(this.advancements);
         return gameObjects;
     }
@@ -183,10 +187,8 @@ export default class GameEngine {
             lastTick: this.lastTick,
             locks: this.locks,
             resources: this.resources,
-            producersState: this.producers.map(p => ({ id: p.id, state: p.save() })),
-            discoveriesState: this.discoveries.map(d => ({ id: d.id, state: d.save() })),
-            storageState: this.storages.map(s => ({ id: s.id, state: s.save() })),
-            upgradesState: this.upgrades.map(u => ({ id: u.id, state: u.save() })),
+            buildingState: this.buildings.map(b => ({ id: b.id, state: b.save() })),
+            ideasState: this.ideas.map(i => ({ id: i.id, state: i.save() })),
             advancementsState: this.advancements.map(a => ({ id: a.id, state: a.save() }))
         };
 
@@ -199,49 +201,22 @@ export default class GameEngine {
         // to make this generic, we would need some form of list of all the game object data
         // TODO: when creating mixin-implementation, create a list of all gameObjects and use it here
 
-        // const tempProducers = [] as Producer[];
-        // savedObject.producersState.forEach((ps: { id: string, state: IProducerState }) => {
-        //     const producerData = ProducersData.filter(pd => pd.template.id === ps.id).pop();
-        //     if (typeof producerData === 'undefined') {
-        //         throw new Error("Unknown producer id: " + ps.id);
-        //     }
-        //     tempProducers.push(this.createProducer(producerData.template, ps.state));
-        // });
-
-        const tempDiscoveries = [] as Discovery[];
-        savedObject.discoveriesState.forEach((ds: { id: string, state: IDiscoveryState }) => {
-            const discoveryData = DiscoveriesData.filter(dd => dd.template.id === ds.id).pop();
-            if (typeof discoveryData === 'undefined') {
-                throw new Error("Unknown discovery id: " + ds.id);
+        const tempIdeas = [] as Idea[];
+        savedObject.ideasState.forEach((is: { id: string, state: IIdeaState }) => {
+            const ideaData = IdeaData.filter(id => id.template.id === is.id).pop();
+            if (typeof ideaData === 'undefined') {
+                throw new Error("Unknown idea id:" + is.id);
             }
-            tempDiscoveries.push(this.createDiscovery(discoveryData.template, ds.state));
+            tempIdeas.push(this.createIdea(ideaData.template, is.state));
         });
 
-        // const tempStorage = [] as Storage[];
-        // savedObject.storageState.forEach((ss: { id: string, state: IProducerState }) => {
-        //     const storageData = StorageData.filter(sd => sd.template.id === ss.id).pop();
-        //     if (typeof storageData === 'undefined') {
-        //         throw new Error("Unknown storage id: " + ss.id);
-        //     }
-        //     tempStorage.push(this.createStorage(storageData.template, ss.state));
-        // });
-
-        const tempUpgrades = [] as Upgrade[];
-        savedObject.upgradesState.forEach((us: { id: string, state: IUpgradeState }) => {
-            const upgradeData = UpgradesData.filter(ud => ud.template.id === us.id).pop();
-            if (typeof upgradeData === 'undefined') {
-                throw new Error("Unknown upgrade id:" + us.id);
-            }
-            tempUpgrades.push(this.createUpgrade(upgradeData.template, us.state));
-        });
-
-        const tempAdvancements = [] as Discovery[];
-        savedObject.advancementsState.forEach((as: { id: string, state: IDiscoveryState }) => {
+        const tempAdvancements = [] as Idea[];
+        savedObject.advancementsState.forEach((as: { id: string, state: IIdeaState }) => {
             const advData = AdvancementData.filter(ad => ad.template.id === as.id).pop();
             if (typeof advData === 'undefined') {
                 throw new Error("Unknown advancement id:" + as.id);
             }
-            tempAdvancements.push(this.createDiscovery(advData.template, as.state));
+            tempAdvancements.push(this.createIdea(advData.template, as.state));
         });
 
         const tempBuildings = [] as Building[];
@@ -257,8 +232,8 @@ export default class GameEngine {
         this.lastTick = savedObject.lastTick;
         this.locks = savedObject.locks;
         this.resources = savedObject.resources;
-        this.buildings = tempBuildings; // ([] as GameObject[]).concat(tempProducers).concat(tempStorage);
-        this.concepts = ([] as GameObject[]).concat(tempUpgrades).concat(tempDiscoveries);
+        this.buildings = tempBuildings;
+        this.ideas = tempIdeas;
         this.currentSelection = this.producers[0];
         this.advancements = tempAdvancements;
     }
@@ -272,15 +247,13 @@ export default class GameEngine {
 
         this.buildings = BuildingData.map(bd => this.createBuilding(bd.template, bd.startingState));
 
-        // this.oldBuildings = (ProducersData.map(pd => this.createProducer(pd.template, pd.startingState)) as GameObject[]).concat(StorageData.map(sd => this.createStorage(sd.template, sd.startingState)));
-
-        this.concepts = (DiscoveriesData.map(dd => this.createDiscovery(dd.template, dd.startingState)) as GameObject[]).concat(UpgradesData.map(ud => this.createUpgrade(ud.template, ud.startingState)));
+        this.ideas = IdeaData.map(id => this.createIdea(id.template, id.startingState));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
         this.resources = this.createResourcesData(ResourcesData);
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
-        this.advancements = AdvancementData.map(ad => this.createDiscovery(ad.template, ad.startingState));
+        this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState));
     }
 
     private createResourcesData(template: IResourcesTemplateData): IResourcesData {
@@ -415,48 +388,18 @@ export default class GameEngine {
         return true;
     }
 
-    // private createProducer(template: IProducerTemplate, state: IProducerState): Producer {
-    //     const producer = new Producer(template, state);
-    //     producer.onBuy.push(() => {
-    //         producer.quantity++;
-    //     });
-    //     return producer;
-    // }
-
-    private createDiscovery(template: IDiscoveryTemplate, state: IDiscoveryState): Discovery {
-        const discovery = new Discovery(template, state);
-        discovery.onBuy.push(() => {
-            discovery.done = true;
-            discovery.unlocks.forEach(key => this.removeLock(key));
-            // after discovering it once, we should stop showing it
-            this.currentSelection = this.producers.filter(p => p.locks.length === 0)[0];
+    private createIdea(template: IIdeaTemplate, state: IIdeaState): Idea {
+        const idea = new Idea(template, state);
+        idea.onBuy.push(() => {
+            idea.done = true;
+            if (typeof idea.template.unlocks !== 'undefined') {
+                idea.template.unlocks.forEach(key => this.removeLock(key));
+            }
+            if (typeof idea.template.effects !== 'undefined') {
+                idea.template.effects.forEach(e => this.applyUpgradeEffect(e));
+            }
         });
-        return discovery;
-    }
-
-    // private createStorage(template: IStorageTemplate, state: IStorageState): Storage {
-    //     const storage = new Storage(template, state);
-    //     storage.onBuy.push(() => {
-    //         storage.quantity++;
-    //         PriceHelper.getPriceCurrencies(template.storage).forEach(k => {
-    //             const res = this.resources[k];
-    //             if (typeof (res.limit) !== 'undefined') {
-    //                 res.limit += (template.storage[k] || 0);
-    //             }
-    //         });
-    //     });
-    //     return storage;
-    // }
-
-    private createUpgrade(template: IUpgradeTemplate, state: IUpgradeState): Upgrade {
-        const upgrade = new Upgrade(template, state);
-        upgrade.onBuy.push(() => {
-            upgrade.done = true;
-            upgrade.effects.forEach(e => {
-                this.applyUpgradeEffect(e);
-            });
-        });
-        return upgrade;
+        return idea;
     }
 
     private createBuilding(template: IBuildingTemplate, state: IBuildingState): Building {
@@ -482,7 +425,7 @@ export default class GameEngine {
         CurrencyArray.forEach(c => {
             const resource = this.resources[c];
             if (typeof resource.template.baseLimit !== 'undefined') {
-                resource.limit = this.storages.reduce((limit, b) => limit += b.storage[c] || 0, resource.template.baseLimit || 0);
+                resource.limit = this.storages.reduce((limit, b) => limit += (b.storage[c] || 0) * b.quantity, resource.template.baseLimit || 0);
             }
         });
     }
@@ -495,14 +438,14 @@ export default class GameEngine {
 
         switch (effect.affectedProperty) {
             case "production":
-                if (typeGuards.isProducer(object)) {
+                if (typeGuards.isBuilding(object) && typeof object.production !== 'undefined') {
                     object.production.addModifier(effect);
                 } else {
                     throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve production.`);
                 }
                 break;
             case "consumption":
-                if (typeGuards.isProducer(object)) {
+                if (typeGuards.isBuilding(object) && typeof object.consumption !== 'undefined') {
                     object.consumption.addModifier(effect);
                 } else {
                     throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve production.`);

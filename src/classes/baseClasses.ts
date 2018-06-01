@@ -35,7 +35,7 @@ export const CurrencyArray = Object.keys(CurrencyObject) as Currency[];
 export type Currency = keyof typeof CurrencyObject;
 export type EffectProp = "cost" | "production" | "consumption" | "storage";
 export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable';
-export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade";
+export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade" | "idea";
 
 const industryBranchesObject = {
   herbs: true,

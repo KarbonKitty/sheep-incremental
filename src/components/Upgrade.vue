@@ -5,7 +5,7 @@
     .details(v-if="details")
       p {{ upgrade.desc }}
       price-component(:values="upgrade.currentPrice" :resources="resources") Price:
-      div(v-for="effect in upgrade.effects" :key="effect.property")
+      div(v-for="effect in upgrade.template.effects" :key="effect.property")
         effect-component(:effect="effect")
       button.btn(@click="emitBuyEvent" :disabled="!canBePaid") {{ upgrade.buyVerb }}
 </template>
@@ -14,7 +14,7 @@
 import Vue from "vue";
 import EventBus from "../eventBus";
 
-import { Upgrade } from "../classes/upgrade/Upgrade";
+import { Idea } from "../classes/Idea";
 import { IResourcesData } from "../classes/baseClasses";
 import { PriceHelper } from "../classes/helpers";
 
@@ -25,7 +25,7 @@ import filters from "../filters";
 
 export default Vue.extend({
   props: {
-    upgrade: Object as () => Upgrade,
+    upgrade: Object as () => Idea,
     resources: Object as () => IResourcesData
   },
   data: function() {

@@ -144,7 +144,6 @@ const producersData: BuildingData[] = [
             branch: "herbs",
             rawCost: { herbs: 20 },
             rawProduction: { herbs: 1 },
-            rawConsumption: {},
             buyVerb: "Recruit",
             originalLocks: []
         },
@@ -212,7 +211,6 @@ const producersData: BuildingData[] = [
             branch: "bread",
             rawCost: { "stone tools": 2, herbs: 50 },
             rawProduction: { grain: 3 },
-            rawConsumption: {},
             buyVerb: "Buy",
             originalLocks: ['agriculture']
         },
@@ -314,7 +312,6 @@ const producersData: BuildingData[] = [
             branch: "beer",
             rawCost: { "stone tools": 2, wood: 25 },
             rawProduction: { water: 3 },
-            rawConsumption: {},
             buyVerb: "Dig",
             originalLocks: ['stone-tools']
         },
