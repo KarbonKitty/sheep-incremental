@@ -10,7 +10,7 @@ import EventBus from "../eventBus";
 import GameObject from "../classes/gameObject/GameObject";
 import { Idea } from "../classes/Idea";
 import { IResourcesData } from "../classes/baseClasses";
-import { PriceHelper } from "../classes/helpers";
+import { canBePaid } from "../classes/helpers";
 
 export default Vue.extend({
   methods: {
@@ -25,10 +25,10 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return PriceHelper.canBePaid(this.gameObject.currentPrice, this.resources);
+      return canBePaid(this.gameObject.currentPrice, this.resources);
     },
     hasAvailableUpgrades: function(): boolean {
-      return this.upgrades.filter(u => PriceHelper.canBePaid(u.currentPrice, this.resources)).length > 0;
+      return this.upgrades.filter(u => canBePaid(u.currentPrice, this.resources)).length > 0;
     }
   }
 });

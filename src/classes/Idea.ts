@@ -2,7 +2,6 @@ import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { Price, Lock, UpgradeEffect } from "./baseClasses";
-import { PriceHelper } from "./helpers";
 
 export interface IIdeaState extends IGameObjectState {
     done: boolean;

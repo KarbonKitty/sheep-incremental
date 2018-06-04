@@ -13,7 +13,7 @@ import Vue from 'vue'
 import { Map, IResource, Price, Currency, IResourcesData } from "../classes/baseClasses";
 import filters from "../filters";
 import EventBus from "../eventBus";
-import { PriceHelper } from '../classes/helpers';
+import { getPriceCurrencies } from '../classes/helpers';
 
 export default Vue.extend({
   props: {
@@ -22,10 +22,10 @@ export default Vue.extend({
   },
   computed: {
     allVisible: function(): boolean {
-      return PriceHelper.getPriceCurrencies(this.values).reduce((acc, k) => acc && this.resources[k].locks.length === 0, true);
+      return getPriceCurrencies(this.values).reduce((acc, k) => acc && this.resources[k].locks.length === 0, true);
     },
     canComplete: function(): boolean {
-      return PriceHelper.getPriceCurrencies(this.values).reduce((acc, k) => acc && this.resources[k].amount >= (this.values[k] as number), true);
+      return getPriceCurrencies(this.values).reduce((acc, k) => acc && this.resources[k].amount >= (this.values[k] as number), true);
     }
   },
   methods: {

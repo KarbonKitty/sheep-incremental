@@ -1,5 +1,5 @@
 import { Price, UpgradeEffect } from "./baseClasses";
-import { PriceHelper } from "./helpers";
+import { multiplyPrices, sumPrices } from "./helpers";
 
 export interface IProductionState {
     baseProduction: Price;
@@ -18,14 +18,14 @@ export class Production implements IProductionState {
     }
 
     public getTotal() {
-        return PriceHelper.multiplyPrices(this.baseProduction, this.multiplier || {});
+        return multiplyPrices(this.baseProduction, this.multiplier || {});
     }
 
     public addModifier(modifier: UpgradeEffect) {
         if (modifier.type === 'add') {
-            this.baseProduction = PriceHelper.sumPrices(this.baseProduction, modifier.scale);
+            this.baseProduction = sumPrices(this.baseProduction, modifier.scale);
         } else if (modifier.type === 'mul') {
-            this.multiplier = PriceHelper.multiplyPrices(this.multiplier || {}, modifier.scale);
+            this.multiplier = multiplyPrices(this.multiplier || {}, modifier.scale);
         } else {
             throw new Error(`Unknown upgrade effect type: ${modifier.type}`);
         }

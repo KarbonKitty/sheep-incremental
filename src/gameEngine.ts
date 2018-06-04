@@ -3,7 +3,7 @@ import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData } from "./data";
 
-import { PriceHelper } from "./classes/helpers";
+import { getPriceCurrencies, canBePaid as canPriceBePaid } from "./classes/helpers";
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
 import { Production } from "./classes/production";
 import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
@@ -345,25 +345,25 @@ export default class GameEngine {
     }
 
     private accumulatePerSecondValues(deltaT: number, valuePerDelta: Price, isPositive: boolean) {
-        PriceHelper.getPriceCurrencies(valuePerDelta).forEach(c => {
+        getPriceCurrencies(valuePerDelta).forEach(c => {
             this.resources[c].gainPerSecond += (valuePerDelta[c] || 0) * 1000 / deltaT * (isPositive ? 1 : -1);
         });
     }
 
     private payThePrice(price: Price) {
-        PriceHelper.getPriceCurrencies(price).forEach(currency => {
+        getPriceCurrencies(price).forEach(currency => {
             this.resources[currency].amount -= (price[currency] || 0);
         });
     }
 
     private getPaid(price: Price) {
-        PriceHelper.getPriceCurrencies(price).forEach(currency => {
+        getPriceCurrencies(price).forEach(currency => {
             this.resources[currency].amount += (price[currency] || 0);
         });
     }
 
     private canBePaid(price: Price): boolean {
-        return PriceHelper.canBePaid(price, this.resources);
+        return canPriceBePaid(price, this.resources);
     }
 
     private clearPerSecondValues(): void {

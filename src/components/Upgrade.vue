@@ -16,7 +16,7 @@ import EventBus from "../eventBus";
 
 import { Idea } from "../classes/Idea";
 import { IResourcesData } from "../classes/baseClasses";
-import { PriceHelper } from "../classes/helpers";
+import { getPriceCurrencies } from "../classes/helpers";
 
 import PriceComponent from "./Price.vue";
 import EffectComponent from "./Effect.vue";
@@ -46,7 +46,7 @@ export default Vue.extend({
   },
   computed: {
     canBePaid: function(): boolean {
-      return PriceHelper.getPriceCurrencies(this.upgrade.currentPrice).reduce(
+      return getPriceCurrencies(this.upgrade.currentPrice).reduce(
         (acc, cv) =>
           acc &&
           this.resources[cv].amount >= (this.upgrade.currentPrice[cv] || 0),
@@ -55,8 +55,8 @@ export default Vue.extend({
     }
   },
   components: {
-    'price-component': PriceComponent,
-    'effect-component': EffectComponent
+    "price-component": PriceComponent,
+    "effect-component": EffectComponent
   },
   filters
 });

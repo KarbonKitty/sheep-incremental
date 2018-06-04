@@ -3,7 +3,7 @@ import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { IProductionState, Production } from "./production";
 import { Price } from "./baseClasses";
-import { PriceHelper } from "./helpers";
+import { mulPriceByNumber } from "./helpers";
 
 export interface IBuildingState extends IGameObjectState {
     quantity: number;
@@ -34,7 +34,7 @@ export class Building extends GameObject {
     onBuy = [] as Array<() => void>;
 
     public get currentPrice(): Price {
-        return PriceHelper.mulPriceByNumber(this.rawCost, Math.pow(this.costMultiplier, this.quantity));
+        return mulPriceByNumber(this.rawCost, Math.pow(this.costMultiplier, this.quantity));
     }
 
     constructor(template: IBuildingTemplate, state: IBuildingState) {
@@ -67,7 +67,7 @@ export class Building extends GameObject {
         if (typeof this.production === 'undefined') {
             return undefined;
         } else {
-            return PriceHelper.mulPriceByNumber(this.production.getTotal(), this.quantity * deltaT / 1000);
+            return mulPriceByNumber(this.production.getTotal(), this.quantity * deltaT / 1000);
         }
     }
 
@@ -75,7 +75,7 @@ export class Building extends GameObject {
         if (typeof this.consumption === 'undefined') {
             return undefined;
         } else {
-            return PriceHelper.mulPriceByNumber(this.consumption.getTotal(), this.quantity * deltaT / 1000);
+            return mulPriceByNumber(this.consumption.getTotal(), this.quantity * deltaT / 1000);
         }
     }
 
@@ -83,7 +83,7 @@ export class Building extends GameObject {
         if (typeof this.storage === 'undefined') {
             return undefined;
         } else {
-            return PriceHelper.mulPriceByNumber(this.storage, this.quantity);
+            return mulPriceByNumber(this.storage, this.quantity);
         }
     }
 
