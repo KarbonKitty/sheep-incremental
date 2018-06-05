@@ -16,6 +16,8 @@ export interface IBuildingTemplate extends IGameObjectTemplate {
     rawProduction?: Price;
     rawConsumption?: Price;
     rawStorage?: Price;
+    employees?: number;
+    housing?: number;
 }
 
 export class Building extends GameObject {

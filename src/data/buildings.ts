@@ -8,6 +8,22 @@ type BuildingData = {
 const producersData: BuildingData[] = [
     {
         template: {
+            id: 'lean-to',
+            type: 'building',
+            name: "Lean-to",
+            desc: "One of the most primitive shelters for sheep, this is a bundle of sticks leaned against a wall, a tree, or some similiar object.",
+            branch: "construction",
+            rawCost: { wood: 10 },
+            housing: 1,
+            buyVerb: "Construct",
+            originalLocks: []
+        },
+        startingState: {
+            quantity: 1
+        }
+    },
+    {
+        template: {
             id: 'shed',
             type: 'storage',
             name: "Shed",

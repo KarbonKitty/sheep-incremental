@@ -1,4 +1,4 @@
-import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, Currency, IResource, CurrencyArray, IResourceTemplate } from "./classes/baseClasses";
+import IPopulation, { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, Currency, IResource, CurrencyArray, IResourceTemplate } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData } from "./data";
@@ -49,6 +49,8 @@ export default class GameEngine {
     resources = {} as IResourcesData;
 
     advancements = [] as Idea[];
+
+    population = { workers: 0, population: 0, housing: 0};
 
     constructor() {
         this.init();
@@ -189,7 +191,8 @@ export default class GameEngine {
             resources: this.resources,
             buildingState: this.buildings.map(b => ({ id: b.id, state: b.save() })),
             ideasState: this.ideas.map(i => ({ id: i.id, state: i.save() })),
-            advancementsState: this.advancements.map(a => ({ id: a.id, state: a.save() }))
+            advancementsState: this.advancements.map(a => ({ id: a.id, state: a.save() })),
+            population: this.population
         };
 
         return JSON.stringify(state);
@@ -236,6 +239,7 @@ export default class GameEngine {
         this.ideas = tempIdeas;
         this.currentSelection = this.producers[0];
         this.advancements = tempAdvancements;
+        this.population = savedObject.population;
     }
 
     // TODO: rethink that
@@ -254,6 +258,8 @@ export default class GameEngine {
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
         this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState));
+
+        this.recalculatePopulation();
     }
 
     private createResourcesData(template: IResourcesTemplateData): IResourcesData {
@@ -407,6 +413,7 @@ export default class GameEngine {
         building.onBuy.push(() => {
             building.quantity++;
             this.recalculateStorage();
+            this.recalculatePopulation();
         });
         return building;
     }
@@ -428,6 +435,11 @@ export default class GameEngine {
                 resource.limit = this.storages.reduce((limit, b) => limit += (b.storage[c] || 0) * b.quantity, resource.template.baseLimit || 0);
             }
         });
+    }
+
+    private recalculatePopulation(): void {
+        this.population.workers = this.buildings.reduce((total, b) => total += b.template.employees || 0 * b.quantity, 0);
+        this.population.housing = this.buildings.reduce((total, b) => total += b.template.housing || 0 * b.quantity, 0);
     }
 
     private applyUpgradeEffect(effect: UpgradeEffect) {

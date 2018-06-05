@@ -77,3 +77,9 @@ export interface UpgradeEffect {
   type: "add" | "mul";
   scale: Price;
 }
+
+export default interface IPopulation {
+  workers: number;
+  population: number;
+  housing: number;
+}
