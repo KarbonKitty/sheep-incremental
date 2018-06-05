@@ -1,7 +1,6 @@
 import { IResourcesTemplateData } from "../classes/baseClasses";
 
 const resourceTemplates: IResourcesTemplateData = {
-  herbs: { name: "herbs", precision: 2, baseLimit: 250, originalLocks: [] },
   wood: { name: "wood", precision: 1, baseLimit: 25, originalLocks: [] },
   flint: { name: "flint", precision: 1, baseLimit: 10, originalLocks: [] },
   "stone tools": { name: "stone tools", precision: 2, baseLimit: 0, originalLocks: ['stone-tools'] },

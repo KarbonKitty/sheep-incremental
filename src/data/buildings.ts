@@ -40,22 +40,6 @@ const producersData: BuildingData[] = [
     },
     {
         template: {
-            id: 'herb-storage',
-            type: 'storage',
-            name: "Herb rack",
-            desc: "Shoddy wooden rack to keep more herbs on it.",
-            branch: "herbs",
-            rawCost: { wood: 15 },
-            rawStorage: { herbs: 150 },
-            buyVerb: "Build",
-            originalLocks: []
-        },
-        startingState: {
-            quantity: 0
-        }
-    },
-    {
-        template: {
             id: 'wheat-silo',
             type: 'storage',
             name: "Grain silo",
@@ -153,13 +137,14 @@ const producersData: BuildingData[] = [
     },
     {
         template: {
-            id: 'herbs-gatherer',
+            id: 'wood-gatherer',
             type: 'producer',
-            name: "Herb gatherer",
-            desc: "Little sheep collecting herbs and flowers for the tribe.",
-            branch: "herbs",
-            rawCost: { herbs: 20 },
-            rawProduction: { herbs: 1 },
+            name: "Wood gatherer",
+            desc: "What do you get when you combine sheep and forest? Sheep and sticks.",
+            branch: "construction",
+            rawCost: { wood: 5 },
+            rawProduction: { wood: 1 },
+            employees: 1,
             buyVerb: "Recruit",
             originalLocks: []
         },
@@ -169,53 +154,19 @@ const producersData: BuildingData[] = [
     },
     {
         template: {
-            id: 'wood-gatherer',
-            type: 'producer',
-            name: "Wood gatherer",
-            desc: "What do you get when you combine sheep and forest? Sheep and sticks.",
-            branch: "construction",
-            rawCost: { herbs: 30 },
-            rawProduction: { wood: 1 },
-            rawConsumption: { herbs: 0.25 },
-            buyVerb: "Recruit",
-            originalLocks: []
-        },
-        startingState: {
-            quantity: 0
-        }
-    },
-    {
-        template: {
             id: 'flint-gatherer',
             type: 'producer',
             name: "Flint gatherer",
             desc: "Flint is a rock that can be easily broken to produce a sharp edge. Very useful to any tribe.",
             branch: "construction",
-            rawCost: { herbs: 25 },
+            rawCost: { wood: 5 },
             rawProduction: { flint: 0.5 },
-            rawConsumption: { herbs: 0.25 },
+            employees: 1,
             buyVerb: "Recruit",
             originalLocks: []
         },
         startingState: {
             quantity: 0
-        }
-    },
-    {
-        template: {
-            id: 'herb-garden',
-            type: 'producer',
-            name: "Herb garden",
-            desc: "Give that little sheep a sturdy hoe, and you are gonna get way more herbs.",
-            branch: "herbs",
-            rawCost: { herbs: 100, "stone tools": 3 },
-            rawProduction: { herbs: 3 },
-            rawConsumption: { "stone tools": 0.02 },
-            buyVerb: "Plant",
-            originalLocks: ['stone-tools']
-        },
-        startingState: {
-            quantity: 0,
         }
     },
     {
@@ -225,8 +176,9 @@ const producersData: BuildingData[] = [
             name: "Grain field",
             desc: "This is the beginning of an agricultural empire, the greatest empire that the sheep ever saw!",
             branch: "bread",
-            rawCost: { "stone tools": 2, herbs: 50 },
+            rawCost: { "stone tools": 1 },
             rawProduction: { grain: 3 },
+            employees: 1,
             buyVerb: "Buy",
             originalLocks: ['agriculture']
         },
@@ -241,9 +193,10 @@ const producersData: BuildingData[] = [
             name: "Flint knapper",
             desc: "Sheep with good manual dexterity can produce stone tools - just deliver flint and some sticks.",
             branch: "construction",
-            rawCost: { herbs: 100, flint: 10, wood: 10 },
-            rawConsumption: { herbs: 1, flint: 2, wood: 1 },
+            rawCost: { flint: 10, wood: 10 },
+            rawConsumption: { flint: 2, wood: 1 },
             rawProduction: { "stone tools": 0.1 },
+            employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['stone-tools']
         },
@@ -258,9 +211,10 @@ const producersData: BuildingData[] = [
             name: "Wood cutter",
             desc: "Sheep + forest + axe = more sticks.",
             branch: "construction",
-            rawCost: { herbs: 125, "stone tools": 2 },
-            rawConsumption: { herbs: 1, "stone tools": 0.04 },
+            rawCost: { "stone tools": 2 },
+            rawConsumption: { "stone tools": 0.04 },
             rawProduction: { wood: 4 },
+            employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['stone-tools']
         },
@@ -275,9 +229,10 @@ const producersData: BuildingData[] = [
             name: "Quern",
             desc: "Two simple stones, but good enough to make flour out of wheat",
             branch: "bread",
-            rawCost: { herbs: 50, grain: 50, "stone tools": 1 },
+            rawCost: { grain: 50, "stone tools": 1 },
             rawProduction: { flour: 1.5 },
             rawConsumption: { grain: 5 },
+            employees: 1,
             buyVerb: "Build",
             originalLocks: ['flour']
         },
@@ -295,6 +250,7 @@ const producersData: BuildingData[] = [
             rawCost: { wood: 40, grain: 50, water: 50 },
             rawConsumption: { grain: 5, water: 5 },
             rawProduction: { beer: 1 },
+            employees: 1,
             buyVerb: "Build",
             originalLocks: ['fermentation']
         },
@@ -309,9 +265,10 @@ const producersData: BuildingData[] = [
             name: "Bread oven",
             desc: "Simple earth oven used to bake bread.",
             branch: "bread",
-            rawCost: { herbs: 200, flour: 100, water: 100 },
+            rawCost: { flour: 100, water: 100 },
             rawProduction: { bread: 0.5 },
-            rawConsumption: { flour: 2, water: 5 },
+            rawConsumption: { flour: 2, water: 5, wood: 3 },
+            employees: 1,
             buyVerb: "Build",
             originalLocks: ['fire', 'flour']
         },
@@ -327,7 +284,8 @@ const producersData: BuildingData[] = [
             desc: "Deep hole in the ground that fills with water on its own.",
             branch: "beer",
             rawCost: { "stone tools": 2, wood: 25 },
-            rawProduction: { water: 3 },
+            rawProduction: { water: 5 },
+            employees: 1,
             buyVerb: "Dig",
             originalLocks: ['stone-tools']
         },
@@ -342,9 +300,10 @@ const producersData: BuildingData[] = [
             name: "Mud brick maker",
             desc: "Sheep that makes simple bricks out of sun-dried mud",
             branch: "construction",
-            rawCost: { herbs: 50, "stone tools": 2 },
+            rawCost: { "stone tools": 2 },
             rawConsumption: { wood: 0.5, "stone tools": 0.01 },
             rawProduction: { "mud bricks": 0.3 },
+            employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['stone-tools']
         },
@@ -359,9 +318,10 @@ const producersData: BuildingData[] = [
             name: "Hunter",
             desc: "Well armed sheep that hunts animals for their meat.",
             branch: "hunting",
-            rawCost: { "stone tools": 1, herbs: 50 },
-            rawConsumption: { "stone tools": 0.03, herbs: 0.25 },
+            rawCost: { "stone tools": 1 },
+            rawConsumption: { "stone tools": 0.03 },
             rawProduction: { "raw meat": 0.6 },
+            employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['hunting']
         },
@@ -396,6 +356,7 @@ const producersData: BuildingData[] = [
             rawCost: { "mud bricks": 40, wood: 40 },
             rawConsumption: { "raw meat": 4, wood: 2.5 },
             rawProduction: { meat: 2 },
+            employees: 1,
             buyVerb: "Build",
             originalLocks: ['hunting', 'fire']
         },
@@ -410,9 +371,10 @@ const producersData: BuildingData[] = [
             name: "Clay digger",
             desc: "Large hole by the water, where the sheep are toiling away digging the clay from the earth.",
             branch: "construction",
-            rawCost: { "stone tools": 3, herbs: 50 },
+            rawCost: { "stone tools": 2 },
             rawConsumption: { "stone tools": 0.1 },
             rawProduction: { "clay": 2 },
+            employees: 1,
             buyVerb: "Dig",
             originalLocks: ['pyrotechnology']
         },
@@ -430,6 +392,7 @@ const producersData: BuildingData[] = [
             rawCost: { "stone tools": 3 },
             rawConsumption: { clay: 3, wood: 3 },
             rawProduction: { pottery: 0.5 },
+            employees: 1,
             buyVerb: "Dig",
             originalLocks: ['pyrotechnology', 'fire', 'pottery']
         },
@@ -447,6 +410,7 @@ const producersData: BuildingData[] = [
             rawCost: { wood: 50 },
             rawConsumption: { wood: 4.5 },
             rawProduction: { charcoal: 1 },
+            employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['pyrotechnology', 'fire']
         },
@@ -461,9 +425,9 @@ const producersData: BuildingData[] = [
             name: "Stone gatherer",
             desc: "Some of the building require something non-flammable and harder than mud bricks. Those sheep collect stones for use in such buildings.",
             branch: "construction",
-            rawCost: { herbs: 50 },
-            rawConsumption: { herbs: 0.25 },
+            rawCost: { wood: 10 },
             rawProduction: { stone: 1 },
+            employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['pyrotechnology', 'fire']
         },
@@ -481,6 +445,7 @@ const producersData: BuildingData[] = [
             rawCost: { stone: 100, charcoal: 10 },
             rawConsumption: { clay: 7.5, charcoal: 1 },
             rawProduction: { pottery: 1.25 },
+            employees: 2,
             buyVerb: "Build",
             originalLocks: ['pyrotechnology', 'pottery', 'fire']
         },

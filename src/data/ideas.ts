@@ -126,7 +126,7 @@ const ideas: IdeaData[] = [
       desc: "With time, your flint knappers can learn a new technique for creation of sharp edges: instead of striking rocks with other rocks, strike them with softer material, like wood. It takes more work, but wastes less material and leads to better tools.",
       branch: "construction",
       objectId: 'flint-knapper',
-      rawCost: { herbs: 100, wood: 50, flint: 25, "stone tools": 1 },
+      rawCost: { wood: 50, flint: 25, "stone tools": 1 },
       effects: [{
         affectedObjectId: 'flint-knapper',
         affectedProperty: "production",
@@ -154,7 +154,7 @@ const ideas: IdeaData[] = [
       desc: "It seems that other rocks can be used to make tools, just like flint!",
       branch: "construction",
       objectId: 'flint-gatherer',
-      rawCost: { herbs: 50, flint: 10, "stone tools": 1 },
+      rawCost: { flint: 15, "stone tools": 1 },
       effects: [{
         affectedObjectId: 'flint-gatherer',
         affectedProperty: 'production',

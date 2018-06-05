@@ -11,7 +11,6 @@ export interface IResourcesTemplateData extends Indexed<Currency, IResourceTempl
 export interface IResourcesData extends Indexed<Currency, IResource> { }
 
 const CurrencyObject = {
-  herbs: true,
   wood: true,
   flint: true,
   "stone tools": true,
