@@ -1,0 +1,28 @@
+<template lang="pug">
+  div
+    div(v-if="typeof employees !== 'undefined' && employees > 0")
+      p Workers needed:
+      ul
+        li {{ employees }} sheep
+    div(v-if="typeof housing !== 'undefined' && housing > 0")
+      p Housing:
+      ul
+        li {{ housing }} sheep
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+
+import filters from "../filters";
+
+export default Vue.extend({
+  props: [ 'employees', 'housing' ],
+  filters
+})
+</script>
+
+<style scoped>
+  .lacking {
+    color: #dc322f;
+  }
+</style>

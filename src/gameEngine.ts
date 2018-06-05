@@ -438,8 +438,8 @@ export default class GameEngine {
     }
 
     private recalculatePopulation(): void {
-        this.population.workers = this.buildings.reduce((total, b) => total += b.template.employees || 0 * b.quantity, 0);
-        this.population.housing = this.buildings.reduce((total, b) => total += b.template.housing || 0 * b.quantity, 0);
+        this.population.workers = this.buildings.reduce((total, b) => total + (b.template.employees || 0) * b.quantity, 0);
+        this.population.housing = this.buildings.reduce((total, b) => total + (b.template.housing || 0) * b.quantity, 0);
     }
 
     private applyUpgradeEffect(effect: UpgradeEffect) {

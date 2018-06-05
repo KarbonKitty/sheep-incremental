@@ -18,6 +18,9 @@
         <toast-component :msg="toastMsg" :last-activation-time="toastActivationTime"></toast-component>
         <prestige-modal-component :visible="prestiging" :advancements="advancements.filter(a => a.locks.length === 1)" :points="resources.advancement.amount"></prestige-modal-component>
         <div class="sidebar">
+            <div>
+                Workers (employed / all): {{ population.workers }} / {{ population.housing }}
+            </div>
             <div v-for="res in resources">
                 <resource-component :resource="res"></resource-component>
             </div>

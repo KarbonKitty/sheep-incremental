@@ -4,6 +4,7 @@
       h3 {{ building.name }}
       p {{ building.desc }}
       price-component(:values="building.currentPrice" :resources="resources") Price:
+      population-component(:employees="building.template.employees" :housing="building.template.housing")
       currency-value-component(v-if="hasConsumption" :values="building.consumption.getTotal()" :resources="resources") Inputs:
       currency-value-component(v-if="hasProduction" :values="building.production.getTotal()" :resources="resources") Outputs:
       currency-value-component(v-if="hasStorage" :values="building.storage" :resources="resources") Storage:
@@ -28,6 +29,7 @@ import typeGuards from "../classes/typeGuards";
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
 import UpgradeComponent from "./Upgrade.vue";
+import PopulationComponent from "./Population.vue";
 import { getPriceCurrencies } from '../classes/helpers';
 
 export default Vue.extend({
@@ -39,7 +41,8 @@ export default Vue.extend({
   components: {
     'currency-value-component': CurrencyValueComponent,
     'price-component': PriceComponent,
-    'upgrade-component': UpgradeComponent
+    'upgrade-component': UpgradeComponent,
+    'population-component': PopulationComponent
   },
   methods: {
     emitBuyEvent: function() {
