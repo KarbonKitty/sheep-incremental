@@ -1,4 +1,4 @@
-import IPopulation, { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, Currency, IResource, CurrencyArray, IResourceTemplate } from "./classes/baseClasses";
+import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData } from "./data";
@@ -305,11 +305,6 @@ export default class GameEngine {
                 resource.locks.splice(lockIndex, 1);
             }
         });
-    }
-
-    private removeLocksFromObjects() {
-        const openLocks = Object.keys(this.locks).filter(l => this.locks[l]) as Lock[];
-        openLocks.forEach(ol => this.removeLock(ol));
     }
 
     private activatePureProducers(deltaT: number) {

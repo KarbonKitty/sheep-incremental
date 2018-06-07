@@ -27,7 +27,7 @@ const vm = new Vue({
     el: "#app",
     data: engine,
     methods: {
-        saveGame: function(event: any) {
+        saveGame: function() {
             console.log("Game saved");
             localStorage.setItem("industrial-incremental-save", engine.save());
         },
