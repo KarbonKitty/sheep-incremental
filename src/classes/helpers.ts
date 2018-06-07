@@ -1,4 +1,6 @@
-import { Price, IResourcesData, CurrencyArray, Currency } from "./baseClasses";
+import IPopulation, { Price, IResourcesData, CurrencyArray, Currency } from "./baseClasses";
+import GameObject from "./gameObject/GameObject";
+import typeGuards from "./typeGuards";
 
 export function mulPriceByNumber(price: Price, num: number): Price {
   const newPrice: Price = {};
@@ -50,6 +52,21 @@ export function getPriceCurrencies(price: Price): Currency[] {
 
 export function canBePaid(price: Price, resources: IResourcesData): boolean {
   return getPriceCurrencies(price).reduce((acc, cur) => acc && resources[cur].amount >= (price[cur] || 0), true);
+}
+
+export function hasEnoughWorkforce(item: GameObject, population: IPopulation) {
+  if (!typeGuards.isBuilding(item)) {
+    return true;
+  } else {
+    return (item.template.employees || 0) <= population.population - population.workers;
+  }
+}
+
+export function canBeBought(item: GameObject, resources: IResourcesData, population: IPopulation) {
+  const enoughResources = canBePaid(item.currentPrice, resources);
+  const enoughPopulation = hasEnoughWorkforce(item, population);
+
+  return enoughResources && enoughPopulation;
 }
 
 function addTwoPrices(price1: Price, price2: Price): Price {

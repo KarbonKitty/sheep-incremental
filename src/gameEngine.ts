@@ -50,7 +50,7 @@ export default class GameEngine {
 
     advancements = [] as Idea[];
 
-    population = { workers: 0, population: 0, housing: 0};
+    population = { workers: 0, population: 0, housing: 0 };
 
     constructor() {
         this.init();
@@ -175,7 +175,7 @@ export default class GameEngine {
 
         const price = item.currentPrice;
 
-        if (this.canBePaid(price)) {
+        if (this.canBePaid(price) && this.hasEnoughWorkforce(item)) {
             this.payThePrice(price);
             item.buy();
             return item;
@@ -260,6 +260,18 @@ export default class GameEngine {
         this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState));
 
         this.recalculatePopulation();
+    }
+
+    private getFreePopulation(): number {
+        return this.population.population - this.population.workers;
+    }
+
+    private hasEnoughWorkforce(item: GameObject): boolean {
+        if (typeGuards.isBuilding(item)) {
+            return (item.template.employees || 0) <= this.getFreePopulation();
+        } else {
+            return true;
+        }
     }
 
     private createResourcesData(template: IResourcesTemplateData): IResourcesData {
@@ -435,6 +447,9 @@ export default class GameEngine {
     private recalculatePopulation(): void {
         this.population.workers = this.buildings.reduce((total, b) => total + (b.template.employees || 0) * b.quantity, 0);
         this.population.housing = this.buildings.reduce((total, b) => total + (b.template.housing || 0) * b.quantity, 0);
+
+        // TODO: when adding happines, remember to change that
+        this.population.population = this.population.housing;
     }
 
     private applyUpgradeEffect(effect: UpgradeEffect) {

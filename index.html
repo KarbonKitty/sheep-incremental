@@ -34,7 +34,7 @@
                 <div v-if="availableBuildingsFromBranch(branch).length > 0">
                     <h3>{{ branch | capitalize }}</h3>
                     <div v-for="b in availableBuildingsFromBranch(branch)">
-                        <game-object-component :game-object="b" :resources="resources" :upgrades="availableUpgradesFor(b)"></game-object-component>
+                        <game-object-component :game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)"></game-object-component>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 <div>
                     <h3>Discoveries</h3>
                     <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
-                        <game-object-component :game-object="discovery" :resources="resources" :upgrades="availableUpgradesFor(discovery)"></game-object-component>
+                        <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)"></game-object-component>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
             </div> -->
         </div>
         <div class="main-area">
-            <building-details-component :building="currentSelection" :resources="resources" :upgrades="currentUpgrades"></building-details-component>
+            <building-details-component :building="currentSelection" :resources="resources" :population="population" :upgrades="currentUpgrades"></building-details-component>
         </div>
     </div>
 </body>

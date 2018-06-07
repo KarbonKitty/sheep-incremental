@@ -4,7 +4,7 @@
       h3 {{ building.name }}
       p {{ building.desc }}
       price-component(:values="building.currentPrice" :resources="resources") Price:
-      population-component(:employees="building.template.employees" :housing="building.template.housing")
+      population-component(:employees="building.template.employees" :housing="building.template.housing" :population="population")
       currency-value-component(v-if="hasConsumption" :values="building.consumption.getTotal()" :resources="resources") Inputs:
       currency-value-component(v-if="hasProduction" :values="building.production.getTotal()" :resources="resources") Outputs:
       currency-value-component(v-if="hasStorage" :values="building.storage" :resources="resources") Storage:
@@ -22,7 +22,7 @@ import EventBus from '../eventBus';
 
 import GameObject from '../classes/gameObject/GameObject';
 import { Idea } from '../classes/Idea';
-import { IResource, IResourcesData } from '../classes/baseClasses';
+import IPopulation,{ IResource,IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
 import typeGuards from "../classes/typeGuards";
 
@@ -36,7 +36,8 @@ export default Vue.extend({
   props: {
     building: Object as () => GameObject,
     resources: Object as () => IResourcesData,
-    upgrades: Array as () => Idea[]
+    upgrades: Array as () => Idea[],
+    population: Object as () => IPopulation
   },
   components: {
     'currency-value-component': CurrencyValueComponent,
