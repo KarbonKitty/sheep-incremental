@@ -38,7 +38,6 @@ export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable';
 export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade" | "idea";
 
 const industryBranchesObject = {
-  herbs: true,
   construction: true,
   bread: true,
   beer: true,

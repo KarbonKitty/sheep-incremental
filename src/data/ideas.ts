@@ -30,7 +30,7 @@ const ideas: IdeaData[] = [
       desc: "Instead of always looking for grass out there, maybe the tribe could plant its own grass?",
       branch: "bread",
       unlocks: ['agriculture'],
-      rawCost: { herbs: 200, "stone tools": 20 },
+      rawCost: { "stone tools": 5, territory: 15 },
       buyVerb: "Dig and plant!",
       originalLocks: ['stone-tools']
     },
