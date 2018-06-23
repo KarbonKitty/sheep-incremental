@@ -1,7 +1,7 @@
 import { IResourcesTemplateData } from "../classes/baseClasses";
 
 const resourceTemplates: IResourcesTemplateData = {
-  territory: { name: "territory", precision: 2, originalLocks: [] },
+  territory: { name: "territory", precision: 2, baseLimit: 250, originalLocks: [] },
   wood: { name: "wood", precision: 1, baseLimit: 25, originalLocks: [] },
   flint: { name: "flint", precision: 1, baseLimit: 10, originalLocks: [] },
   "stone tools": { name: "stone tools", precision: 2, baseLimit: 0, originalLocks: ['stone-tools'] },
@@ -17,6 +17,8 @@ const resourceTemplates: IResourcesTemplateData = {
   stone: { name: "stone", precision: 0, baseLimit: 50, originalLocks: ['pyrotechnology'] },
   charcoal: { name: "charcoal", precision: 1, baseLimit: 10, originalLocks: ['pyrotechnology'] },
   pottery: { name: "pottery", precision: 2, baseLimit: 10, originalLocks: ['pottery'] },
+  leather: { name: "leather", precision: 1, baseLimit: 5, originalLocks: ['hunting', '__impossible__'] },
+  "animal skin": { name: "animal skin", precision: 1, baseLimit: 5, originalLocks: ['hunting'] },
   advancement: { name: "advancement", precision: 0, originalLocks: ['__prestige__'] }
 };
 

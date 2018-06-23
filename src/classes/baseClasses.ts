@@ -27,6 +27,8 @@ const CurrencyObject = {
   stone: true,
   charcoal: true,
   pottery: true,
+  "animal skin": true,
+  leather: true,
   advancement: true,
 };
 
@@ -38,11 +40,13 @@ export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable';
 export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade" | "idea";
 
 const industryBranchesObject = {
+  housing: true,
   construction: true,
   bread: true,
   beer: true,
   hunting: true,
-  pottery: true };
+  pottery: true
+};
 export const branchesArray = Object.keys(industryBranchesObject) as IndustryBranch[];
 
 export type IndustryBranch = keyof typeof industryBranchesObject;

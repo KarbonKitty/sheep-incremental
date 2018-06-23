@@ -8,7 +8,7 @@
       currency-value-component(v-if="hasConsumption" :values="building.consumption.getTotal()" :resources="resources") Inputs:
       currency-value-component(v-if="hasProduction" :values="building.production.getTotal()" :resources="resources") Outputs:
       currency-value-component(v-if="hasStorage" :values="building.storage" :resources="resources") Storage:
-      button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBePaid") {{ building.buyVerb }}
+      button.btn.buyButton(@click="emitBuyEvent" :disabled="!hasEnoughWorkers || !canBePaid") {{ building.buyVerb }}
       button.btn.disableButton(v-if="canBeDisabled" @click="emitDisableEvent" :disabled="building.quantity === 0") {{ building.disabled ? "Enable" : "Disable" }}
     .upgradeData(v-if="upgrades.length > 0")
       p Available upgrades:
@@ -56,6 +56,9 @@ export default Vue.extend({
   computed: {
     canBePaid: function(): boolean {
       return getPriceCurrencies(this.building.currentPrice).reduce((acc, cv) => acc && this.resources[cv].amount >= (this.building.currentPrice[cv] || 0), true);
+    },
+    hasEnoughWorkers: function(): boolean {
+      return !typeGuards.isBuilding(this.building) || (this.building.template.employees || 0) <= (this.population.population - this.population.workers)
     },
     hasConsumption: function(): boolean {
       return typeGuards.isBuilding(this.building) && typeof this.building.consumption !== 'undefined';

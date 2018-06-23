@@ -12,14 +12,62 @@ const producersData: BuildingData[] = [
             type: 'building',
             name: "Lean-to",
             desc: "One of the most primitive shelters for sheep, this is a bundle of sticks leaned against a wall, a tree, or some similiar object.",
-            branch: "construction",
+            branch: "housing",
             rawCost: { wood: 10, territory: 5 },
-            housing: 1,
+            housing: 2,
             buyVerb: "Construct",
             originalLocks: []
         },
         startingState: {
             quantity: 2
+        }
+    },
+    {
+        template: {
+            id: 'mud-house',
+            type: 'building',
+            name: "Mud brick house",
+            desc: "Small and cramped dwelling built out of mud bricks. Not a perfect place to live, but beats sleeping in the rain.",
+            branch: "housing",
+            rawCost: { "mud bricks": 10, territory: 5 },
+            housing: 2,
+            buyVerb: "Construct",
+            originalLocks: ['stone-tools']
+        },
+        startingState: {
+            quantity: 0
+        }
+    },
+    {
+        template: {
+            id: 'stone-house',
+            type: 'building',
+            name: "Stone house",
+            desc: "Small house made out of roughly worked stone. It needs good terrain and a lot of work, but is more solid than buildings of sticks and mud.",
+            branch: "housing",
+            rawCost: { stone: 10, territory: 7 },
+            housing: 2,
+            buyVerb: "Construct",
+            originalLocks: ['pyrotechnology']
+        },
+        startingState: {
+            quantity: 0
+        }
+    },
+    {
+        template: {
+            id: 'tent',
+            type: 'building',
+            name: "Tent",
+            desc: "Just a handful of animal skins thrown together on a bunch of sticks. It's easier to put it down somewhere than to find a place for more permanent structure.",
+            branch: "housing",
+            rawCost: { "animal skin": 10, wood: 5, territory: 3 },
+            housing: 2,
+            buyVerb: "Pitch",
+            originalLocks: ['hunting']
+        },
+        startingState: {
+            quantity: 0
         }
     },
     {
@@ -31,6 +79,7 @@ const producersData: BuildingData[] = [
             branch: "hunting",
             rawCost: { wood: 5 },
             rawProduction: { territory: 0.25 },
+            rawStorage: { territory: 250 },
             employees: 1,
             buyVerb: "Send forth",
             originalLocks: []
@@ -47,7 +96,7 @@ const producersData: BuildingData[] = [
             desc: "Barely more than a stack of sticks itself, but sheep can store some excess material here.",
             branch: "construction",
             rawCost: { wood: 20, territory: 1 },
-            rawStorage: { wood: 50, flint: 50, "stone tools": 10, "mud bricks": 10, charcoal: 15, pottery: 15 },
+            rawStorage: { wood: 50, flint: 50, "stone tools": 10, "mud bricks": 10, charcoal: 15, pottery: 15, "animal skin": 10 },
             buyVerb: "Build",
             originalLocks: []
         },
@@ -213,6 +262,7 @@ const producersData: BuildingData[] = [
             rawCost: { flint: 10, wood: 10, territory: 1 },
             rawConsumption: { flint: 2, wood: 1 },
             rawProduction: { "stone tools": 0.1 },
+            rawStorage: { flint: 5, "stone tools": 3 },
             employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['stone-tools']
@@ -249,6 +299,7 @@ const producersData: BuildingData[] = [
             rawCost: { grain: 50, "stone tools": 1, territory: 1 },
             rawProduction: { flour: 1.5 },
             rawConsumption: { grain: 5 },
+            rawStorage: { flour: 5 },
             employees: 1,
             buyVerb: "Build",
             originalLocks: ['flour']
@@ -267,6 +318,7 @@ const producersData: BuildingData[] = [
             rawCost: { wood: 40, grain: 50, water: 50, territory: 1 },
             rawConsumption: { grain: 5, water: 5 },
             rawProduction: { beer: 1 },
+            rawStorage: { beer: 10 },
             employees: 1,
             buyVerb: "Build",
             originalLocks: ['fermentation']
@@ -285,6 +337,7 @@ const producersData: BuildingData[] = [
             rawCost: { flour: 100, water: 100, territory: 1 },
             rawProduction: { bread: 0.5 },
             rawConsumption: { flour: 2, water: 5, wood: 3 },
+            rawStorage: { bread: 5 },
             employees: 1,
             buyVerb: "Build",
             originalLocks: ['fire', 'flour']
@@ -302,6 +355,7 @@ const producersData: BuildingData[] = [
             branch: "beer",
             rawCost: { "stone tools": 2, wood: 25, territory: 1 },
             rawProduction: { water: 5 },
+            rawStorage: { water: 10 },
             employees: 1,
             buyVerb: "Dig",
             originalLocks: ['stone-tools']
@@ -319,7 +373,8 @@ const producersData: BuildingData[] = [
             branch: "construction",
             rawCost: { "stone tools": 2, territory: 1 },
             rawConsumption: { wood: 0.5, "stone tools": 0.01 },
-            rawProduction: { "mud bricks": 0.3 },
+            rawProduction: { "mud bricks": 0.4 },
+            rawStorage: { "mud bricks": 10 },
             employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['stone-tools']
@@ -337,7 +392,7 @@ const producersData: BuildingData[] = [
             branch: "hunting",
             rawCost: { "stone tools": 1, territory: 5 },
             rawConsumption: { "stone tools": 0.03 },
-            rawProduction: { "raw meat": 0.6, territory: 0.05 },
+            rawProduction: { "raw meat": 0.6, "animal skin": 0.1 },
             employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['hunting']
@@ -356,6 +411,7 @@ const producersData: BuildingData[] = [
             rawCost: { wood: 33, territory: 1 },
             rawConsumption: { "raw meat": 1 },
             rawProduction: { meat: 0.25 },
+            rawStorage: { meat: 2.5 },
             buyVerb: "Build",
             originalLocks: ['hunting']
         },
@@ -373,6 +429,7 @@ const producersData: BuildingData[] = [
             rawCost: { "mud bricks": 40, wood: 40, territory: 1 },
             rawConsumption: { "raw meat": 4, wood: 2.5 },
             rawProduction: { meat: 2 },
+            rawStorage: { meat: 5 },
             employees: 1,
             buyVerb: "Build",
             originalLocks: ['hunting', 'fire']
@@ -387,7 +444,7 @@ const producersData: BuildingData[] = [
             type: 'producer',
             name: "Clay digger",
             desc: "Large hole by the water, where the sheep are toiling away digging the clay from the earth.",
-            branch: "construction",
+            branch: "pottery",
             rawCost: { "stone tools": 2, territory: 3 },
             rawConsumption: { "stone tools": 0.1 },
             rawProduction: { "clay": 2 },
@@ -409,6 +466,7 @@ const producersData: BuildingData[] = [
             rawCost: { "stone tools": 3, territory: 3 },
             rawConsumption: { clay: 3, wood: 3 },
             rawProduction: { pottery: 0.5 },
+            rawStorage: { pottery: 5 },
             employees: 1,
             buyVerb: "Dig",
             originalLocks: ['pyrotechnology', 'fire', 'pottery']
@@ -427,6 +485,7 @@ const producersData: BuildingData[] = [
             rawCost: { wood: 50, territory: 3 },
             rawConsumption: { wood: 4.5 },
             rawProduction: { charcoal: 1 },
+            rawStorage: { charcoal: 5 },
             employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['pyrotechnology', 'fire']
@@ -462,6 +521,7 @@ const producersData: BuildingData[] = [
             rawCost: { stone: 100, charcoal: 10, territory: 3 },
             rawConsumption: { clay: 7.5, charcoal: 1 },
             rawProduction: { pottery: 1.25 },
+            rawStorage: { pottery: 10 },
             employees: 2,
             buyVerb: "Build",
             originalLocks: ['pyrotechnology', 'pottery', 'fire']

@@ -148,6 +148,34 @@ const ideas: IdeaData[] = [
   },
   {
     template: {
+      id: 'heat-treatment-flint',
+      type: 'idea',
+      name: "Heat treatment of flint",
+      desc: "It seems that some tools are easier to make with a flint that has been baked in fire for some time.",
+      branch: "construction",
+      objectId: 'flint-knapper',
+      rawCost: { charcoal: 30, "stone tools": 1 },
+      effects: [{
+        affectedObjectId: 'flint-knapper',
+        affectedProperty: 'production',
+        type: "mul",
+        scale: { "stone tools": 1.5 }
+      },
+      {
+        affectedObjectId: 'flint-knapper',
+        affectedProperty: 'consumption',
+        type: 'add',
+        scale: { charcoal: 0.1 }
+      }],
+      buyVerb: "Stoke the fires",
+      originalLocks: ['pyrotechnology', 'fire']
+    },
+    startingState: {
+      done: false
+    }
+  },
+  {
+    template: {
       id: 'other-rock',
       type: "upgrade",
       name: "Gather different rocks",
@@ -185,6 +213,50 @@ const ideas: IdeaData[] = [
       }],
       buyVerb: "Build",
       originalLocks: ['fire'],
+    },
+    startingState: {
+      done: false
+    }
+  },
+  {
+    template: {
+      id: 'hunter-territory',
+      type: 'upgrade',
+      name: 'Curious hunters',
+      desc: "After your hunters have spent some time hunting in the well-known territories, they get the urge to do some hunting in the uncharted lands. Stockpile them with some supplies and they might be even able to find some nice places to live for the tribe!",
+      branch: 'hunting',
+      objectId: 'hunter',
+      rawCost: { bread: 20, beer: 20 },
+      effects: [{
+        affectedObjectId: 'hunter',
+        affectedProperty: 'production',
+        type: 'add',
+        scale: { territory: 0.05 }
+      }],
+      buyVerb: "Give supplies",
+      originalLocks: ['fermentation']
+    },
+    startingState: {
+      done: false
+    }
+  },
+  {
+    template: {
+      id: 'tents-for-wanderers',
+      type: 'upgrade',
+      name: "Tents for wanderers",
+      desc: "If you are able to give your wanderers some tents, they will be able to find more territory before coming back to the tribe!",
+      branch: "construction",
+      objectId: 'wanderer',
+      rawCost: { "animal skin": 25, wood: 5 },
+      effects: [{
+        affectedObjectId: 'wanderer',
+        affectedProperty: 'production',
+        type: 'add',
+        scale: { territory: 0.05 }
+      }],
+      buyVerb: "Equip",
+      originalLocks: ['hunting']
     },
     startingState: {
       done: false
