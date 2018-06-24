@@ -192,7 +192,8 @@ export default class GameEngine {
             buildingState: this.buildings.map(b => ({ id: b.id, state: b.save() })),
             ideasState: this.ideas.map(i => ({ id: i.id, state: i.save() })),
             advancementsState: this.advancements.map(a => ({ id: a.id, state: a.save() })),
-            population: this.population
+            population: this.population,
+            goal: this.currentGoal
         };
 
         return JSON.stringify(state);
@@ -240,6 +241,7 @@ export default class GameEngine {
         this.currentSelection = this.producers[0];
         this.advancements = tempAdvancements;
         this.population = savedObject.population;
+        this.currentGoal = savedObject.goal;
     }
 
     // TODO: rethink that
