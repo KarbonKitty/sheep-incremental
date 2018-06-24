@@ -18,6 +18,9 @@
         <toast-component :msg="toastMsg" :last-activation-time="toastActivationTime"></toast-component>
         <prestige-modal-component :visible="prestiging" :advancements="advancements.filter(a => a.locks.length === 1)" :points="resources.advancement.amount"></prestige-modal-component>
         <div class="sidebar">
+            <div>
+                Workers (employed / all): {{ population.workers }} / {{ population.housing }}
+            </div>
             <div v-for="res in resources">
                 <resource-component :resource="res"></resource-component>
             </div>
@@ -31,7 +34,7 @@
                 <div v-if="availableBuildingsFromBranch(branch).length > 0">
                     <h3>{{ branch | capitalize }}</h3>
                     <div v-for="b in availableBuildingsFromBranch(branch)">
-                        <game-object-component :game-object="b"></game-object-component>
+                        <game-object-component :game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)"></game-object-component>
                     </div>
                 </div>
             </div>
@@ -39,7 +42,7 @@
                 <div>
                     <h3>Discoveries</h3>
                     <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
-                        <game-object-component :game-object="discovery"></game-object-component>
+                        <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)"></game-object-component>
                     </div>
                 </div>
             </div>
@@ -51,7 +54,7 @@
             </div> -->
         </div>
         <div class="main-area">
-            <building-details-component :building="currentSelection" :resources="resources" :upgrades="currentUpgrades"></building-details-component>
+            <building-details-component :building="currentSelection" :resources="resources" :population="population" :upgrades="currentUpgrades"></building-details-component>
         </div>
     </div>
 </body>
