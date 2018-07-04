@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "host": "http-server -p 9999 .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "KarbonKitty",
