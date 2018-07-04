@@ -7,6 +7,7 @@ import { getPriceCurrencies, canBePaid as canPriceBePaid } from "./classes/helpe
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
 import { Production } from "./classes/production";
 import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
+import eventBus from "./eventBus";
 
 interface IProducer extends Building {
     production: Production;
@@ -32,8 +33,6 @@ interface IDiscovery extends Idea {
 
 export default class GameEngine {
     lastTick = 0;
-    toastActivationTime = 0;
-    toastMsg = '';
     prestiging = false;
 
     currentSelection: GameObject;
@@ -121,8 +120,7 @@ export default class GameEngine {
                 }
                 const boughtItem = this.tryBuyItem(data.value);
                 if (typeof boughtItem !== 'undefined') {
-                    this.toastActivationTime = Date.now();
-                    this.toastMsg = `${boughtItem.name} was bought!`;
+                    eventBus.$emit('show-toast', `${boughtItem.name} was bought!`);
                 }
                 break;
             case 'change-selection':
@@ -247,9 +245,6 @@ export default class GameEngine {
     // TODO: rethink that
     private init() {
         this.lastTick = Date.now();
-
-        this.toastActivationTime = 0;
-        this.toastMsg = '';
 
         this.buildings = BuildingData.map(bd => this.createBuilding(bd.template, bd.startingState));
 

@@ -1,7 +1,9 @@
 <template lang="pug">
-  transition(name="inOut")
-    .toast(v-show="visible")
-      p {{ msg }}
+  div
+    div(v-for="toast in toasts")
+      transition(name="inOut")
+        .toast
+          p {{ toast }}
 </template>
 
 <script lang="ts">
@@ -9,14 +11,15 @@ import Vue from 'vue';
 
 export default Vue.extend({
   data: function() {
-    return { visible: false }
+    return { toasts: [] as string[] }
   },
-  props: [ 'lastActivationTime', 'msg' ],
-  watch: {
-    'lastActivationTime': function() {
-      this.visible = true;
-      const hide = () => this.visible = false;
-      setTimeout(hide, 3000);
+  methods: {
+    addMessage: function(message: string) {
+      this.toasts.push(message);
+      setTimeout(this.removeMessage, 3000);
+    },
+    removeMessage: function() {
+      this.toasts.shift();
     }
   }
 })

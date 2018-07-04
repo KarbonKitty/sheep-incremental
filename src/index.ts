@@ -23,6 +23,11 @@ EventBus.$on("game-event", (data: any) => {
     engine.handleEvent(data);
 });
 
+EventBus.$on("show-toast", (data: string) => {
+    const toastComponent = vm.$refs.toast as any;
+    toastComponent.addMessage(data);
+});
+
 const vm = new Vue({
     el: "#app",
     data: engine,
