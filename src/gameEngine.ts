@@ -362,7 +362,9 @@ export default class GameEngine {
 
     private payThePrice(price: Price) {
         getPriceCurrencies(price).forEach(currency => {
-            this.resources[currency].amount -= (price[currency] || 0);
+            const currentPrice = (price[currency] || 0);
+            this.resources[currency].amount -= currentPrice;
+            this.resources[currency].amountSpent += currentPrice;
         });
     }
 
@@ -428,7 +430,8 @@ export default class GameEngine {
             amount: 0,
             gainPerSecond: 0,
             limit: template.baseLimit,
-            locks: template.originalLocks.slice()
+            locks: template.originalLocks.slice(),
+            amountSpent: 0
         };
     }
 

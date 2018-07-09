@@ -72,6 +72,7 @@ export interface IResource {
   amount: number;
   gainPerSecond: number;
   locks: Lock[];
+  amountSpent: number;
 }
 
 export interface UpgradeEffect {
