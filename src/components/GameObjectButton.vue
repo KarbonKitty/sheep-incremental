@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-if="gameObject.locks.length === 0 && !gameObject.done" class="gameObject" @click="changeSelection" :class="{ available: canBeBought }")
+  div(v-if="gameObject.locks.length === 0 && !gameObject.done" class="selectButton" @click="changeSelection" :class="{ available: canBeBought }")
     p.
       {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝]
 </template>
@@ -9,7 +9,7 @@ import Vue from "vue";
 import EventBus from "../eventBus";
 import GameObject from "../classes/gameObject/GameObject";
 import { Idea } from "../classes/Idea";
-import IPopulation,{ IResourcesData } from "../classes/baseClasses";
+import { IPopulation, IResourcesData } from "../classes/baseClasses";
 import { canBeBought, canBePaid } from "../classes/helpers";
 
 export default Vue.extend({
@@ -34,24 +34,3 @@ export default Vue.extend({
   }
 });
 </script>
-
-<style scoped>
-  .gameObject {
-    text-align: center;
-    padding: 0 0.25rem;
-    margin: 0.125rem;
-    border: 1px solid #839496;
-    border-radius: 4px;
-    width: 200px;
-    cursor: pointer;
-  }
-
-  .gameObject > p {
-    margin: 0.5rem 0;
-  }
-
-  .available {
-    font-weight: bold;
-    background-color: #073642;
-  }
-</style>

@@ -36,7 +36,7 @@ export const CurrencyArray = Object.keys(CurrencyObject) as Currency[];
 
 export type Currency = keyof typeof CurrencyObject;
 export type EffectProp = "cost" | "production" | "consumption" | "storage";
-export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable';
+export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable' | 'change-branch';
 export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade" | "idea";
 
 const industryBranchesObject = {
@@ -82,7 +82,7 @@ export interface UpgradeEffect {
   scale: Price;
 }
 
-export default interface IPopulation {
+export interface IPopulation {
   workers: number;
   population: number;
   housing: number;

@@ -5,11 +5,12 @@ import filters from "./filters";
 import GameEngine from "./gameEngine";
 
 import BuildingDetailsComponent from "./components/BuildingDetails.vue";
-import GameObjectComponent from "./components/GameObject.vue";
+import GameObjectComponent from "./components/GameObjectButton.vue";
 import GoalComponent from "./components/Goal.vue";
 import PrestigeModalComponent from "./components/PrestigeModal.vue";
 import ResourceComponent from "./components/Resource.vue";
 import ToastComponent from "./components/Toast.vue";
+import BranchButtonComponent from "./components/BranchButton.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
@@ -80,7 +81,8 @@ const vm = new Vue({
         "building-details-component": BuildingDetailsComponent,
         "goal-component": GoalComponent,
         "toast-component": ToastComponent,
-        "prestige-modal-component": PrestigeModalComponent
+        "prestige-modal-component": PrestigeModalComponent,
+        "branch-button-component": BranchButtonComponent
     },
     filters
 });

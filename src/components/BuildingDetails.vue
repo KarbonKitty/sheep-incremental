@@ -1,5 +1,7 @@
 <template lang="pug">
   .miniGrid
+    .gridHeader
+      h2 Building details
     .mainData
       h3 {{ building.name }}
       p {{ building.desc }}
@@ -10,10 +12,13 @@
       currency-value-component(v-if="hasStorage" :values="building.storage" :resources="resources") Storage:
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!hasEnoughWorkers || !canBePaid") {{ building.buyVerb }}
       button.btn.disableButton(v-if="canBeDisabled" @click="emitDisableEvent" :disabled="building.quantity === 0") {{ building.disabled ? "Enable" : "Disable" }}
-    .upgradeData(v-if="upgrades.length > 0")
-      p Available upgrades:
-      div(v-for="upgrade in upgrades" :key="upgrade.id")
-        upgrade-component(:upgrade="upgrade" :resources="resources")
+    .upgradeData
+      div
+        h3 Upgrades
+        p(v-if="upgrades.length == 0") No upgrades available.
+        div(v-else)
+          div(v-for="upgrade in upgrades" :key="upgrade.id")
+            upgrade-component(:upgrade="upgrade" :resources="resources")
 </template>
 
 <script lang="ts">
@@ -22,7 +27,7 @@ import EventBus from '../eventBus';
 
 import GameObject from '../classes/gameObject/GameObject';
 import { Idea } from '../classes/Idea';
-import IPopulation,{ IResource,IResourcesData } from '../classes/baseClasses';
+import { IPopulation, IResource,IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
 import typeGuards from "../classes/typeGuards";
 
@@ -80,17 +85,23 @@ export default Vue.extend({
   .miniGrid {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 100%;
+    grid-template-rows: 10% 90%;
   }
 
-  .mainData {
+  .gridHeader {
     grid-column: 1;
     grid-row: 1;
   }
 
+  .mainData {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
   .upgradeData {
+    margin-left: 1rem;
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 2;
   }
 
   .disableButton {

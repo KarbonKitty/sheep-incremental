@@ -1,4 +1,4 @@
-import IPopulation, { Price, IResourcesData, CurrencyArray, Currency } from "./baseClasses";
+import { IPopulation, Price, IResourcesData, CurrencyArray, Currency } from "./baseClasses";
 import GameObject from "./gameObject/GameObject";
 import typeGuards from "./typeGuards";
 

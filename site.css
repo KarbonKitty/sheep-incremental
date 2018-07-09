@@ -28,28 +28,29 @@ a:active {
 
 .container {
   display: grid;
-  grid-template-columns: 25% 75%;
-  grid-template-rows: 50% 50%;
+  grid-template-columns: 20% 20% 20% 40%;
+  grid-template-rows: 100%;
 }
 
 .sidebar {
   grid-column: 1;
-  grid-row-start: 1;
-  grid-row-end: 3;
+  grid-row: 1;
   margin-right: 0.5rem;
 }
 
-.main-area {
-  grid-column: 2;
-  grid-row: 2;
+.details {
+  grid-column: 4;
+  grid-row: 1;
 }
 
-.top {
+.branch-list {
   grid-column: 2;
   grid-row: 1;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+}
+
+.object-list {
+  grid-column: 3;
+  grid-row: 1;
 }
 
 .top-column {
@@ -79,4 +80,23 @@ a:active {
   color: #839496;
   border: 1px solid #839496;
   cursor: default;
+}
+
+.selectButton {
+  text-align: center;
+  padding: 0 0.25rem;
+  margin: 0.125rem;
+  border: 1px solid #839496;
+  border-radius: 4px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.selectButton > p {
+  margin: 0.5rem 0;
+}
+
+.selectButton.available {
+  font-weight: bold;
+  background-color: #073642;
 }

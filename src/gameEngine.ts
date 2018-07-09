@@ -1,4 +1,4 @@
-import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate } from "./classes/baseClasses";
+import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData } from "./data";
@@ -36,6 +36,7 @@ export default class GameEngine {
     prestiging = false;
 
     currentSelection: GameObject;
+    currentBranch: IndustryBranch;
     currentGoal: Price;
 
     locks = {} as Map<boolean>;
@@ -53,7 +54,8 @@ export default class GameEngine {
 
     constructor() {
         this.init();
-        this.currentSelection = this.buildings[0];
+        this.currentSelection = this.buildings.filter(b => b.branch === 'housing')[0];
+        this.currentBranch = 'housing';
         // TODO: work on goals
         this.currentGoal = this.goals.tribal;
 
@@ -125,6 +127,9 @@ export default class GameEngine {
                 break;
             case 'change-selection':
                 this.changeSelection(data.value);
+                break;
+            case 'change-branch':
+                this.changeBranchSelection(data.value);
                 break;
             case 'prestige':
                 if (data.value === 'start') {
@@ -398,6 +403,10 @@ export default class GameEngine {
         }
         this.currentSelection = item;
         return true;
+    }
+
+    private changeBranchSelection(branchName: IndustryBranch): void {
+        this.currentBranch = branchName;
     }
 
     private createIdea(template: IIdeaTemplate, state: IIdeaState): Idea {
