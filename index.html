@@ -36,11 +36,11 @@
             <h2>Branches</h2>
             <div v-for="branch in branches">
                 <div v-if="availableBuildingsFromBranch(branch).length > 0">
-                    <branch-button-component :name="branch"></branch-button-component>
+                    <branch-button-component :name="branch" :active="currentBranch === branch"></branch-button-component>
                 </div>
             </div>
             <div v-if="discoveries.filter(d => d.locks.length === 0 && !d.done).length > 0">
-                <branch-button-component name="discoveries"></branch-button-component>
+                <branch-button-component name="discoveries" :active="currentBranch === 'discoveries'"></branch-button-component>
             </div>
         </div>
 

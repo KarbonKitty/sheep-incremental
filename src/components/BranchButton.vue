@@ -1,5 +1,5 @@
 <template lang="pug">
-  .selectButton.available(@click="changeSelection")
+  .selectButton.available(@click="changeSelection" :class="{active: active}")
     p.
       {{ name | capitalize }}
 </template>
@@ -15,7 +15,14 @@ export default Vue.extend({
       EventBus.$emit('game-event', { type: 'change-branch', value: this.name });
     }
   },
-  props: ['name'],
+  props: ['name', 'active'],
   filters
 });
 </script>
+
+<style scoped>
+  .active {
+    border-color: #859900;
+    color: #859900;
+  }
+</style>
