@@ -39,19 +39,23 @@
                     <branch-button-component :name="branch"></branch-button-component>
                 </div>
             </div>
+            <div v-if="discoveries.filter(d => d.locks.length === 0 && !d.done).length > 0">
+                <branch-button-component name="discoveries"></branch-button-component>
+            </div>
         </div>
 
         <div class="object-list">
             <h2>Objects</h2>
-            <div v-for="b in availableBuildingsFromBranch(this.currentBranch)">
-                <game-object-component :game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)"></game-object-component>
+            <div v-if="this.currentBranch === 'discoveries'">
+                <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
+                    <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)"></game-object-component>
+                </div>
             </div>
-            <!-- <div>
-                    <h3>Discoveries</h3>
-                    <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
-                        <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)"></game-object-component>
-                    </div>
-                </div> -->
+            <div v-else>
+                <div v-for="b in availableBuildingsFromBranch(this.currentBranch)">
+                    <game-object-component :game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)"></game-object-component>
+                </div>
+            </div>
         </div>
 
         <div class="details">
