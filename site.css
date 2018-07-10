@@ -28,7 +28,7 @@ a:active {
 
 .container {
   display: grid;
-  grid-template-columns: 20% 20% 20% 40%;
+  grid-template-columns: 20% 250px 250px auto;
   grid-template-rows: 100%;
 }
 
@@ -38,18 +38,20 @@ a:active {
   margin-right: 0.5rem;
 }
 
-.details {
-  grid-column: 4;
-  grid-row: 1;
-}
-
 .branch-list {
   grid-column: 2;
   grid-row: 1;
+  justify-self: center;
 }
 
 .object-list {
   grid-column: 3;
+  grid-row: 1;
+  justify-self: center;
+}
+
+.details {
+  grid-column: 4;
   grid-row: 1;
 }
 
