@@ -294,6 +294,7 @@ export default class GameEngine {
         localStorage.setItem('industrial-incremental-save', this.save());
 
         this.advancements = survivors.advancements;
+        this.advancements.map(a => a.buy());
 
         // TODO: different amount of points per goal
         // tslint:disable-next-line:no-string-literal
