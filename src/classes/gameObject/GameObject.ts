@@ -1,4 +1,4 @@
-import { GameObjectType, IndustryBranch, Lock, Price } from '../baseClasses';
+import { GameObjectType, IndustryBranch, Lock, Price, IResourcesData } from '../baseClasses';
 import IBuyable from '../IBuyable';
 import IGameObjectState from './IGameObjectState';
 import IGameObjectTemplate from "./IGameObjectTemplate";
@@ -37,4 +37,6 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
 
     abstract save(): IGameObjectState;
     abstract buy(): void;
+    abstract isAvailable(): boolean;
+    abstract canBeBought(currentResources: IResourcesData): boolean;
 }

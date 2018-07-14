@@ -3,7 +3,7 @@ import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData } from "./data";
 
-import { getPriceCurrencies, canBePaid as canPriceBePaid } from "./classes/helpers";
+import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
 import { Production } from "./classes/production";
 import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
@@ -178,7 +178,7 @@ export default class GameEngine {
 
         const price = item.currentPrice;
 
-        if (this.canBePaid(price) && this.hasEnoughWorkforce(item)) {
+        if (canBePaid(price, this.resources) && this.hasEnoughWorkforce(item)) {
             this.payThePrice(price);
             item.buy();
             return item;
@@ -348,7 +348,7 @@ export default class GameEngine {
     }
 
     private tryActivateProducer(consumption: Price, producer: IProcessor, deltaT: number): boolean {
-        if (!this.canBePaid(consumption)) {
+        if (!canBePaid(consumption, this.resources)) {
             return false;
         }
 
@@ -378,10 +378,6 @@ export default class GameEngine {
         getPriceCurrencies(price).forEach(currency => {
             this.resources[currency].amount += (price[currency] || 0);
         });
-    }
-
-    private canBePaid(price: Price): boolean {
-        return canPriceBePaid(price, this.resources);
     }
 
     private clearPerSecondValues(): void {

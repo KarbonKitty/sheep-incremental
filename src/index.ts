@@ -4,7 +4,7 @@ import EventBus from "./eventBus";
 import filters from "./filters";
 import GameEngine from "./gameEngine";
 
-import BuildingDetailsComponent from "./components/BuildingDetails.vue";
+import ObjectDetails from "./components/GameObjectDetails.vue";
 import GameObjectComponent from "./components/GameObjectButton.vue";
 import GoalComponent from "./components/Goal.vue";
 import PrestigeModalComponent from "./components/PrestigeModal.vue";
@@ -69,7 +69,7 @@ const vm = new Vue({
             return this.ideas.filter(i => typeof i.template.effects !== 'undefined');
         },
         availableUpgrades: function() {
-            return this.upgrades.filter(u => u.locks.length === 0 && !u.done);
+            return this.upgrades.filter(u => u.isAvailable());
         },
         discoveries: function() {
             return this.ideas.filter(i => typeof i.template.unlocks !== 'undefined');
@@ -78,7 +78,7 @@ const vm = new Vue({
     components: {
         "resource-component": ResourceComponent,
         "game-object-component": GameObjectComponent,
-        "building-details-component": BuildingDetailsComponent,
+        "object-details-component": ObjectDetails,
         "goal-component": GoalComponent,
         "toast-component": ToastComponent,
         "prestige-modal-component": PrestigeModalComponent,

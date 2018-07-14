@@ -16,7 +16,7 @@ import EventBus from "../eventBus";
 
 import { Idea } from "../classes/Idea";
 import { IResourcesData } from "../classes/baseClasses";
-import { getPriceCurrencies } from "../classes/helpers";
+import { getPriceCurrencies, canBePaid } from "../classes/helpers";
 
 import PriceComponent from "./Price.vue";
 import EffectComponent from "./Effect.vue";
@@ -46,12 +46,7 @@ export default Vue.extend({
   },
   computed: {
     canBePaid: function(): boolean {
-      return getPriceCurrencies(this.upgrade.currentPrice).reduce(
-        (acc, cv) =>
-          acc &&
-          this.resources[cv].amount >= (this.upgrade.currentPrice[cv] || 0),
-        true
-      );
+      return canBePaid(this.upgrade.currentPrice, this.resources);
     }
   },
   components: {

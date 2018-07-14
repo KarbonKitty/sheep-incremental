@@ -1,7 +1,8 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { Price, Lock, UpgradeEffect } from "./baseClasses";
+import { Lock, UpgradeEffect, IResourcesData } from "./baseClasses";
+import { canBePaid } from "./helpers";
 
 export interface IIdeaState extends IGameObjectState {
     done: boolean;
@@ -44,5 +45,13 @@ export class Idea extends GameObject {
             done: this.done,
             locks: this.locks
         };
+    }
+
+    isAvailable(): boolean {
+        return this.locks.length === 0 && !this.done;
+    }
+
+    canBeBought(resources: IResourcesData): boolean {
+        return canBePaid(this.currentPrice, resources);
     }
 }

@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-if="gameObject.locks.length === 0 && !gameObject.done" class="selectButton" @click="changeSelection" :class="{ available: canBeBought }")
+  div(v-if="gameObject.isAvailable()" class="selectButton" @click="changeSelection" :class="{ available: canBeBought }")
     p.
       {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝]
 </template>

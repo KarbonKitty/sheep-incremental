@@ -2,8 +2,8 @@ import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { IProductionState, Production } from "./production";
-import { Price } from "./baseClasses";
-import { mulPriceByNumber } from "./helpers";
+import { Price, IResourcesData } from "./baseClasses";
+import { mulPriceByNumber, canBePaid } from "./helpers";
 
 export interface IBuildingState extends IGameObjectState {
     quantity: number;
@@ -101,5 +101,13 @@ export class Building extends GameObject {
             disabled: this.disabled,
             locks: this.locks
         };
+    }
+
+    isAvailable(): boolean {
+        return this.locks.length === 0;
+    }
+
+    canBeBought(resources: IResourcesData): boolean {
+        return canBePaid(this.currentPrice, resources);
     }
 }

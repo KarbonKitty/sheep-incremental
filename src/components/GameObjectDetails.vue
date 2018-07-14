@@ -1,17 +1,17 @@
 <template lang="pug">
   .miniGrid
     .gridHeader
-      h2 Building details
+      h2 Object details
     .mainData
-      h3 {{ building.name }}
-      p {{ building.desc }}
-      price-component(:values="building.currentPrice" :resources="resources") Price:
-      population-component(:employees="building.template.employees" :housing="building.template.housing" :population="population")
-      currency-value-component(v-if="hasConsumption" :values="building.consumption.getTotal()" :resources="resources") Inputs:
-      currency-value-component(v-if="hasProduction" :values="building.production.getTotal()" :resources="resources") Outputs:
-      currency-value-component(v-if="hasStorage" :values="building.storage" :resources="resources") Storage:
-      button.btn.buyButton(@click="emitBuyEvent" :disabled="!hasEnoughWorkers || !canBePaid") {{ building.buyVerb }}
-      button.btn.disableButton(v-if="canBeDisabled" @click="emitDisableEvent" :disabled="building.quantity === 0") {{ building.disabled ? "Enable" : "Disable" }}
+      h3 {{ gameObject.name }}
+      p {{ gameObject.desc }}
+      price-component(:values="gameObject.currentPrice" :resources="resources") Price:
+      population-component(:employees="gameObject.template.employees" :housing="gameObject.template.housing" :population="population")
+      currency-value-component(v-if="hasConsumption" :values="gameObject.consumption.getTotal()" :resources="resources") Inputs:
+      currency-value-component(v-if="hasProduction" :values="gameObject.production.getTotal()" :resources="resources") Outputs:
+      currency-value-component(v-if="hasStorage" :values="gameObject.storage" :resources="resources") Storage:
+      button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ gameObject.buyVerb }}
+      button.btn.disableButton(v-if="canBeDisabled" @click="emitDisableEvent" :disabled="gameObject.quantity === 0") {{ gameObject.disabled ? "Enable" : "Disable" }}
     .upgradeData
       div
         h3 Upgrades
@@ -35,11 +35,11 @@ import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
 import UpgradeComponent from "./Upgrade.vue";
 import PopulationComponent from "./Population.vue";
-import { getPriceCurrencies } from '../classes/helpers';
+import { getPriceCurrencies, canBeBought } from '../classes/helpers';
 
 export default Vue.extend({
   props: {
-    building: Object as () => GameObject,
+    gameObject: Object as () => GameObject,
     resources: Object as () => IResourcesData,
     upgrades: Array as () => Idea[],
     population: Object as () => IPopulation
@@ -52,30 +52,27 @@ export default Vue.extend({
   },
   methods: {
     emitBuyEvent: function() {
-      EventBus.$emit('game-event', { type: 'buy', value: this.building.id });
+      EventBus.$emit('game-event', { type: 'buy', value: this.gameObject.id });
     },
     emitDisableEvent: function() {
-      EventBus.$emit('game-event', { type: 'disable', value: this.building.id });
+      EventBus.$emit('game-event', { type: 'disable', value: this.gameObject.id });
     }
   },
   computed: {
-    canBePaid: function(): boolean {
-      return getPriceCurrencies(this.building.currentPrice).reduce((acc, cv) => acc && this.resources[cv].amount >= (this.building.currentPrice[cv] || 0), true);
-    },
-    hasEnoughWorkers: function(): boolean {
-      return !typeGuards.isBuilding(this.building) || (this.building.template.employees || 0) <= (this.population.population - this.population.workers)
+    canBeBought: function(): boolean {
+      return canBeBought(this.gameObject, this.resources, this.population);
     },
     hasConsumption: function(): boolean {
-      return typeGuards.isBuilding(this.building) && typeof this.building.consumption !== 'undefined';
+      return typeGuards.isBuilding(this.gameObject) && typeof this.gameObject.consumption !== 'undefined';
     },
     hasProduction: function(): boolean {
-      return typeGuards.isBuilding(this.building) && typeof this.building.production !== 'undefined';
+      return typeGuards.isBuilding(this.gameObject) && typeof this.gameObject.production !== 'undefined';
     },
     hasStorage: function(): boolean {
-      return typeGuards.isBuilding(this.building) && typeof this.building.storage !== 'undefined';
+      return typeGuards.isBuilding(this.gameObject) && typeof this.gameObject.storage !== 'undefined';
     },
     canBeDisabled: function(): boolean {
-      return true;
+      return typeGuards.isBuilding(this.gameObject);
     }
   }
 })
