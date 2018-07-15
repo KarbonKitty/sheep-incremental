@@ -4,11 +4,13 @@
       slot
     ul
       div(v-for="(amount, currency) in values" :key="currency")
-        li(:class="{ lacking: typeof resources[currency] !== 'undefined' && resources[currency].amount < amount }") {{ amount | decimal(resources[currency].template.precision) }} {{ resources[currency].template.name }}
+        li(is="price-item-component" :amount="amount" :currency="currency" :resources="resources")
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
+
+import PriceItemComponent from "./PriceItem.vue";
 
 import { Price, IResourcesData } from "../classes/baseClasses";
 
@@ -19,12 +21,9 @@ export default Vue.extend({
     values: Object as () => Price,
     resources: Object as () => IResourcesData
   },
+  components: {
+    'price-item-component': PriceItemComponent
+  },
   filters
 })
 </script>
-
-<style scoped>
-  .lacking {
-    color: #dc322f;
-  }
-</style>
