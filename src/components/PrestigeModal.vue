@@ -27,7 +27,7 @@ import { Idea } from '../classes/Idea';
 export default Vue.extend({
   props: {
     visible: Boolean,
-    advancement: Array as () => Idea[],
+    advancements: Array as () => Idea[],
     points: Number
   },
   methods: {
