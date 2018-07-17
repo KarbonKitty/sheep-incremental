@@ -102,3 +102,7 @@ a:active {
   font-weight: bold;
   background-color: #073642;
 }
+
+.noResource {
+  color: #dc322f;
+}

@@ -4,7 +4,7 @@
     p(v-if="!allVisible") You need to discover more resources to view entire goal!
     ul
       div(v-for="(amount, currency) in values" :key="currency")
-        li(v-if="resourceAvailable(currency)") {{ resources[currency].amount | decimal(resources[currency].template.precision) }} / {{ amount | decimal(resources[currency].template.precision) }} {{ resources[currency].template.name }}
+        li(is="goal-item-component" v-if="resourceAvailable(currency)" :amount="amount" :currency="currency" :resources="resources")
     button.btn(:disabled="!canComplete" @click="finish") {{ canComplete ? "Complete!" : "Not enough resources" }}
 </template>
 
@@ -13,7 +13,8 @@ import Vue from 'vue'
 import { Map, IResource, Price, Currency, IResourcesData } from "../classes/baseClasses";
 import filters from "../filters";
 import EventBus from "../eventBus";
-import { getPriceCurrencies } from '../classes/helpers';
+import { getPriceCurrencies, canBePaid } from '../classes/helpers';
+import GoalItemComponent from "./GoalItem.vue";
 
 export default Vue.extend({
   props: {
@@ -25,7 +26,7 @@ export default Vue.extend({
       return getPriceCurrencies(this.values).reduce((acc, k) => acc && this.resources[k].locks.length === 0, true);
     },
     canComplete: function(): boolean {
-      return getPriceCurrencies(this.values).reduce((acc, k) => acc && this.resources[k].amount >= (this.values[k] as number), true);
+      return canBePaid(this.values, this.resources);
     }
   },
   methods: {
@@ -35,6 +36,9 @@ export default Vue.extend({
     finish: function() {
       EventBus.$emit('game-event', { type: 'prestige', value: 'start' });
     }
+  },
+  components: {
+    'goal-item-component': GoalItemComponent
   },
   filters
 })
