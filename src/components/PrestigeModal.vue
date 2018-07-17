@@ -22,9 +22,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import EventBus from '../eventBus';
+import { Idea } from '../classes/Idea';
 
 export default Vue.extend({
-  props: [ 'visible', 'advancements', 'points' ],
+  props: {
+    visible: Boolean,
+    advancement: Array as () => Idea[],
+    points: Number
+  },
   methods: {
     buyAdvancement: function(id: string) {
       EventBus.$emit('game-event', { type: 'buy', value: id });

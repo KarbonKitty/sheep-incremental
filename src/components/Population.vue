@@ -14,9 +14,14 @@
 import Vue from 'vue'
 
 import filters from "../filters";
+import { IPopulation } from '../classes/baseClasses';
 
 export default Vue.extend({
-  props: [ 'employees', 'housing', 'population' ],
+  props: {
+    employees: Number,
+    housing: Number,
+    population: Object as () => IPopulation
+  },
   filters
 })
 </script>

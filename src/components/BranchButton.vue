@@ -15,7 +15,10 @@ export default Vue.extend({
       EventBus.$emit('game-event', { type: 'change-branch', value: this.name });
     }
   },
-  props: ['name', 'active'],
+  props: {
+    name: String,
+    active: Boolean
+  },
   filters
 });
 </script>
