@@ -1,4 +1,4 @@
-import { IBuildingTemplate, IBuildingState } from "../classes/Building";
+import { IBuildingTemplate, IBuildingState } from "../../classes/Building";
 
 type BuildingData = {
     template: IBuildingTemplate,
@@ -392,7 +392,7 @@ const producersData: BuildingData[] = [
             branch: "hunting",
             rawCost: { "stone tools": 1, territory: 5 },
             rawConsumption: { "stone tools": 0.03 },
-            rawProduction: { "raw meat": 0.6, "animal skin": 0.1 },
+            rawProduction: { "raw meat": 0.6, "animal skin": 0.1, "animal bone": 0.1 },
             employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['hunting']
