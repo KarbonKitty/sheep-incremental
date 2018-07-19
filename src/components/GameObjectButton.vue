@@ -1,5 +1,5 @@
 <template lang="pug">
-  div(v-if="gameObject.isAvailable()" class="selectButton" @click="changeSelection" :class="{ available: canBeBought }")
+  .selectButton(v-if="gameObject.isAvailable()" @click="changeSelection" :class="{ available: canBeBought, active: active }")
     p.
       {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝]
 </template>
@@ -22,7 +22,8 @@ export default Vue.extend({
     gameObject: Object as () => GameObject,
     resources: Object as () => IResourcesData,
     population: Object as () => IPopulation,
-    upgrades: Array as () => Idea[]
+    upgrades: Array as () => Idea[],
+    active: Boolean
   },
   computed: {
     canBeBought: function(): boolean {
@@ -34,3 +35,10 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style scoped>
+  .active {
+    border-color: #859900;
+    color: #859900;
+  }
+</style>

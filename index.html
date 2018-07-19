@@ -48,12 +48,12 @@
             <h2>Objects</h2>
             <div v-if="this.currentBranch === 'discoveries'">
                 <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
-                    <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)"></game-object-component>
+                    <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)" :active="discovery.id === currentSelection.id"></game-object-component>
                 </div>
             </div>
             <div v-else>
                 <div v-for="b in availableBuildingsFromBranch(this.currentBranch)">
-                    <game-object-component :game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)"></game-object-component>
+                    <game-object-component :game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)" :active="b.id === currentSelection.id"></game-object-component>
                 </div>
             </div>
         </div>
