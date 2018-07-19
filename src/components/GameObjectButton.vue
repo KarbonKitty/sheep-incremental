@@ -30,7 +30,7 @@ export default Vue.extend({
       return canBeBought(this.gameObject, this.resources, this.population);
     },
     hasAvailableUpgrades: function(): boolean {
-      return this.upgrades.filter(u => canBePaid(u.currentPrice, this.resources)).length > 0;
+      return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.resources)).length > 0;
     }
   }
 });
