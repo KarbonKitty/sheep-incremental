@@ -15,9 +15,11 @@
 <body>
     <h1>Sheep Incremental</h1>
     <div id="app" class="container">
-        <toast-component :msg="toastMsg" :last-activation-time="toastActivationTime"></toast-component>
+        <toast-component ref="toast"></toast-component>
         <prestige-modal-component :visible="prestiging" :advancements="advancements.filter(a => a.locks.length === 1)" :points="resources.advancement.amount"></prestige-modal-component>
+
         <div class="sidebar">
+            <h2>Resources</h2>
             <div>
                 Workers (employed / all): {{ population.workers }} / {{ population.housing }}
             </div>
@@ -29,32 +31,35 @@
             <button class="btn" v-on:click="clearSave">Clear Save</button>
             <goal-component :values="currentGoal" :resources="resources"></goal-component>
         </div>
-        <div class="top">
-            <div class="top-column" v-for="branch in branches">
+
+        <div class="branch-list">
+            <h2>Branches</h2>
+            <div v-for="branch in branches">
                 <div v-if="availableBuildingsFromBranch(branch).length > 0">
-                    <h3>{{ branch | capitalize }}</h3>
-                    <div v-for="b in availableBuildingsFromBranch(branch)">
-                        <game-object-component :game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)"></game-object-component>
-                    </div>
+                    <branch-button-component :name="branch" :active="currentBranch === branch"></branch-button-component>
                 </div>
             </div>
-            <div class="top-column">
-                <div>
-                    <h3>Discoveries</h3>
-                    <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
-                        <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)"></game-object-component>
-                    </div>
-                </div>
+            <div v-if="discoveries.filter(d => d.locks.length === 0 && !d.done).length > 0">
+                <branch-button-component name="discoveries" :active="currentBranch === 'discoveries'"></branch-button-component>
             </div>
-            <!-- <div class="top-column">
-                <h3>Upgrades</h3>
-                <div v-for="upgrade in upgrades.filter(u => typeof u.objectId == 'undefined')">
-                    <game-object-component :game-object="upgrade"></game-object-component>
-                </div>
-            </div> -->
         </div>
-        <div class="main-area">
-            <building-details-component :building="currentSelection" :resources="resources" :population="population" :upgrades="currentUpgrades"></building-details-component>
+
+        <div class="object-list">
+            <h2>Objects</h2>
+            <div v-if="this.currentBranch === 'discoveries'">
+                <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
+                    <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)" :active="discovery.id === currentSelection.id"></game-object-component>
+                </div>
+            </div>
+            <div v-else>
+                <div v-for="b in availableBuildingsFromBranch(this.currentBranch)">
+                    <game-object-component :game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)" :active="b.id === currentSelection.id"></game-object-component>
+                </div>
+            </div>
+        </div>
+
+        <div class="details">
+            <object-details-component :game-object="currentSelection" :resources="resources" :population="population" :upgrades="currentUpgrades"></object-details-component>
         </div>
     </div>
 </body>
