@@ -301,7 +301,11 @@ export default class GameEngine {
         this.resources['advancement'].amount += 1;
 
         this.currentSelection = this.buildings[0];
-        this.currentGoal = this.goals.copper;
+        if (survivors.advancements[0].done && !survivors.advancements[1].done) {
+            this.currentGoal = this.goals.copper;
+        } else {
+            this.currentGoal = this.goals.third;
+        }
     }
 
     private removeLock(lock: Lock) {
