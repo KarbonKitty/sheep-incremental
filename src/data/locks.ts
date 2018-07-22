@@ -8,5 +8,9 @@ export default {
   'fermentation': false,
   'hunting': false,
   'pyrotechnology': false,
-  'pottery': false
+  'pottery': false,
+  'complex-tools': false,
+  'mining': false,
+  'dyes': false,
+  'microliths': false
 };

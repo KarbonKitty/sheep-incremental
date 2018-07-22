@@ -34,6 +34,7 @@ interface IDiscovery extends Idea {
 export default class GameEngine {
     lastTick = 0;
     prestiging = false;
+    saveVersion = "3";
 
     currentSelection: GameObject;
     currentBranch: IndustryBranch;
@@ -189,6 +190,7 @@ export default class GameEngine {
 
     save(): string {
         const state = {
+            saveVersion: this.saveVersion,
             lastTick: this.lastTick,
             locks: this.locks,
             resources: this.resources,
@@ -204,6 +206,10 @@ export default class GameEngine {
 
     load(savedState: string): void {
         const savedObject = JSON.parse(savedState);
+
+        if (savedObject.saveVersion !== this.saveVersion) {
+            throw new Error("Wrong save game version!");
+        }
 
         // to make this generic, we would need some form of list of all the game object data
         // TODO: when creating mixin-implementation, create a list of all gameObjects and use it here
@@ -297,11 +303,14 @@ export default class GameEngine {
         this.advancements.filter(a => a.done).map(a => a.buy());
 
         // TODO: different amount of points per goal
-        // tslint:disable-next-line:no-string-literal
-        this.resources['advancement'].amount += 1;
+        this.resources.advancement.amount += 1;
 
         this.currentSelection = this.buildings[0];
-        this.currentGoal = this.goals.copper;
+        if (this.resources.advancement.amountSpent === 0) {
+            this.currentGoal = this.goals.copper;
+        } else {
+            this.currentGoal = this.goals.third;
+        }
     }
 
     private removeLock(lock: Lock) {

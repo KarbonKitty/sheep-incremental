@@ -19,6 +19,11 @@ const resourceTemplates: IResourcesTemplateData = {
   pottery: { name: "pottery", precision: 2, baseLimit: 10, originalLocks: ['pottery'] },
   leather: { name: "leather", precision: 1, baseLimit: 5, originalLocks: ['hunting', '__impossible__'] },
   "animal skin": { name: "animal skin", precision: 1, baseLimit: 5, originalLocks: ['hunting'] },
+  "animal bone": { name: "animal bone", precision: 1, baseLimit: 5, originalLocks: ['hunting'] },
+  "carvings": { name: "carvings", precision: 2, baseLimit: 1, originalLocks: ['complex-tools', 'stone-tools'] },
+  "complex tools": { name: "complex stone tools", precision: 2, baseLimit: 0, originalLocks: ['complex-tools'] },
+  microliths: { name: "microliths", precision: 2, baseLimit: 5, originalLocks: ['microliths']},
+  folklore: { name: "folklore", precision: 1, baseLimit: 100, originalLocks: [] },
   advancement: { name: "advancement", precision: 0, originalLocks: ['__prestige__'] }
 };
 

@@ -12,9 +12,11 @@ export interface IResourcesData extends Indexed<Currency, IResource> { }
 
 const CurrencyObject = {
   territory: true,
+  folklore: true,
   wood: true,
   flint: true,
   "stone tools": true,
+  "complex tools": true,
   grain: true,
   flour: true,
   water: true,
@@ -28,7 +30,10 @@ const CurrencyObject = {
   charcoal: true,
   pottery: true,
   "animal skin": true,
+  "animal bone": true,
+  "carvings": true,
   leather: true,
+  microliths: true,
   advancement: true,
 };
 
@@ -45,7 +50,8 @@ const industryBranchesObject = {
   bread: true,
   beer: true,
   hunting: true,
-  pottery: true
+  pottery: true,
+  culture: true
 };
 export const branchesArray = Object.keys(industryBranchesObject) as IndustryBranch[];
 

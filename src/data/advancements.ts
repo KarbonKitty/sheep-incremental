@@ -21,6 +21,22 @@ const advancements: IdeaData[] = [
   startingState: {
     done: false,
   }
+},
+{
+  template: {
+    id: 'complex-tools',
+    name: "Complex stone tools",
+    desc: "New ways of working stone to create better stone tools.",
+    type: "discovery",
+    branch: "construction",
+    buyVerb: "Knap!",
+    rawCost: { advancement: 1 },
+    unlocks: ['complex-tools'],
+    originalLocks: ['__prestige__', 'pyrotechnology']
+  },
+  startingState: {
+    done: false
+  }
 }];
 
 export default advancements;

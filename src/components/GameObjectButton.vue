@@ -1,7 +1,7 @@
 <template lang="pug">
   .selectButton(v-if="gameObject.isAvailable()" @click="changeSelection" :class="{ available: canBeBought, active: active }")
     p.
-      {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝]
+      {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝] #[span(v-if="gameObject.disabled") 🛇]
 </template>
 
 <script lang="ts">
@@ -30,7 +30,7 @@ export default Vue.extend({
       return canBeBought(this.gameObject, this.resources, this.population);
     },
     hasAvailableUpgrades: function(): boolean {
-      return this.upgrades.filter(u => canBePaid(u.currentPrice, this.resources)).length > 0;
+      return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.resources)).length > 0;
     }
   }
 });
