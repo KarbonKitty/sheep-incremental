@@ -303,8 +303,7 @@ export default class GameEngine {
         this.advancements.filter(a => a.done).map(a => a.buy());
 
         // TODO: different amount of points per goal
-        // tslint:disable-next-line:no-string-literal
-        this.resources['advancement'].amount += 1;
+        this.resources.advancement.amount += 1;
 
         this.currentSelection = this.buildings[0];
         if (this.resources.advancement.amountSpent === 0) {
