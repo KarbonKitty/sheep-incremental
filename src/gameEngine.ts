@@ -34,6 +34,7 @@ interface IDiscovery extends Idea {
 export default class GameEngine {
     lastTick = 0;
     prestiging = false;
+    saveVersion = "3";
 
     currentSelection: GameObject;
     currentBranch: IndustryBranch;
@@ -189,6 +190,7 @@ export default class GameEngine {
 
     save(): string {
         const state = {
+            saveVersion: this.saveVersion,
             lastTick: this.lastTick,
             locks: this.locks,
             resources: this.resources,
@@ -204,6 +206,10 @@ export default class GameEngine {
 
     load(savedState: string): void {
         const savedObject = JSON.parse(savedState);
+
+        if (savedObject.saveVersion !== this.saveVersion) {
+            throw new Error("Wrong save game version!");
+        }
 
         // to make this generic, we would need some form of list of all the game object data
         // TODO: when creating mixin-implementation, create a list of all gameObjects and use it here
