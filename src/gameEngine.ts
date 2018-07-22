@@ -307,7 +307,7 @@ export default class GameEngine {
         this.resources['advancement'].amount += 1;
 
         this.currentSelection = this.buildings[0];
-        if (survivors.advancements[0].done && !survivors.advancements[1].done) {
+        if (this.resources.advancement.amountSpent === 0) {
             this.currentGoal = this.goals.copper;
         } else {
             this.currentGoal = this.goals.third;
