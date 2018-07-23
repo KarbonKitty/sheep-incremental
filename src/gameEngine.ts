@@ -34,7 +34,7 @@ interface IDiscovery extends Idea {
 export default class GameEngine {
     lastTick = 0;
     prestiging = false;
-    saveVersion = "3";
+    saveVersion = "4";
 
     currentSelection: GameObject;
     currentBranch: IndustryBranch;
