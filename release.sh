@@ -1,6 +1,4 @@
 webpack --mode=production
-rm -rf ../temp-sheep-incremental
-mkdir ../temp-sheep-incremental
-cp -r dist ../temp-sheep-incremental
-cp index.html ../temp-sheep-incremental
-cp site.css ../temp-sheep-incremental
+cp -r dist ../incremental-sheep-gh-pages
+cp index.html ../incremental-sheep-gh-pages
+cp site.css ../incremental-sheep-gh-pages
