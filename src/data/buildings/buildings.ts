@@ -96,7 +96,7 @@ const producersData: BuildingData[] = [
             desc: "Barely more than a stack of sticks itself, but sheep can store some excess material here.",
             branch: "construction",
             rawCost: { wood: 20, territory: 1 },
-            rawStorage: { wood: 50, flint: 50, "stone tools": 10, "mud bricks": 10, charcoal: 15, pottery: 15, "animal skin": 10 },
+            rawStorage: { wood: 50, flint: 50, "stone tools": 10, "mud bricks": 10, charcoal: 15, pottery: 15, "animal skin": 10, "complex tools": 10 },
             buyVerb: "Build",
             originalLocks: []
         },
@@ -193,7 +193,7 @@ const producersData: BuildingData[] = [
             desc: "Some clear ground with a low fence around. It can be used to easily store a lot of non-perishable materials.",
             branch: "construction",
             rawCost: { stone: 50, "stone tools": 1, territory: 3 },
-            rawStorage: { clay: 100, stone: 75, "stone tools": 10, "mud bricks": 15 },
+            rawStorage: { clay: 100, stone: 75, "stone tools": 10, "mud bricks": 15, "complex tools": 10 },
             buyVerb: "Fence",
             originalLocks: ['pyrotechnology']
         },
@@ -262,7 +262,7 @@ const producersData: BuildingData[] = [
             rawCost: { flint: 10, wood: 10, territory: 1 },
             rawConsumption: { flint: 2, wood: 1 },
             rawProduction: { "stone tools": 0.1 },
-            rawStorage: { flint: 5, "stone tools": 3 },
+            rawStorage: { flint: 5, "stone tools": 3, "complex tools": 3 },
             employees: 1,
             buyVerb: "Recruit",
             originalLocks: ['stone-tools']
