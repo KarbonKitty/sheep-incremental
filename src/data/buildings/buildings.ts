@@ -96,7 +96,7 @@ const producersData: BuildingData[] = [
             desc: "Barely more than a stack of sticks itself, but sheep can store some excess material here.",
             branch: "construction",
             rawCost: { wood: 20, territory: 1 },
-            rawStorage: { wood: 50, flint: 50, "stone tools": 10, "mud bricks": 10, charcoal: 15, pottery: 15, "animal skin": 10, "complex tools": 10 },
+            rawStorage: { wood: 50, flint: 50, "stone tools": 10, "mud bricks": 10, charcoal: 15, pottery: 15, "animal skin": 10, "complex tools": 10, "microliths": 10 },
             buyVerb: "Build",
             originalLocks: []
         },

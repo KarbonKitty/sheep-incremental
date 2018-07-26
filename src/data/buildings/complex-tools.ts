@@ -87,6 +87,7 @@ const producersData: BuildingData[] = [
           rawCost: { territory: 5, "complex tools": 1 },
           rawConsumption: { flint: 0.8, "complex tools": 0.02, "animal bone": 0.3 },
           rawProduction: { microliths: 0.4 },
+          rawStorage: { microliths: 10 },
           buyVerb: "Knap",
           originalLocks: ['complex-tools', 'microliths', 'stone-tools']
       },
