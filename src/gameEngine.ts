@@ -124,6 +124,9 @@ export default class GameEngine {
                 const boughtItem = this.tryBuyItem(data.value);
                 if (typeof boughtItem !== 'undefined') {
                     eventBus.$emit('show-toast', `${boughtItem.name} was bought!`);
+                    if (typeGuards.isIdea(boughtItem)) {
+                        this.resetSelection();
+                    }
                 }
                 break;
             case 'change-selection':
@@ -268,6 +271,15 @@ export default class GameEngine {
         this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState));
 
         this.recalculatePopulation();
+    }
+
+    private resetSelection(): void {
+        const objectsFromCurrentBranch = this.availableObjectsFromBranch(this.currentBranch);
+        if (objectsFromCurrentBranch.length > 0) {
+            this.currentSelection = objectsFromCurrentBranch[0];
+        } else {
+            this.currentSelection = this.getAllGameObjects().filter(o => o.isAvailable())[0];
+        }
     }
 
     private getFreePopulation(): number {
@@ -493,5 +505,9 @@ export default class GameEngine {
             case "cost":
                 throw new Error('Cost upgrades are not yet implemented');
         }
+    }
+
+    private availableObjectsFromBranch(branch: string): GameObject[] {
+        return this.getAllGameObjects().filter(o => o.branch === branch && o.isAvailable());
     }
 }
