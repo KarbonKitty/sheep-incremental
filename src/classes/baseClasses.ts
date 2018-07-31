@@ -17,23 +17,11 @@ const CurrencyObject = {
   flint: true,
   "stone tools": true,
   "complex tools": true,
-  grain: true,
-  flour: true,
-  water: true,
-  bread: true,
-  beer: true,
-  "mud bricks": true,
   "raw meat": true,
   meat: true,
-  clay: true,
-  stone: true,
-  charcoal: true,
-  pottery: true,
   "animal skin": true,
-  "animal bone": true,
-  "carvings": true,
-  leather: true,
-  microliths: true,
+  "raw vegetables": true,
+  "vegetables": true,
   advancement: true,
 };
 
@@ -45,12 +33,12 @@ export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable' | 'c
 export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade" | "idea";
 
 const industryBranchesObject = {
+  prestige: true,
   housing: true,
   construction: true,
-  bread: true,
-  beer: true,
+  tools: true,
+  food: true,
   hunting: true,
-  pottery: true,
   culture: true
 };
 export const branchesArray = Object.keys(industryBranchesObject) as IndustryBranch[];

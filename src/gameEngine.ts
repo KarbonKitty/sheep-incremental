@@ -260,15 +260,17 @@ export default class GameEngine {
     private init() {
         this.lastTick = Date.now();
 
-        this.buildings = BuildingData.map(bd => this.createBuilding(bd.template, bd.startingState));
+        const buildingDefaultStartingState = { quantity: 0 };
+        this.buildings = BuildingData.map(bd => this.createBuilding(bd.template, bd.startingState || buildingDefaultStartingState));
 
-        this.ideas = IdeaData.map(id => this.createIdea(id.template, id.startingState));
+        const ideaDefaultStartingState = { done: false };
+        this.ideas = IdeaData.map(id => this.createIdea(id.template, id.startingState || ideaDefaultStartingState));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
         this.resources = this.createResourcesData(ResourcesData);
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
-        this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState));
+        this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState || ideaDefaultStartingState));
 
         this.recalculatePopulation();
     }

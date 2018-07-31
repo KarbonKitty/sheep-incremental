@@ -1,0 +1,76 @@
+import { IIdeaState, IIdeaTemplate } from '../../classes/Idea';
+
+type IdeaData = {
+  template: IIdeaTemplate,
+  startingState?: IIdeaState
+};
+
+const upgrades: IdeaData[] = [
+  {
+    template: {
+      id: 'soft-hammer-percussion',
+      type: "upgrade",
+      name: "Soft hammer percussion",
+      desc: "With time, your flint knappers can learn a new technique for creation of sharp edges: instead of striking rocks with other rocks, strike them with softer material, like wood. It takes more work, but wastes less material and leads to better tools.",
+      branch: "construction",
+      objectId: 'flint-knapper',
+      rawCost: { wood: 50, flint: 25, "stone tools": 1, folklore: 50 },
+      effects: [{
+        affectedObjectId: 'flint-knapper',
+        affectedProperty: "production",
+        type: "mul",
+        scale: { "stone tools": 1.5 }
+      },
+      {
+        affectedObjectId: 'flint-knapper',
+        affectedProperty: "consumption",
+        type: "add",
+        scale: { wood: 0.2, flint: -0.1 }
+      }],
+      buyVerb: "Train",
+      originalLocks: ['stone-tools'],
+    },
+  },
+  {
+    template: {
+      id: 'other-rock',
+      type: "upgrade",
+      name: "Gather different rocks",
+      desc: "It seems that other rocks can be used to make tools, just like flint!",
+      branch: "construction",
+      objectId: 'flint-gatherer',
+      rawCost: { flint: 15, "stone tools": 1, folklore: 25 },
+      effects: [{
+        affectedObjectId: 'flint-gatherer',
+        affectedProperty: 'production',
+        type: 'add',
+        scale: { flint: 0.2 }
+      }],
+      buyVerb: "Gather",
+      originalLocks: ['stone-tools'],
+    },
+  },
+  {
+    template: {
+      id: 'curious-hunters',
+      type: 'upgrade',
+      name: "Curious hunters",
+      desc: "With well-cooked food the hunters can travel farther, and not only hunt, but also discover new lands for the tribe!",
+      branch: 'food',
+      objectId: 'hunter',
+      effects: [
+        {
+          affectedObjectId: 'hunter',
+          affectedProperty: 'production',
+          type: 'add',
+          scale: { territory: 0.15 }
+        }
+      ],
+      rawCost: { "vegetables": 15, "meat": 15 },
+      buyVerb: "Equip",
+      originalLocks: ['cooking']
+    }
+  }
+];
+
+export default upgrades;

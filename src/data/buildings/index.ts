@@ -1,6 +1,5 @@
-import { default as base } from "./buildings";
-import { default as comples } from "./complex-tools";
+import { default as hunterGatherer } from "./hunter-gatherer";
 
-const total = base.concat(comples);
+const total = hunterGatherer;
 
 export default total;
