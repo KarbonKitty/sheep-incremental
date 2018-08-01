@@ -127,7 +127,7 @@ const buildings: BuildingData[] = [
       branch: "hunting",
       rawCost: { "stone tools": 1, territory: 5 },
       rawConsumption: { "stone tools": 0.02 },
-      rawProduction: { "raw meat": 0.6 },
+      rawProduction: { "raw meat": 0.6, "animal skin": 0.1 },
       employees: 1,
       buyVerb: "Recruit",
       originalLocks: ['hunting']
@@ -159,6 +159,19 @@ const buildings: BuildingData[] = [
       rawStorage: { wood: 15, flint: 15, 'stone tools': 5, 'raw vegetables': 15, vegetables: 10, 'raw meat': 5, meat: 10 },
       buyVerb: "Construct",
       originalLocks: []
+    }
+  },
+  {
+    template: {
+      id: 'tent',
+      type: 'building',
+      name: "Animal skin tent",
+      desc: "With caves being hard to find, some sheep need to find other shelter. Tents made out of sticks and animal skins might be small and smelly, but they keep most of the rain out.",
+      branch: 'housing',
+      rawCost: { "animal skin": 3, wood: 3, terrain: 1 },
+      housing: 1,
+      buyVerb: "Pitch",
+      originalLocks: ['hunting']
     }
   }
 ];
