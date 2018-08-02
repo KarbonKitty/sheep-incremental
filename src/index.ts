@@ -17,6 +17,7 @@ import GameObject from "./classes/gameObject/GameObject";
 
 const tickInterval = 50;
 const autosaveInterval = 15000;
+const saveGameName = 'sheep-incremental-save-014';
 
 const engine = new GameEngine();
 
@@ -35,10 +36,10 @@ const vm = new Vue({
     methods: {
         saveGame: function() {
             console.log("Game saved");
-            localStorage.setItem("industrial-incremental-save", engine.save());
+            localStorage.setItem(saveGameName, engine.save());
         },
         loadGame() {
-            const savedGame = localStorage.getItem("industrial-incremental-save");
+            const savedGame = localStorage.getItem(saveGameName);
             if (savedGame === null) {
                 alert("There is no game to load!");
             } else {
