@@ -22,7 +22,7 @@ export interface IBuildingTemplate extends IGameObjectTemplate {
 
 export class Building extends GameObject {
     readonly type = 'building';
-    readonly costMultiplier = 1.15;
+    readonly costMultiplier = 1.20;
 
     template: IBuildingTemplate;
 
