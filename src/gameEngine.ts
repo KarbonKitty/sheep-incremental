@@ -34,7 +34,7 @@ interface IDiscovery extends Idea {
 export default class GameEngine {
     lastTick = 0;
     prestiging = false;
-    saveVersion = "4";
+    saveGameName = 'sheep-incremental-save-014';
 
     currentSelection: GameObject;
     currentBranch: IndustryBranch;
@@ -60,7 +60,7 @@ export default class GameEngine {
         // TODO: work on goals
         this.currentGoal = this.goals.tribal;
 
-        const savedGame = localStorage.getItem('industrial-incremental-save');
+        const savedGame = localStorage.getItem(this.saveGameName);
         if (savedGame !== null) {
             try {
                 this.load(savedGame);
@@ -137,7 +137,7 @@ export default class GameEngine {
                 break;
             case 'prestige':
                 if (data.value === 'start') {
-                    localStorage.setItem('industrial-incremental-save', this.save());
+                    localStorage.setItem(this.saveGameName, this.save());
                     this.prestige();
                     this.prestiging = true;
                 } else if (data.value === 'end') {
@@ -193,13 +193,12 @@ export default class GameEngine {
 
     save(): string {
         const state = {
-            saveVersion: this.saveVersion,
             lastTick: this.lastTick,
             locks: this.locks,
             resources: this.resources,
-            buildingState: this.buildings.map(b => ({ id: b.id, state: b.save() })),
-            ideasState: this.ideas.map(i => ({ id: i.id, state: i.save() })),
-            advancementsState: this.advancements.map(a => ({ id: a.id, state: a.save() })),
+            buildingsState: this.buildings.reduce((m: any, b) => { m[b.id] = b.save(); return m; }, {}),
+            ideasState: this.ideas.reduce((m: any, i) => { m[i.id] = i.save(); return m; }, {}),
+            advancementsState: this.advancements.reduce((m: any, a) => { m[a.id] = a.save(); return m; }, {}),
             population: this.population,
             goal: this.currentGoal
         };
@@ -210,50 +209,26 @@ export default class GameEngine {
     load(savedState: string): void {
         const savedObject = JSON.parse(savedState);
 
-        if (savedObject.saveVersion !== this.saveVersion) {
-            throw new Error("Wrong save game version!");
-        }
-
-        // to make this generic, we would need some form of list of all the game object data
-        // TODO: when creating mixin-implementation, create a list of all gameObjects and use it here
-
-        const tempIdeas = [] as Idea[];
-        savedObject.ideasState.forEach((is: { id: string, state: IIdeaState }) => {
-            const ideaData = IdeaData.filter(id => id.template.id === is.id).pop();
-            if (typeof ideaData === 'undefined') {
-                throw new Error("Unknown idea id:" + is.id);
-            }
-            tempIdeas.push(this.createIdea(ideaData.template, is.state));
-        });
-
-        const tempAdvancements = [] as Idea[];
-        savedObject.advancementsState.forEach((as: { id: string, state: IIdeaState }) => {
-            const advData = AdvancementData.filter(ad => ad.template.id === as.id).pop();
-            if (typeof advData === 'undefined') {
-                throw new Error("Unknown advancement id:" + as.id);
-            }
-            tempAdvancements.push(this.createIdea(advData.template, as.state));
-        });
-
-        const tempBuildings = [] as Building[];
-        savedObject.buildingState.forEach((bs: { id: string, state: IBuildingState }) => {
-            const buildingData = BuildingData.filter(bd => bd.template.id === bs.id).pop();
-            if (typeof buildingData === 'undefined') {
-                throw new Error("Unknown building id:" + bs.id);
-            }
-            tempBuildings.push(this.createBuilding(buildingData.template, bs.state));
-        });
-
-        // nothing threw, we can replace the state
         this.lastTick = savedObject.lastTick;
+
+        const buildingDefaultStartingState = { quantity: 0 };
+        this.buildings = BuildingData.map(bd => this.createBuilding(bd.template, savedObject.buildingsState[bd.template.id] || bd.startingState || buildingDefaultStartingState));
+
+        const ideaDefaultStartingState = { done: false };
+        this.ideas = IdeaData.map(id => this.createIdea(id.template, savedObject.ideasState[id.template.id] || id.startingState || ideaDefaultStartingState));
+
+        this.goals = JSON.parse(JSON.stringify(GoalsData));
+
+        this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, savedObject.advancementsState[ad.template.id] || ad.startingState || ideaDefaultStartingState));
+
+        this.recalculatePopulation();
+
         this.locks = savedObject.locks;
         this.resources = savedObject.resources;
-        this.buildings = tempBuildings;
-        this.ideas = tempIdeas;
-        this.currentSelection = this.producers[0];
-        this.advancements = tempAdvancements;
         this.population = savedObject.population;
         this.currentGoal = savedObject.goal;
+
+        this.resetSelection();
     }
 
     // TODO: rethink that
@@ -310,8 +285,8 @@ export default class GameEngine {
         };
 
         this.init();
-        localStorage.removeItem('industrial-incremental-save');
-        localStorage.setItem('industrial-incremental-save', this.save());
+        localStorage.removeItem(this.saveGameName);
+        localStorage.setItem(this.saveGameName, this.save());
 
         this.advancements = survivors.advancements;
         this.advancements.filter(a => a.done).map(a => a.buy());
