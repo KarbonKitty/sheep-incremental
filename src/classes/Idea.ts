@@ -42,8 +42,7 @@ export class Idea extends GameObject {
 
     save(): IIdeaState {
         return {
-            done: this.done,
-            locks: this.locks
+            done: this.done
         };
     }
 

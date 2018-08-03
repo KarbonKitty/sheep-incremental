@@ -96,10 +96,7 @@ export class Building extends GameObject {
     save(): IBuildingState {
         return {
             quantity: this.quantity,
-            production: this.production,
-            consumption: this.consumption,
-            disabled: this.disabled,
-            locks: this.locks
+            disabled: this.disabled
         };
     }
 

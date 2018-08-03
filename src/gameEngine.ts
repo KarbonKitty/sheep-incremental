@@ -221,12 +221,14 @@ export default class GameEngine {
 
         this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, savedObject.advancementsState[ad.template.id] || ad.startingState || ideaDefaultStartingState));
 
-        this.recalculatePopulation();
-
         this.locks = savedObject.locks;
         this.resources = savedObject.resources;
         this.population = savedObject.population;
         this.currentGoal = savedObject.goal;
+
+        this.reapplyIdeas();
+        this.recalculatePopulation();
+        this.recalculateStorage();
 
         this.resetSelection();
     }
@@ -486,5 +488,9 @@ export default class GameEngine {
 
     private availableObjectsFromBranch(branch: string): GameObject[] {
         return this.getAllGameObjects().filter(o => o.branch === branch && o.isAvailable());
+    }
+
+    private reapplyIdeas(): void {
+        this.ideas.forEach(i => { if (i.done) { i.buy(); } });
     }
 }
