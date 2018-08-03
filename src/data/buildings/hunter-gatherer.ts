@@ -168,7 +168,7 @@ const buildings: BuildingData[] = [
       name: "Animal skin tent",
       desc: "With caves being hard to find, some sheep need to find other shelter. Tents made out of sticks and animal skins might be small and smelly, but they keep most of the rain out.",
       branch: 'housing',
-      rawCost: { "animal skin": 3, wood: 3, terrain: 1 },
+      rawCost: { "animal skin": 3, wood: 3, territory: 1 },
       housing: 1,
       buyVerb: "Pitch",
       originalLocks: ['hunting']
