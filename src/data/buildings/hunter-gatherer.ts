@@ -15,7 +15,7 @@ const buildings: BuildingData[] = [
       branch: "housing",
       rawCost: { territory: 15 },
       housing: 2,
-      rawStorage: { wood: 15, flint: 10, "stone tools": 5, "raw meat": 5, meat: 10, "raw vegetables": 15, "vegetables": 5 },
+      rawStorage: { wood: 5, flint: 5, "stone tools": 2, "raw meat": 5, meat: 10, "raw vegetables": 15, "vegetables": 5 },
       buyVerb: "Find",
       originalLocks: []
     },

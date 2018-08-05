@@ -70,6 +70,27 @@ const upgrades: IdeaData[] = [
       buyVerb: "Equip",
       originalLocks: ['cooking']
     }
+  },
+  {
+    template: {
+      id: 'animal-skins-cave',
+      type: 'upgrade',
+      name: "Skin clearing",
+      desc: "Once sheep learn how to better clean the icky bits from the skins of the caught animals, they stop smelling so bad, and can be stored in caves.",
+      branch: 'hunting',
+      objectId: 'cave',
+      effects: [
+        {
+          affectedObjectId: 'cave',
+          affectedProperty: 'storage',
+          type: 'add',
+          scale: { "animal skin": 5 }
+        }
+      ],
+      rawCost: { "stone tools": 3, folklore: 15 },
+      buyVerb: "Scrape",
+      originalLocks: ['hunting']
+    }
   }
 ];
 

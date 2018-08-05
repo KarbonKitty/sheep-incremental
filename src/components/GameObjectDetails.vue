@@ -9,7 +9,7 @@
       population-component(:employees="gameObject.template.employees" :housing="gameObject.template.housing" :population="population")
       currency-value-component(v-if="hasConsumption" :values="gameObject.consumption.getTotal()" :resources="resources") Inputs:
       currency-value-component(v-if="hasProduction" :values="gameObject.production.getTotal()" :resources="resources") Outputs:
-      currency-value-component(v-if="hasStorage" :values="gameObject.storage" :resources="resources") Storage:
+      currency-value-component(v-if="hasStorage" :values="gameObject.storage.getTotal()" :resources="resources") Storage:
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ gameObject.buyVerb }}
       button.btn.disableButton(v-if="canBeDisabled" @click="emitDisableEvent" :disabled="gameObject.quantity === 0") {{ gameObject.disabled ? "Enable" : "Disable" }}
     .upgradeData

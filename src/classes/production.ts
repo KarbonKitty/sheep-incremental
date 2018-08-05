@@ -1,29 +1,32 @@
 import { Price, UpgradeEffect } from "./baseClasses";
 import { multiplyPrices, sumPrices } from "./helpers";
 
-export interface IProductionState {
-    baseProduction: Price;
+export interface IComplexPriceState {
+    basePrice: Price;
+    additive?: Price;
     multiplier?: Price;
 }
 
-export class Production implements IProductionState {
-    baseProduction: Price;
+export class ComplexPrice implements IComplexPriceState {
+    basePrice: Price;
+    additive?: Price;
     multiplier?: Price;
 
-    constructor(state: IProductionState) {
+    constructor(state: IComplexPriceState) {
         const stateClone = JSON.parse(JSON.stringify(state));
 
-        this.baseProduction = stateClone.baseProduction;
+        this.basePrice = stateClone.basePrice;
         this.multiplier = stateClone.multiplier;
     }
 
     public getTotal() {
-        return multiplyPrices(this.baseProduction, this.multiplier || {});
+        const additivePrice = sumPrices(this.basePrice, this.additive || {});
+        return multiplyPrices(additivePrice, this.multiplier || {});
     }
 
     public addModifier(modifier: UpgradeEffect) {
         if (modifier.type === 'add') {
-            this.baseProduction = sumPrices(this.baseProduction, modifier.scale);
+            this.additive = sumPrices(this.additive || {}, modifier.scale);
         } else if (modifier.type === 'mul') {
             this.multiplier = multiplyPrices(this.multiplier || {}, modifier.scale);
         } else {
@@ -32,6 +35,6 @@ export class Production implements IProductionState {
     }
 
     public save() {
-        return { baseProduction: this.baseProduction, multiplier: this.multiplier };
+        return { baseProduction: this.basePrice, multiplier: this.multiplier };
     }
 }

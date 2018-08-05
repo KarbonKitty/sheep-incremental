@@ -6,7 +6,8 @@
       p {{ upgrade.desc }}
       price-component(:values="upgrade.currentPrice" :resources="resources") Price:
       div(v-for="effect in upgrade.template.effects" :key="effect.property")
-        effect-component(:effect="effect")
+        dynamic-effect-component(:effect="effect" v-if="effect.affectedProperty === 'production' || effect.affectedProperty === 'consumption'")
+        static-effect-component(:effect="effect" v-else)
       button.btn(@click="emitBuyEvent" :disabled="!canBePaid") {{ upgrade.buyVerb }}
 </template>
 
@@ -19,7 +20,8 @@ import { IResourcesData } from "../classes/baseClasses";
 import { getPriceCurrencies, canBePaid } from "../classes/helpers";
 
 import PriceComponent from "./Price.vue";
-import EffectComponent from "./Effect.vue";
+import DynamicEffectComponent from "./DynamicEffect.vue";
+import StaticEffectComponent from "./StaticEffect.vue";
 
 import filters from "../filters";
 
@@ -51,7 +53,8 @@ export default Vue.extend({
   },
   components: {
     "price-component": PriceComponent,
-    "effect-component": EffectComponent
+    "dynamic-effect-component": DynamicEffectComponent,
+    "static-effect-component": StaticEffectComponent
   },
   filters
 });

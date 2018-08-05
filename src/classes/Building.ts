@@ -1,14 +1,16 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { IProductionState, Production } from "./production";
+import { IComplexPriceState, ComplexPrice } from "./production";
 import { Price, IResourcesData } from "./baseClasses";
 import { mulPriceByNumber, canBePaid } from "./helpers";
 
 export interface IBuildingState extends IGameObjectState {
     quantity: number;
-    production?: IProductionState;
-    consumption?: IProductionState;
+    production?: IComplexPriceState;
+    consumption?: IComplexPriceState;
+    storage?: IComplexPriceState;
+    totalPrice?: IComplexPriceState;
     disabled?: boolean;
 }
 
@@ -26,9 +28,9 @@ export class Building extends GameObject {
 
     template: IBuildingTemplate;
 
-    production?: Production;
-    consumption?: Production;
-    storage?: Price;
+    production?: ComplexPrice;
+    consumption?: ComplexPrice;
+    storage?: ComplexPrice;
 
     quantity: number;
     disabled: boolean;
@@ -44,20 +46,22 @@ export class Building extends GameObject {
 
         this.template = template;
 
-        if (typeof template.rawStorage !== 'undefined') {
-            this.storage = template.rawStorage;
+        if (typeof state.storage !== 'undefined') {
+            this.storage = new ComplexPrice(state.storage);
+        } else if (typeof template.rawStorage !== 'undefined') {
+            this.storage = new ComplexPrice({ basePrice: template.rawStorage });
         }
 
         if (typeof state.production !== 'undefined') {
-            this.production = new Production(state.production);
+            this.production = new ComplexPrice(state.production);
         } else if (typeof template.rawProduction !== 'undefined') {
-            this.production = new Production({ baseProduction: template.rawProduction });
+            this.production = new ComplexPrice({ basePrice: template.rawProduction });
         }
 
         if (typeof state.consumption !== 'undefined') {
-            this.consumption = new Production(state.consumption);
+            this.consumption = new ComplexPrice(state.consumption);
         } else if (typeof template.rawConsumption !== 'undefined') {
-            this.consumption = new Production({ baseProduction: template.rawConsumption });
+            this.consumption = new ComplexPrice({ basePrice: template.rawConsumption });
         }
 
         this.quantity = state.quantity;
@@ -85,7 +89,7 @@ export class Building extends GameObject {
         if (typeof this.storage === 'undefined') {
             return undefined;
         } else {
-            return mulPriceByNumber(this.storage, this.quantity);
+            return mulPriceByNumber(this.storage.getTotal(), this.quantity);
         }
     }
 

@@ -5,22 +5,22 @@ import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, Resource
 
 import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
-import { Production } from "./classes/production";
+import { ComplexPrice } from "./classes/production";
 import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
 import eventBus from "./eventBus";
 
 interface IProducer extends Building {
-    production: Production;
+    production: ComplexPrice;
 }
 
 interface IConsumer extends Building {
-    consumption: Production;
+    consumption: ComplexPrice;
 }
 
 type IProcessor = IProducer & IConsumer;
 
 interface IStorage extends Building {
-    storage: Price;
+    storage: ComplexPrice;
 }
 
 interface IUpgrade extends Idea {
@@ -445,7 +445,7 @@ export default class GameEngine {
         CurrencyArray.forEach(c => {
             const resource = this.resources[c];
             if (typeof resource.template.baseLimit !== 'undefined') {
-                resource.limit = this.storages.reduce((limit, b) => limit += (b.storage[c] || 0) * b.quantity, resource.template.baseLimit || 0);
+                resource.limit = this.storages.reduce((limit, b) => limit += (b.storage.getTotal()[c] || 0) * b.quantity, resource.template.baseLimit || 0);
             }
         });
     }
@@ -480,7 +480,11 @@ export default class GameEngine {
                 }
                 break;
             case "storage":
-                throw new Error('Storage upgrades are not yet implemented');
+                if (typeGuards.isBuilding(object) && typeof object.storage !== 'undefined') {
+                    object.storage.addModifier(effect);
+                } else {
+                    throw new Error(`Object with id: ${object.id} is not a storage building and can not have upgrades that improve storage.`);
+                }
             case "cost":
                 throw new Error('Cost upgrades are not yet implemented');
         }
