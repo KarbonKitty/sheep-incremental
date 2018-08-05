@@ -25,7 +25,7 @@ export class Idea extends GameObject {
     onBuy = [] as Array<() => void>;
 
     public get currentPrice() {
-        return this.rawCost;
+        return this.cost.getTotal();
     }
 
     constructor(template: IIdeaTemplate, state: IIdeaState) {

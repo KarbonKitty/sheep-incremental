@@ -40,14 +40,14 @@ const discoveries: IdeaData[] = [
       desc: "Eating raw might be healthy, but eating cooked is more nutritional. And more tasty. And less risky.",
       branch: "food",
       unlocks: ['cooking'],
-      // effects: [
-      //   {
-      //     affectedObjectId: 'tribe-elder',
-      //     affectedProperty: "cost",
-      //     type: 'add',
-      //     scale: { vegetables: 10, 'raw vegetables': -10 }
-      //   }
-      // ],
+      effects: [
+        {
+          affectedObjectId: 'tribe-elder',
+          affectedProperty: "cost",
+          type: 'add',
+          scale: { vegetables: 10, 'raw vegetables': -10 }
+        }
+      ],
       rawCost: { wood: 100, 'stone tools': 5, folklore: 20 },
       buyVerb: "Start the fire",
       originalLocks: ['hunting']

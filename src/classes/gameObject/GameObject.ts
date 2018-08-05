@@ -2,6 +2,7 @@ import { GameObjectType, IndustryBranch, Lock, Price, IResourcesData } from '../
 import IBuyable from '../IBuyable';
 import IGameObjectState from './IGameObjectState';
 import IGameObjectTemplate from "./IGameObjectTemplate";
+import { ComplexPrice } from '../production';
 
 export default abstract class GameObject implements IGameObjectTemplate, IGameObjectState, IBuyable {
     id: string;
@@ -10,6 +11,7 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
     desc: string;
     branch: IndustryBranch;
     rawCost: Price;
+    cost: ComplexPrice;
     buyVerb: string;
     originalLocks: Lock[];
 
@@ -27,6 +29,12 @@ export default abstract class GameObject implements IGameObjectTemplate, IGameOb
         this.rawCost = template.rawCost;
         this.buyVerb = template.buyVerb;
         this.originalLocks = template.originalLocks;
+
+        if (typeof state.cost !== 'undefined') {
+            this.cost = new ComplexPrice(state.cost);
+        } else {
+            this.cost = new ComplexPrice({ basePrice: template.rawCost });
+        }
 
         if (typeof state !== 'undefined' && typeof state.locks !== 'undefined') {
             this.locks = state.locks.slice();

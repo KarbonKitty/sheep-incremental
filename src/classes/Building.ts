@@ -38,7 +38,7 @@ export class Building extends GameObject {
     onBuy = [] as Array<() => void>;
 
     public get currentPrice(): Price {
-        return mulPriceByNumber(this.rawCost, Math.pow(this.costMultiplier, this.quantity));
+        return mulPriceByNumber(this.cost.getTotal(), Math.pow(this.costMultiplier, this.quantity));
     }
 
     constructor(template: IBuildingTemplate, state: IBuildingState) {

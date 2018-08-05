@@ -486,7 +486,7 @@ export default class GameEngine {
                     throw new Error(`Object with id: ${object.id} is not a storage building and can not have upgrades that improve storage.`);
                 }
             case "cost":
-                throw new Error('Cost upgrades are not yet implemented');
+                object.cost.addModifier(effect);
         }
     }
 

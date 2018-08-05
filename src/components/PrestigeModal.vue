@@ -12,9 +12,9 @@
           tbody
             tr(v-for="advancement in advancements" :key="advancement.id" :title="advancement.desc")
               td.name #[strong {{ advancement.name }}]
-              td.cost {{ advancement.rawCost.advancement }}
+              td.cost {{ advancement.cost.getTotal().advancement }}
               td
-                button.btn(@click="buyAdvancement(advancement.id)" :disabled="advancement.rawCost.advancement > points || advancement.done") {{ advancement.done ? "Done!" : advancement.buyVerb }}
+                button.btn(@click="buyAdvancement(advancement.id)" :disabled="advancement.cost.getTotal().advancement > points || advancement.done") {{ advancement.done ? "Done!" : advancement.buyVerb }}
       .footer
         button.btn(@click="finishPrestige") Done
 </template>
