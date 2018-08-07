@@ -64,7 +64,7 @@ export interface IResource {
   template: IResourceTemplate;
   limit?: number;
   amount: number;
-  gainPerSecond: number;
+  gainPerSecond: number[];
   locks: Lock[];
   amountSpent: number;
 }

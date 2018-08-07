@@ -32,7 +32,9 @@ interface IDiscovery extends Idea {
 }
 
 export default class GameEngine {
+    gainPerSecondIterations = 20;
     lastTick = 0;
+    iteration = 0;
     prestiging = false;
     saveGameName = 'sheep-incremental-save-014';
 
@@ -109,7 +111,8 @@ export default class GameEngine {
             this.lastTick = currentTick;
         }
 
-        this.clearPerSecondValues();
+        this.iteration = (this.iteration + 1) % this.gainPerSecondIterations;
+        this.clearPerSecondValues(this.iteration);
         this.activatePureProducers(deltaT);
         this.activateProcessors(deltaT);
         this.discardResourcesOverLimit();
@@ -362,7 +365,7 @@ export default class GameEngine {
 
     private accumulatePerSecondValues(deltaT: number, valuePerDelta: Price, isPositive: boolean) {
         getPriceCurrencies(valuePerDelta).forEach(c => {
-            this.resources[c].gainPerSecond += (valuePerDelta[c] || 0) * 1000 / deltaT * (isPositive ? 1 : -1);
+            this.resources[c].gainPerSecond[this.iteration] += (valuePerDelta[c] || 0) * 1000 / deltaT * (isPositive ? 1 : -1);
         });
     }
 
@@ -378,10 +381,6 @@ export default class GameEngine {
         getPriceCurrencies(price).forEach(currency => {
             this.resources[currency].amount += (price[currency] || 0);
         });
-    }
-
-    private clearPerSecondValues(): void {
-        CurrencyArray.forEach(k => this.resources[k].gainPerSecond = 0);
     }
 
     private discardResourcesOverLimit(): void {
@@ -434,7 +433,7 @@ export default class GameEngine {
         return {
             template: template,
             amount: 0,
-            gainPerSecond: 0,
+            gainPerSecond: new Array(this.gainPerSecondIterations).fill(0),
             limit: template.baseLimit,
             locks: template.originalLocks.slice(),
             amountSpent: 0
@@ -496,5 +495,9 @@ export default class GameEngine {
 
     private reapplyIdeas(): void {
         this.ideas.forEach(i => { if (i.done) { i.buy(); } });
+    }
+
+    private clearPerSecondValues(iteration: number): void {
+        CurrencyArray.forEach(c => this.resources[c].gainPerSecond[iteration] = 0);
     }
 }
