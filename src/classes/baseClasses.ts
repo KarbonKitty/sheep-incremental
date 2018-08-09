@@ -39,7 +39,8 @@ const industryBranchesObject = {
   tools: true,
   food: true,
   hunting: true,
-  culture: true
+  culture: true,
+  expedition: true
 };
 export const branchesArray = Object.keys(industryBranchesObject) as IndustryBranch[];
 

@@ -42,6 +42,10 @@
             <div v-if="discoveries.filter(d => d.locks.length === 0 && !d.done).length > 0">
                 <branch-button-component name="discoveries" :active="currentBranch === 'discoveries'"></branch-button-component>
             </div>
+            <!-- Here be dragons. TODO: make sure this works. -->
+            <div>
+                <branch-button-component name="expeditions" :active="currentBranch === 'expeditions'"></branch-button-component>
+            </div>
         </div>
 
         <div class="object-list">
@@ -49,6 +53,11 @@
             <div v-if="this.currentBranch === 'discoveries'">
                 <div v-for="discovery in discoveries.filter(d => d.locks.length === 0 && !d.done)">
                     <game-object-component :game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)" :active="discovery.id === currentSelection.id"></game-object-component>
+                </div>
+            </div>
+            <div v-if="this.currentBranch === 'expeditions'">
+                <div v-for="e in expeditions.filter(e => e.isAvailable())">
+                    <game-object-component :game-object="e" :resources="resources" :upgrades="[]" :active="e.id === currentSelection.id"></game-object-component>
                 </div>
             </div>
             <div v-else>

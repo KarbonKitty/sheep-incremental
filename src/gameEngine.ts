@@ -1,13 +1,14 @@
 import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
-import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData } from "./data";
+import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData } from "./data";
 
 import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
 import { ComplexPrice } from "./classes/production";
 import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
 import eventBus from "./eventBus";
+import { Expedition, IExpeditionState, IExpeditionTemplate } from "./classes/Expedition";
 
 interface IProducer extends Building {
     production: ComplexPrice;
@@ -48,6 +49,7 @@ export default class GameEngine {
 
     buildings = [] as Building[];
     ideas = [] as Idea[];
+    expeditions = [] as Expedition[];
 
     resources = {} as IResourcesData;
 
@@ -115,6 +117,7 @@ export default class GameEngine {
         this.clearPerSecondValues(this.iteration);
         this.activatePureProducers(deltaT);
         this.activateProcessors(deltaT);
+        this.proceedWithExpeditions(deltaT);
         this.discardResourcesOverLimit();
     }
 
@@ -167,6 +170,7 @@ export default class GameEngine {
         gameObjects = gameObjects.concat(this.buildings);
         gameObjects = gameObjects.concat(this.ideas);
         gameObjects = gameObjects.concat(this.advancements);
+        gameObjects = gameObjects.concat(this.expeditions);
         return gameObjects;
     }
 
@@ -245,6 +249,9 @@ export default class GameEngine {
 
         const ideaDefaultStartingState = { done: false };
         this.ideas = IdeaData.map(id => this.createIdea(id.template, id.startingState || ideaDefaultStartingState));
+
+        const expeditionDefaultStartingState = { timesCompleted: 0, timeLeftToComplete: 0 };
+        this.expeditions = ExpeditionData.map(ed => this.createExpedition(ed.template, ed.startingState || expeditionDefaultStartingState));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
         this.resources = this.createResourcesData(ResourcesData);
@@ -429,6 +436,15 @@ export default class GameEngine {
         return building;
     }
 
+    private createExpedition(template: IExpeditionTemplate, state: IExpeditionState): Expedition {
+        const expedition = new Expedition(template, state);
+        expedition.onBuy.push(() => {
+            expedition.timesCompleted++;
+            this.getPaid(expedition.template.reward);
+        });
+        return expedition;
+    }
+
     private createResource(template: IResourceTemplate): IResource {
         return {
             template: template,
@@ -499,5 +515,9 @@ export default class GameEngine {
 
     private clearPerSecondValues(iteration: number): void {
         CurrencyArray.forEach(c => this.resources[c].gainPerSecond[iteration] = 0);
+    }
+
+    private proceedWithExpeditions(deltaT: number): void {
+        this.expeditions.filter(e => e.timeLeftToComplete > 0).forEach(e => e.passTime(deltaT));
     }
 }
