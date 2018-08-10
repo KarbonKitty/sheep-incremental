@@ -15,8 +15,7 @@ export interface IExpeditionTemplate extends IGameObjectTemplate {
 }
 
 export class Expedition extends GameObject {
-  // TODO: add new type in baseClasses
-  readonly type = 'idea';
+  readonly type = 'expedition';
   readonly costMultiplier = 1.10;
 
   template: IExpeditionTemplate;
