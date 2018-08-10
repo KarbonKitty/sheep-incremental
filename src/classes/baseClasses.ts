@@ -30,7 +30,7 @@ export const CurrencyArray = Object.keys(CurrencyObject) as Currency[];
 export type Currency = keyof typeof CurrencyObject;
 export type EffectProp = "cost" | "production" | "consumption" | "storage";
 export type GameEvent = 'buy' | 'change-selection' | 'prestige' | 'disable' | 'change-branch';
-export type GameObjectType = "building" | "producer" | "discovery" | "storage" | "upgrade" | "idea";
+export type GameObjectType = "building" | "idea" | "expedition";
 
 const industryBranchesObject = {
   prestige: true,

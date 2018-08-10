@@ -9,7 +9,7 @@ const discoveries: IdeaData[] = [
   {
     template: {
       id: 'stone-tools-discovery',
-      type: 'discovery',
+      type: 'idea',
       name: "Create stone tools",
       desc: "When a sheep knaps a stone with a second stone, the first stone gets sharp. And with a sharp stone, a sheep can do much more than without!",
       branch: "construction",
@@ -22,7 +22,7 @@ const discoveries: IdeaData[] = [
   {
     template: {
       id: 'hunting-discovery',
-      type: 'discovery',
+      type: 'idea',
       name: "Hunt for meat",
       desc: "One can eat vegetables only for so long. Even if one is a sheep.",
       branch: "hunting",
@@ -35,7 +35,7 @@ const discoveries: IdeaData[] = [
   {
     template: {
       id: 'cooking',
-      type: 'discovery',
+      type: 'idea',
       name: "Start cooking food",
       desc: "Eating raw might be healthy, but eating cooked is more nutritional. And more tasty. And less risky.",
       branch: "food",
