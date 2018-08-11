@@ -1,7 +1,7 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { IComplexPriceState, ComplexPrice } from "./production";
+import { IComplexPriceState, ComplexPrice } from "./complexPrices";
 import { Price, IResourcesData } from "./baseClasses";
 import { mulPriceByNumber, canBePaid } from "./helpers";
 

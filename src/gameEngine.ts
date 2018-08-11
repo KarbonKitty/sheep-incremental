@@ -5,7 +5,7 @@ import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, Resource
 
 import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
-import { ComplexPrice } from "./classes/production";
+import { ComplexPrice } from "./classes/complexPrices";
 import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
 import eventBus from "./eventBus";
 import { Expedition, IExpeditionState, IExpeditionTemplate } from "./classes/Expedition";

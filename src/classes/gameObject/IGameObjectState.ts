@@ -1,5 +1,5 @@
 import { Lock } from "../baseClasses";
-import { ComplexPrice } from "../production";
+import { ComplexPrice } from "../complexPrices";
 
 export default interface IGameObjectState {
   cost?: ComplexPrice;
