@@ -62,9 +62,14 @@ export function hasEnoughWorkforce(item: GameObject, population: IPopulation) {
   }
 }
 
-export function canBeBought(item: GameObject, resources: IResourcesData, population: IPopulation) {
+export function canBeBought(item: GameObject, resources: IResourcesData, population?: IPopulation) {
   const enoughResources = canBePaid(item.currentPrice, resources);
-  const enoughPopulation = hasEnoughWorkforce(item, population);
+  let enoughPopulation;
+  if (typeof population !== 'undefined') {
+    enoughPopulation = hasEnoughWorkforce(item, population);
+  } else {
+    enoughPopulation = !typeGuards.isBuilding(item) || typeof item.template.employees === 'undefined';
+  }
 
   return enoughResources && enoughPopulation;
 }
