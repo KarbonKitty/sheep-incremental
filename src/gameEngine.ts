@@ -440,7 +440,18 @@ export default class GameEngine {
         const expedition = new Expedition(template, state);
         expedition.onBuy.push(() => {
             expedition.timesCompleted++;
-            this.getPaid(expedition.template.reward);
+            expedition.getReward().forEach(rewardItem => {
+                if (typeof rewardItem === 'string') {
+                    const object = this.getGameObjectById(rewardItem);
+                    if (typeof object !== 'undefined') {
+                        object.buy();
+                    } else {
+                        throw Error(`Object with id ${rewardItem} doesn't exist and was used as a part of an expedition reward.`);
+                    }
+                } else {
+                    this.getPaid(rewardItem);
+                }
+            });
         });
         return expedition;
     }

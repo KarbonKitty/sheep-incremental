@@ -1,8 +1,13 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { Price, IResourcesData } from "./baseClasses";
+import { Price, IResourcesData, GameObjectId } from "./baseClasses";
 import { mulPriceByNumber, canBePaid } from "./helpers";
+
+interface IRewardItem {
+  chance: number;
+  item: Array<Price | GameObjectId>;
+}
 
 export interface IExpeditionState extends IGameObjectState {
   timesCompleted: number;
@@ -10,7 +15,7 @@ export interface IExpeditionState extends IGameObjectState {
 }
 
 export interface IExpeditionTemplate extends IGameObjectTemplate {
-  reward: Price;
+  reward: IRewardItem[];
   length: number;
 }
 
@@ -68,6 +73,10 @@ export class Expedition extends GameObject {
       this.timeLeftToComplete = 0;
     }
     return this.timeLeftToComplete;
+  }
+
+  getReward(): Array<Price | GameObjectId> {
+    return this.template.reward.filter(ri => Math.random() < ri.chance).map(ri => ri.item).reduce((retArr, current) => retArr.concat(current), []);
   }
 
   private complete(): void {

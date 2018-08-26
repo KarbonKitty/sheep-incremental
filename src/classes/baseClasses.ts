@@ -6,6 +6,8 @@ type Indexed<T extends string, U> = {
   [P in T]: U;
 };
 
+export type GameObjectId = string;
+
 export interface IResourcesTemplateData extends Indexed<Currency, IResourceTemplate> { }
 
 export interface IResourcesData extends Indexed<Currency, IResource> { }

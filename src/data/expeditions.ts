@@ -17,7 +17,20 @@ const expeditions: ExpeditionData[] = [
       length: 10000,
       originalLocks: [],
       rawCost: { wood: 1 },
-      reward: { folklore: 10 }
+      reward: [
+        {
+          chance: 1,
+          item: [ { territory: 10 } ]
+        },
+        {
+          chance: 1,
+          item: [ 'cave' ]
+        },
+        {
+          chance: 0.5,
+          item: [ { folklore: 10 } ]
+        }
+      ]
     }
   }
 ];

@@ -6,7 +6,7 @@
       h3 {{ expedition.name }}
       p {{ expedition.desc }}
       price-component(:values="expedition.currentPrice" :resources="resources") Price:
-      currency-value-component(:values="expedition.template.reward" :resources="resources") Reward:
+      //- add reward component
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ expedition.buyVerb }}
     .currentData
       div
@@ -34,7 +34,6 @@ export default Vue.extend({
     resources: Object as () => IResourcesData
   },
   components: {
-    'currency-value-component': CurrencyValueComponent,
     'price-component': PriceComponent
   },
   methods: {
