@@ -4,7 +4,7 @@ import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { Price, IResourcesData, GameObjectId } from "./baseClasses";
 import { mulPriceByNumber, canBePaid } from "./helpers";
 
-interface IRewardItem {
+export interface IRewardItem {
   chance: number;
   item: Array<Price | GameObjectId>;
 }

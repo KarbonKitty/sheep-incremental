@@ -1,6 +1,8 @@
 import { IPopulation, Price, IResourcesData, CurrencyArray, Currency } from "./baseClasses";
 import GameObject from "./gameObject/GameObject";
 import typeGuards from "./typeGuards";
+import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData } from "../data";
+import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 
 export function mulPriceByNumber(price: Price, num: number): Price {
   const newPrice: Price = {};
@@ -79,4 +81,22 @@ function addTwoPrices(price1: Price, price2: Price): Price {
   Object.keys(price1).map(k => newPrice[k] = price1[k]);
   Object.keys(price2).map(k => newPrice[k] ? (newPrice[k] as number) += (price2[k] || 0) : newPrice[k] = price2[k]);
   return newPrice;
+}
+
+function getAllGameObjectTemplates(): IGameObjectTemplate[] {
+  let gameObjects = [] as IGameObjectTemplate[];
+  gameObjects = gameObjects.concat(BuildingData.map(bd => bd.template));
+  gameObjects = gameObjects.concat(IdeaData.map(id => id.template));
+  gameObjects = gameObjects.concat(AdvancementData.map(ad => ad.template));
+  gameObjects = gameObjects.concat(ExpeditionData.map(ed => ed.template));
+  return gameObjects;
+}
+
+export function getGameObjectNameById(id: string): string {
+  const obj = getAllGameObjectTemplates().filter(x => x.id === id).pop();
+  if (typeof obj === 'undefined') {
+    return '';
+  } else {
+    return obj.name;
+  }
 }

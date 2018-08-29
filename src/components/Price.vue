@@ -14,8 +14,6 @@ import PriceItemComponent from "./PriceItem.vue";
 
 import { Price, IResourcesData } from "../classes/baseClasses";
 
-import filters from "../filters";
-
 export default Vue.extend({
   props: {
     values: Object as () => Price,
@@ -23,7 +21,6 @@ export default Vue.extend({
   },
   components: {
     'price-item-component': PriceItemComponent
-  },
-  filters
+  }
 })
 </script>

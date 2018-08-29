@@ -385,7 +385,7 @@ export default class GameEngine {
     }
 
     private getPaid(price: Price) {
-        getPriceCurrencies(price).forEach(currency => {
+        getPriceCurrencies(price).filter(c => this.resources[c].locks.length === 0).forEach(currency => {
             this.resources[currency].amount += (price[currency] || 0);
         });
     }

@@ -5,13 +5,14 @@
     .mainData
       h3 {{ expedition.name }}
       p {{ expedition.desc }}
+      p Length: #[strong {{ expedition.template.length | timeLeft }}]
       price-component(:values="expedition.currentPrice" :resources="resources") Price:
-      //- add reward component
+      reward-details-component(:reward="expedition.template.reward" :resources="resources") Rewards:
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ expedition.buyVerb }}
     .currentData
       div
         h3 Current Expedition
-        p(v-if="expedition.timeLeftToComplete > 0") Time left: {{ expedition.timeLeftToComplete / 1000 | decimal(1) }} s
+        p(v-if="expedition.timeLeftToComplete > 0") Time left: {{ expedition.timeLeftToComplete | timeLeft }}
         p(v-else) This expedition is not currently in progress.
 </template>
 
@@ -24,8 +25,8 @@ import { IPopulation, IResource,IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
 import typeGuards from "../classes/typeGuards";
 
-import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
+import RewardDetailsComponent from "./RewardDetails.vue";
 import { getPriceCurrencies, canBeBought } from '../classes/helpers';
 
 export default Vue.extend({
@@ -34,7 +35,8 @@ export default Vue.extend({
     resources: Object as () => IResourcesData
   },
   components: {
-    'price-component': PriceComponent
+    'price-component': PriceComponent,
+    'reward-details-component': RewardDetailsComponent
   },
   methods: {
     emitBuyEvent: function() {
