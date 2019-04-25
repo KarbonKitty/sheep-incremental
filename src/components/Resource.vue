@@ -28,13 +28,11 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-.negative {
-  color: #dc322f;
-}
+<style scoped lang="stylus">
+.negative
+  color $red
 
-.storageWarning {
-  color: #cb4b16;
-}
+.storageWarning
+  color $orange
 </style>
 

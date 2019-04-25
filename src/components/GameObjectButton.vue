@@ -40,19 +40,16 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-  .active {
-    border-color: #859900;
-    color: #859900;
-  }
+<style scoped lang="stylus">
+  .active
+    border-color $green
+    color $green
 
-  .spin {
-    display: inline-block;
-    animation:spin 4s linear infinite;
-  }
+  .spin
+    display inline-block
+    animation spin 4s linear infinite
 
-  @keyframes spin {
+  @keyframes spin
     from {transform:rotate(0deg);}
     to {transform:rotate(360deg);}
-   }
 </style>

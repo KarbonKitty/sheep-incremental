@@ -55,30 +55,25 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-  .miniGrid {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 10% 90%;
-  }
+<style scoped lang="stylus">
+  .miniGrid
+    display grid
+    grid-template-columns 50% 50%
+    grid-template-rows 10% 90%
 
-  .gridHeader {
-    grid-column: 1;
-    grid-row: 1;
-  }
+  .gridHeader
+    grid-column 1
+    grid-row 1
 
-  .mainData {
-    grid-column: 1;
-    grid-row: 2;
-  }
+  .mainData
+    grid-column 1
+    grid-row 2
 
-  .currentData {
-    margin-left: 1rem;
-    grid-column: 2;
-    grid-row: 2;
-  }
+  .currentData
+    margin-left 1rem
+    grid-column 2
+    grid-row 2
 
-  .disableButton {
-    float: right;
-  }
+  .disableButton
+    float right
 </style>

@@ -60,23 +60,20 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-.upgradeButton {
-  text-align: center;
-  padding: 0 0.25rem;
-  margin: 0.125rem;
-  border: 1px solid #839496;
-  border-radius: 4px;
-  width: 200px;
-  cursor: pointer;
-}
+<style scoped lang="stylus">
+.upgradeButton
+  text-align center
+  padding 0 0.25rem
+  margin 0.125rem
+  border 1px solid $base0
+  border-radius 4px
+  width 200px
+  cursor pointer
 
-.upgradeButton > p {
-  margin: 0.5rem 0;
-}
+.upgradeButton > p
+  margin 0.5rem 0
 
-.details {
-  margin: 0 0 1rem 1rem;
-}
+.details
+  margin 0 0 1rem 1rem
 </style>
 

@@ -41,66 +41,56 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-  .backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 10;
-  }
+<style scoped lang="stylus">
+  .backdrop
+    position fixed
+    top 0
+    left 0
+    width 100%
+    height 100%
+    background-color rgba(0, 0, 0, 0.75)
+    z-index 10
 
-  .modal {
-    position: fixed;
-    padding: 5%;
-    top: 5%;
-    margin: 0 5%;
-    height: 80%;
-    left: 0;
-    right: 0;
-    z-index: 11;
-    background-color: #002b36;
-    border-radius: 0.5rem;
-  }
+  .modal
+    position fixed
+    padding 5%
+    top 5%
+    margin 0 5%
+    height 80%
+    left 0
+    right 0
+    z-index 11
+    background-color $base03
+    border-radius 0.5rem
 
-  .header {
-    position: absolute;
-    top: 0;
-    height: 10%;
-  }
+  .header
+    position absolute
+    top 0
+    height 10%
 
-  .body {
-    position: absolute;
-    top: 10%;
-    height: 80%;
-    width: 100%;
-  }
+  .body
+    position absolute
+    top 10%
+    height 80%
+    width 100%
 
-  .footer {
-    position: absolute;
-    bottom: 0;
-    height: 10%;
-  }
+  .footer
+    position absolute
+    bottom 0
+    height 10%
 
-  tr:nth-child(odd) {
-    background-color: #073642;
-  }
+  tr:nth-child(odd)
+    background-color $base02
 
-  table {
-    width: 80%;
-  }
+  table
+    width 80%
 
-  td > .btn {
-    width: 100%;
-  }
+  td > .btn
+    width 100%
 
-  .name {
-    padding: 0 1rem;
-  }
+  .name
+    padding 0 1rem
 
-  .cost {
-    text-align: center;
-  }
+  .cost
+    text-align center
 </style>

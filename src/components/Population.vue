@@ -26,8 +26,7 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-  .lacking {
-    color: #dc322f;
-  }
+<style scoped lang="stylus">
+  .lacking
+    color $red
 </style>

@@ -23,9 +23,8 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-  .active {
-    border-color: #859900;
-    color: #859900;
-  }
+<style scoped lang="stylus">
+  .active
+    border-color $green
+    color $green
 </style>
