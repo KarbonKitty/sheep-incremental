@@ -22,5 +22,5 @@ export default Vue.extend({
   components: {
     'price-item-component': PriceItemComponent
   }
-})
+});
 </script>

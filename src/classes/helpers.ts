@@ -53,7 +53,7 @@ export function getPriceCurrencies(price: Price): Currency[] {
 }
 
 export function canBePaid(price: Price, resources: IResourcesData): boolean {
-  return getPriceCurrencies(price).reduce((acc, cur) => acc && resources[cur].amount >= (price[cur] || 0), true);
+  return getPriceCurrencies(price).reduce((acc: boolean, cur) => acc && resources[cur].amount >= (price[cur] || 0), true);
 }
 
 export function hasEnoughWorkforce(item: GameObject, population: IPopulation) {

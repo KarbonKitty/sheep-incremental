@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 import { Map, IResource, Price, Currency, IResourcesData } from "../classes/baseClasses";
 import filters from "../filters";
 import EventBus from "../eventBus";
@@ -41,5 +41,5 @@ export default Vue.extend({
     'goal-item-component': GoalItemComponent
   },
   filters
-})
+});
 </script>

@@ -20,7 +20,7 @@ export default Vue.extend({
   },
   computed: {
     sign: function(): number {
-      return this.effect.affectedProperty == "consumption" ? -1 : 1;
+      return this.effect.affectedProperty === "consumption" ? -1 : 1;
     }
   },
   filters

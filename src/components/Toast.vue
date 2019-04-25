@@ -11,7 +11,7 @@ import Vue from 'vue';
 
 export default Vue.extend({
   data: function() {
-    return { toasts: [] as string[] }
+    return { toasts: [] as string[] };
   },
   methods: {
     addMessage: function(message: string) {
@@ -22,7 +22,7 @@ export default Vue.extend({
       this.toasts.shift();
     }
   }
-})
+});
 </script>
 
 <style scoped>

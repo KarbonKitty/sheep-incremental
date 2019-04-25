@@ -1,29 +1,35 @@
 {
-  "name": "incremental-sheep-vue",
-  "version": "0.0.1",
-  "description": "Incremental game about sheep and conquering the world",
-  "main": "index.js",
-  "scripts": {
-    "build": "webpack",
-    "host": "http-server -p 9999 .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "KarbonKitty",
-  "license": "MIT",
+  "name": "nuclear-incremental",
+  "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
   "dependencies": {
-    "npm": "^5.10.0"
+    "vue": "^2.5.22",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "css-loader": "^0.28.11",
-    "pug": "^2.0.3",
-    "pug-plain-loader": "^1.0.0",
-    "ts-loader": "^4.2.0",
-    "typescript": "^2.8.1",
-    "vue": "^2.5.16",
-    "vue-loader": "^14.2.2",
-    "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.5.0",
-    "webpack-cli": "^2.0.14"
-  }
+    "@vue/cli-plugin-typescript": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "style-resources-loader": "^1.2.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "typescript": "^3.0.0",
+    "vue-cli-plugin-pug": "^1.0.7",
+    "vue-cli-plugin-style-resources-loader": "^0.1.3",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }

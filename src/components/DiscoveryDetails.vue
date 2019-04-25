@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 import EventBus from '../eventBus';
 
 import { Idea } from '../classes/Idea';
@@ -41,7 +41,7 @@ export default Vue.extend({
       return canBeBought(this.discovery, this.resources);
     }
   }
-})
+});
 </script>
 
 <style scoped>

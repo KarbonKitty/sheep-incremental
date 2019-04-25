@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
 import filters from "../filters";
 import { IPopulation } from '../classes/baseClasses';
@@ -23,7 +23,7 @@ export default Vue.extend({
     population: Object as () => IPopulation
   },
   filters
-})
+});
 </script>
 
 <style scoped>

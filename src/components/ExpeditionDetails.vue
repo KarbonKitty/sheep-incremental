@@ -17,11 +17,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 import EventBus from '../eventBus';
 
 import { Expedition } from '../classes/Expedition';
-import { IPopulation, IResource,IResourcesData } from '../classes/baseClasses';
+import { IPopulation, IResource, IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
 import typeGuards from "../classes/typeGuards";
 
@@ -52,7 +52,7 @@ export default Vue.extend({
     }
   },
   filters
-})
+});
 </script>
 
 <style scoped>
