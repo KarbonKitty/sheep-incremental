@@ -2,7 +2,8 @@ import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { Price, IResourcesData, GameObjectId } from "./baseClasses";
-import { mulPriceByNumber, canBePaid } from "./helpers";
+import { mulPriceByNumber } from "./helpers";
+import store from '@/store/store';
 
 export interface IRewardItem {
   chance: number;
@@ -51,7 +52,7 @@ export class Expedition extends GameObject {
   }
 
   canBeBought(resources: IResourcesData): boolean {
-    return canBePaid(this.currentPrice, resources);
+    return store.getters.canBePaid(this.currentPrice);
   }
 
   buy(): void {

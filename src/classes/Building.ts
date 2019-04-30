@@ -3,7 +3,8 @@ import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { IComplexPriceState, ComplexPrice } from "./complexPrices";
 import { Price, IResourcesData } from "./baseClasses";
-import { mulPriceByNumber, canBePaid } from "./helpers";
+import { mulPriceByNumber } from "./helpers";
+import store from '@/store/store';
 
 export interface IBuildingState extends IGameObjectState {
     quantity: number;
@@ -109,6 +110,6 @@ export class Building extends GameObject {
     }
 
     canBeBought(resources: IResourcesData): boolean {
-        return canBePaid(this.currentPrice, resources);
+        return store.getters.canBePaid(this.currentPrice);
     }
 }

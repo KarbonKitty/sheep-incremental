@@ -27,7 +27,7 @@ import typeGuards from "../classes/typeGuards";
 
 import PriceComponent from "./Price.vue";
 import RewardDetailsComponent from "./RewardDetails.vue";
-import { getPriceCurrencies, canBeBought } from '../classes/helpers';
+import { getPriceCurrencies } from '../classes/helpers';
 
 export default Vue.extend({
   props: {
@@ -45,7 +45,7 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.expedition, this.resources);
+      return this.$store.getters.canBeBought(this.expedition);
     },
     isInProgress: function(): boolean {
       return typeGuards.isExpedition(this.expedition) && this.expedition.timeLeftToComplete > 0;
