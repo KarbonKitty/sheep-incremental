@@ -59,14 +59,20 @@ import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses
 import GameObject from "./classes/gameObject/GameObject";
 
 import filters from "./filters";
-
 import GameEngine from "./gameEngine";
-
 import engine from "./engine";
+
+import EventBus from "./eventBus";
 
 export default Vue.extend({
     name: 'app',
     data: () => engine,
+    created: function() {
+        EventBus.$on("show-toast", (data: string) => {
+        const toastComponent = this.$refs.toast as any;
+        toastComponent.addMessage(data);
+      });
+    },
     methods: {
         saveGame: function() {
             console.log("Game saved");
