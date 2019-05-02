@@ -20,7 +20,7 @@ import typeGuards from "../classes/typeGuards";
 
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
-import { getPriceCurrencies } from '../classes/helpers';
+import { getPriceCurrencies, canBeBought } from '../classes/helpers';
 
 export default Vue.extend({
   props: {
@@ -38,7 +38,7 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return this.$store.getters.canBeBought(this.discovery);
+      return canBeBought(this.discovery, this.resources);
     }
   }
 });

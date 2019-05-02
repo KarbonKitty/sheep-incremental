@@ -1,16 +1,16 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+// import Vue from 'vue';
+// import Vuex from 'vuex';
 
-import { stateMutations } from './mutations';
-import { stateActions } from './actions';
-import { stateGetters } from './getters';
-import GameState from './state';
+// import { GameState } from '@/classes/gameState';
+// import { mutations } from './mutations';
+// import { actions } from './actions';
+// import { getters } from './getters';
 
-Vue.use(Vuex);
+// Vue.use(Vuex);
 
-export default new Vuex.Store<GameState>({
-  state: new GameState(),
-  mutations: stateMutations,
-  actions: stateActions,
-  getters: stateGetters,
-});
+// export default new Vuex.Store({
+//   state: new GameState(),
+//   mutations,
+//   actions,
+//   getters,
+// });

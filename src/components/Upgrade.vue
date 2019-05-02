@@ -17,7 +17,7 @@ import EventBus from "../eventBus";
 
 import { Idea } from "../classes/Idea";
 import { IResourcesData } from "../classes/baseClasses";
-import { getPriceCurrencies } from "../classes/helpers";
+import { getPriceCurrencies, canBePaid } from "../classes/helpers";
 
 import PriceComponent from "./Price.vue";
 import DynamicEffectComponent from "./DynamicEffect.vue";
@@ -48,7 +48,7 @@ export default Vue.extend({
   },
   computed: {
     canBePaid: function(): boolean {
-      return this.$store.getters.canBePaid(this.upgrade.currentPrice);
+      return canBePaid(this.upgrade.currentPrice, this.resources);
     }
   },
   components: {

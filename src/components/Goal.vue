@@ -13,7 +13,7 @@ import Vue from 'vue';
 import { Map, IResource, Price, Currency, IResourcesData } from "../classes/baseClasses";
 import filters from "../filters";
 import EventBus from "../eventBus";
-import { getPriceCurrencies } from '../classes/helpers';
+import { getPriceCurrencies, canBePaid } from '../classes/helpers';
 import GoalItemComponent from "./GoalItem.vue";
 
 export default Vue.extend({
@@ -23,10 +23,10 @@ export default Vue.extend({
   },
   computed: {
     allVisible: function(): boolean {
-      return getPriceCurrencies(this.$store.state.currentGoal).reduce((acc, k) => acc && this.resources[k].locks.length === 0, true);
+      return getPriceCurrencies(this.values).reduce((acc, k) => acc && this.resources[k].locks.length === 0, true);
     },
     canComplete: function(): boolean {
-      return this.$store.getters.canBePaid(this.values);
+      return canBePaid(this.values, this.resources);
     }
   },
   methods: {

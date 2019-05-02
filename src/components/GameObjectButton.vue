@@ -10,6 +10,7 @@ import EventBus from "../eventBus";
 import GameObject from "../classes/gameObject/GameObject";
 import { Idea } from "../classes/Idea";
 import { IPopulation, IResourcesData } from "../classes/baseClasses";
+import { canBeBought, canBePaid } from "../classes/helpers";
 import typeGuards from "../classes/typeGuards";
 
 export default Vue.extend({
@@ -27,10 +28,10 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return this.$store.getters.canBeBought(this.gameObject);
+      return canBeBought(this.gameObject, this.resources, this.population);
     },
     hasAvailableUpgrades: function(): boolean {
-      return this.upgrades.filter(u => u.isAvailable() && this.$store.getters.canBePaid(u.currentPrice)).length > 0;
+      return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.resources)).length > 0;
     },
     expeditionInProgress: function(): boolean {
       return typeGuards.isExpedition(this.gameObject) && this.gameObject.timeLeftToComplete > 0;

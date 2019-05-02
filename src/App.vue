@@ -44,8 +44,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import GameState from './store/state';
-
 import Building from './components/Building.vue';
 import GameStatus from './components/GameStatus.vue';
 
@@ -61,20 +59,21 @@ import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses
 import GameObject from "./classes/gameObject/GameObject";
 
 import filters from "./filters";
-import store from './store/store';
-import { Idea } from './classes/Idea';
-import { IUpgrade } from './store/interfaces';
-import { mapState } from 'vuex';
+
+import GameEngine from "./gameEngine";
+
+import engine from "./engine";
 
 export default Vue.extend({
     name: 'app',
+    data: () => engine,
     methods: {
-        saveGame: async function() {
+        saveGame: function() {
             console.log("Game saved");
-            localStorage.setItem(this.$store.state.saveGameName, await this.$store.dispatch('save'));
+            localStorage.setItem(engine.saveGameName, engine.save());
         },
         loadGame() {
-            const savedGame = localStorage.getItem(this.$store.state.saveGameName);
+            const savedGame = localStorage.getItem(engine.saveGameName);
             if (savedGame === null) {
                 alert("There is no game to load!");
             } else {
@@ -83,19 +82,19 @@ export default Vue.extend({
             }
         },
         clearSave: function() {
-            localStorage.removeItem(this.$store.state.saveGameName);
+            localStorage.removeItem(engine.saveGameName);
         },
         availableBuildingsFromBranch(branch: IndustryBranch) {
-            return (this.$store.state.buildings as GameObject[]).filter(b => b.locks.length === 0 && b.branch === branch);
+            return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
         },
         availableUpgradesFor(gameObject: GameObject) {
-            return (this.$store.state.ideas as Idea[]).filter(i => i.template.objectId === gameObject.id && !i.done);
+            return this.ideas.filter(i => i.template.objectId === gameObject.id && !i.done);
         }
     },
     computed: {
         currentUpgrades: function() {
-            return (this.$store.state.ideas as Idea[]).filter(
-                i => !i.done && i.template.objectId === this.$store.state.currentSelection.id && i.locks.length === 0
+            return this.ideas.filter(
+                i => !i.done && i.template.objectId === this.currentSelection.id && i.locks.length === 0
             );
         },
         branches: function() {
@@ -105,21 +104,11 @@ export default Vue.extend({
         //     return this.ideas.filter(i => typeof i.template.effects !== 'undefined');
         // },
         availableUpgrades: function() {
-            return (this.$store.state.upgrades as IUpgrade[]).filter(u => u.isAvailable());
+            return this.upgrades.filter(u => u.isAvailable());
         },
         allDiscoveries: function() {
-            return (this.$store.state.ideas as Idea[]).filter(i => typeof i.template.unlocks !== 'undefined');
-        },
-        ...mapState([
-          'prestiging',
-          'advancements',
-          'resources',
-          'population',
-          'currentGoal',
-          'currentBranch',
-          'currentSelection',
-          'currentGoal'
-        ])
+            return this.ideas.filter(i => typeof i.template.unlocks !== 'undefined');
+        }
     },
     components: {
         "resource-component": ResourceComponent,

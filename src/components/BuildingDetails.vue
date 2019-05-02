@@ -35,7 +35,7 @@ import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
 import UpgradeComponent from "./Upgrade.vue";
 import PopulationComponent from "./Population.vue";
-import { getPriceCurrencies } from '../classes/helpers';
+import { getPriceCurrencies, canBeBought } from '../classes/helpers';
 
 export default Vue.extend({
   props: {
@@ -60,7 +60,7 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return this.$store.getters.canBeBought(this.building);
+      return canBeBought(this.building, this.resources, this.population);
     },
     hasConsumption: function(): boolean {
       return typeof this.building.consumption !== 'undefined';
