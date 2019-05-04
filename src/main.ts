@@ -4,9 +4,7 @@ import App from './App.vue';
 import EventBus from "./eventBus";
 
 import engine from './engine';
-
-const tickInterval = 50;
-const autosaveInterval = 15000;
+import { tickInterval, autosaveInterval } from './consts';
 
 Vue.config.productionTip = false;
 

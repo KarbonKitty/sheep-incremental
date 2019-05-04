@@ -9,6 +9,7 @@ import { ComplexPrice } from "./classes/complexPrices";
 import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
 import eventBus from "./eventBus";
 import { Expedition, IExpeditionState, IExpeditionTemplate } from "./classes/Expedition";
+import { gainPerSecondIterations } from './consts';
 
 interface IProducer extends Building {
     production: ComplexPrice;
@@ -33,7 +34,6 @@ interface IDiscovery extends Idea {
 }
 
 export default class GameEngine {
-    gainPerSecondIterations = 20;
     lastTick = 0;
     iteration = 0;
     prestiging = false;
@@ -113,7 +113,7 @@ export default class GameEngine {
             this.lastTick = currentTick;
         }
 
-        this.iteration = (this.iteration + 1) % this.gainPerSecondIterations;
+        this.iteration = (this.iteration + 1) % gainPerSecondIterations;
         this.clearPerSecondValues(this.iteration);
         this.activatePureProducers(deltaT);
         this.activateProcessors(deltaT);
@@ -460,7 +460,7 @@ export default class GameEngine {
         return {
             template: template,
             amount: 0,
-            gainPerSecond: new Array(this.gainPerSecondIterations).fill(0),
+            gainPerSecond: new Array(gainPerSecondIterations).fill(0),
             limit: template.baseLimit,
             locks: template.originalLocks.slice(),
             amountSpent: 0
