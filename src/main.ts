@@ -10,6 +10,7 @@ import { GameEventHandlers } from './gameEngineInterfaces';
 Vue.config.productionTip = false;
 Vue.prototype.$engineEvents = engine as GameEventHandlers;
 Vue.prototype.$resources = engine.resources;
+Vue.prototype.$population = engine.population;
 
 const vm = new Vue({
   render: (h) => h(App),

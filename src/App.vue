@@ -3,17 +3,17 @@
     h1 Sheep Incremental
     .container
       toast-component(ref="toast")
-      prestige-modal-component(:visible="prestiging" :advancements="advancements.filter(a => a.locks.length === 1)" :points="resources.advancement.amount")
+      prestige-modal-component(:visible="prestiging" :advancements="advancements.filter(a => a.locks.length === 1)" :points="$resources.advancement.amount")
 
       .sidebar
         h2 Resources
-        div Workers (employed / all): {{ population.workers }} / {{ population.housing }}
-        div(v-for="res in resources")
+        div Workers (employed / all): {{ $population.workers }} / {{ $population.housing }}
+        div(v-for="res in $resources")
           resource-component(:resource="res")
         button.btn(v-on:click="saveGame") Save
         button.btn(v-on:click="loadGame") Load
         button.btn(v-on:click="clearSave") Clear Save
-        goal-component(:values="currentGoal" :resources="resources")
+        goal-component(:values="currentGoal")
 
       .branch-list
         h2 Branches
@@ -30,16 +30,16 @@
         h2 Objects
         div(v-if="this.currentBranch === 'discoveries'")
           div(v-for="discovery in allDiscoveries.filter(d => d.locks.length === 0 && !d.done)")
-            game-object-component(:game-object="discovery" :resources="resources" :population="population" :upgrades="availableUpgradesFor(discovery)" :active="discovery.id === currentSelection.id")
+            game-object-component(:game-object="discovery" :upgrades="availableUpgradesFor(discovery)" :active="discovery.id === currentSelection.id")
         div(v-if="this.currentBranch === 'expeditions'")
           div(v-for="e in expeditions.filter(e => e.isAvailable())")
-            game-object-component(:game-object="e" :resources="resources" :upgrades="[]" :active="e.id === currentSelection.id")
+            game-object-component(:game-object="e" :upgrades="[]" :active="e.id === currentSelection.id")
         div(v-else)
           div(v-for="b in availableBuildingsFromBranch(this.currentBranch)")
-            game-object-component(:game-object="b" :resources="resources" :population="population" :upgrades="availableUpgradesFor(b)" :active="b.id === currentSelection.id")
+            game-object-component(:game-object="b" :upgrades="availableUpgradesFor(b)" :active="b.id === currentSelection.id")
 
       .details
-        object-details-component(:game-object="currentSelection" :resources="resources" :population="population" :upgrades="currentUpgrades")
+        object-details-component(:game-object="currentSelection" :upgrades="currentUpgrades")
 </template>
 
 <script lang="ts">

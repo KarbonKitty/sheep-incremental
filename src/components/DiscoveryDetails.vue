@@ -5,27 +5,23 @@
     .mainData
       h3 {{ discovery.name }}
       p {{ discovery.desc }}
-      price-component(:values="discovery.currentPrice" :resources="resources") Price:
+      price-component(:values="discovery.currentPrice") Price:
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ discovery.buyVerb }}
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import EventBus from '../eventBus';
 
 import { Idea } from '../classes/Idea';
-import { IResource, IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
-import typeGuards from "../classes/typeGuards";
 
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
-import { getPriceCurrencies, canBeBought } from '../classes/helpers';
+import { canBeBought } from '../classes/helpers';
 
 export default Vue.extend({
   props: {
-    discovery: Object as () => Idea,
-    resources: Object as () => IResourcesData
+    discovery: Object as () => Idea
   },
   components: {
     'currency-value-component': CurrencyValueComponent,
@@ -33,12 +29,12 @@ export default Vue.extend({
   },
   methods: {
     emitBuyEvent: function() {
-      EventBus.$emit('game-event', { type: 'buy', value: this.discovery.id });
+      this.$engineEvents.buyItem(this.discovery.id);
     }
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.discovery, this.resources);
+      return canBeBought(this.discovery, this.$resources);
     }
   }
 });

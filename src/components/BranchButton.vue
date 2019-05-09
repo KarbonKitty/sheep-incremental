@@ -6,17 +6,17 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import EventBus from '../eventBus';
+import { IndustryBranch } from '../classes/baseClasses';
 import filters from '../filters';
 
 export default Vue.extend({
   methods: {
     changeSelection: function() {
-      EventBus.$emit('game-event', { type: 'change-branch', value: this.name });
+      this.$engineEvents.changeBranchSelection(this.name);
     }
   },
   props: {
-    name: String,
+    name: String as () => IndustryBranch,
     active: Boolean
   },
   filters

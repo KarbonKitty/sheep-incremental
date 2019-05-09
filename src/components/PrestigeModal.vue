@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import EventBus from '../eventBus';
+
 import { Idea } from '../classes/Idea';
 
 export default Vue.extend({
@@ -32,10 +32,10 @@ export default Vue.extend({
   },
   methods: {
     buyAdvancement: function(id: string) {
-      EventBus.$emit('game-event', { type: 'buy', value: id });
+      this.$engineEvents.buyItem(id);
     },
     finishPrestige: function() {
-      EventBus.$emit('game-event', { type: 'prestige', value: 'end' });
+      this.$engineEvents.endPrestige();
     }
   }
 });

@@ -6,32 +6,29 @@
 
 <script lang="ts">
 import Vue from "vue";
-import EventBus from "../eventBus";
+
 import GameObject from "../classes/gameObject/GameObject";
 import { Idea } from "../classes/Idea";
-import { IPopulation, IResourcesData } from "../classes/baseClasses";
 import { canBeBought, canBePaid } from "../classes/helpers";
 import typeGuards from "../classes/typeGuards";
 
 export default Vue.extend({
   methods: {
     changeSelection: function() {
-      EventBus.$emit('game-event', { type: 'change-selection', value: this.gameObject.id });
+      this.$engineEvents.changeSelection(this.gameObject.id);
     }
   },
   props: {
     gameObject: Object as () => GameObject,
-    resources: Object as () => IResourcesData,
-    population: Object as () => IPopulation,
     upgrades: Array as () => Idea[],
     active: Boolean
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.gameObject, this.resources, this.population);
+      return canBeBought(this.gameObject, this.$resources, this.$population);
     },
     hasAvailableUpgrades: function(): boolean {
-      return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.resources)).length > 0;
+      return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.$resources)).length > 0;
     },
     expeditionInProgress: function(): boolean {
       return typeGuards.isExpedition(this.gameObject) && this.gameObject.timeLeftToComplete > 0;

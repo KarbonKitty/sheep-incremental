@@ -6,8 +6,8 @@
       h3 {{ expedition.name }}
       p {{ expedition.desc }}
       p Length: #[strong {{ expedition.template.length | timeLeft }}]
-      price-component(:values="expedition.currentPrice" :resources="resources") Price:
-      reward-details-component(:reward="expedition.template.reward" :resources="resources") Rewards:
+      price-component(:values="expedition.currentPrice") Price:
+      reward-details-component(:reward="expedition.template.reward") Rewards:
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ expedition.buyVerb }}
     .currentData
       div
@@ -18,21 +18,18 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import EventBus from '../eventBus';
 
 import { Expedition } from '../classes/Expedition';
-import { IPopulation, IResource, IResourcesData } from '../classes/baseClasses';
 import filters from "../filters";
 import typeGuards from "../classes/typeGuards";
 
 import PriceComponent from "./Price.vue";
 import RewardDetailsComponent from "./RewardDetails.vue";
-import { getPriceCurrencies, canBeBought } from '../classes/helpers';
+import { canBeBought } from '../classes/helpers';
 
 export default Vue.extend({
   props: {
-    expedition: Object as () => Expedition,
-    resources: Object as () => IResourcesData
+    expedition: Object as () => Expedition
   },
   components: {
     'price-component': PriceComponent,
@@ -40,12 +37,12 @@ export default Vue.extend({
   },
   methods: {
     emitBuyEvent: function() {
-      EventBus.$emit('game-event', { type: 'buy', value: this.expedition.id });
+      this.$engineEvents.buyItem(this.expedition.id);
     }
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.expedition, this.resources);
+      return canBeBought(this.expedition, this.$resources);
     },
     isInProgress: function(): boolean {
       return typeGuards.isExpedition(this.expedition) && this.expedition.timeLeftToComplete > 0;

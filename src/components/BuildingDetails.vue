@@ -5,11 +5,11 @@
     .mainData
       h3 {{ building.name }}
       p {{ building.desc }}
-      price-component(:values="building.currentPrice" :resources="$resources") Price:
-      population-component(:employees="building.template.employees" :housing="building.template.housing" :population="population")
-      currency-value-component(v-if="hasConsumption" :values="building.consumption.getTotal()" :resources="$resources") Inputs:
-      currency-value-component(v-if="hasProduction" :values="building.production.getTotal()" :resources="$resources") Outputs:
-      currency-value-component(v-if="hasStorage" :values="building.storage.getTotal()" :resources="$resources") Storage:
+      price-component(:values="building.currentPrice") Price:
+      population-component(:employees="building.template.employees" :housing="building.template.housing")
+      currency-value-component(v-if="hasConsumption" :values="building.consumption.getTotal()") Inputs:
+      currency-value-component(v-if="hasProduction" :values="building.production.getTotal()") Outputs:
+      currency-value-component(v-if="hasStorage" :values="building.storage.getTotal()") Storage:
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ building.buyVerb }}
       button.btn.disableButton(v-if="canBeDisabled" @click="emitDisableEvent" :disabled="building.quantity === 0") {{ building.disabled ? "Enable" : "Disable" }}
     .upgradeData
@@ -18,7 +18,7 @@
         p(v-if="upgrades.length == 0") No upgrades available.
         div(v-else)
           div(v-for="upgrade in upgrades" :key="upgrade.id")
-            upgrade-component(:upgrade="upgrade" :resources="$resources")
+            upgrade-component(:upgrade="upgrade")
 </template>
 
 <script lang="ts">
@@ -39,8 +39,7 @@ import { getPriceCurrencies, canBeBought } from '../classes/helpers';
 export default Vue.extend({
   props: {
     building: Object as () => Building,
-    upgrades: Array as () => Idea[],
-    population: Object as () => IPopulation
+    upgrades: Array as () => Idea[]
   },
   components: {
     'currency-value-component': CurrencyValueComponent,
@@ -58,7 +57,7 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.building, this.$resources, this.population);
+      return canBeBought(this.building, this.$resources, this.$population);
     },
     hasConsumption: function(): boolean {
       return typeof this.building.consumption !== 'undefined';

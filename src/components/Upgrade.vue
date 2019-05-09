@@ -4,7 +4,7 @@
       p {{ upgrade.name }}
     .details(v-if="details")
       p {{ upgrade.desc }}
-      price-component(:values="upgrade.currentPrice" :resources="resources") Price:
+      price-component(:values="upgrade.currentPrice") Price:
       div(v-for="effect in upgrade.template.effects" :key="effect.property")
         dynamic-effect-component(:effect="effect" v-if="effect.affectedProperty === 'production' || effect.affectedProperty === 'consumption'")
         static-effect-component(:effect="effect" v-else)
@@ -13,11 +13,9 @@
 
 <script lang="ts">
 import Vue from "vue";
-import EventBus from "../eventBus";
 
 import { Idea } from "../classes/Idea";
-import { IResourcesData } from "../classes/baseClasses";
-import { getPriceCurrencies, canBePaid } from "../classes/helpers";
+import { canBePaid } from "../classes/helpers";
 
 import PriceComponent from "./Price.vue";
 import DynamicEffectComponent from "./DynamicEffect.vue";
@@ -27,8 +25,7 @@ import filters from "../filters";
 
 export default Vue.extend({
   props: {
-    upgrade: Object as () => Idea,
-    resources: Object as () => IResourcesData
+    upgrade: Object as () => Idea
   },
   data: function() {
     return {
@@ -37,10 +34,7 @@ export default Vue.extend({
   },
   methods: {
     emitBuyEvent: function() {
-      EventBus.$emit("game-event", {
-        type: "buy",
-        value: this.upgrade.id
-      });
+      this.$engineEvents.buyItem(this.upgrade.id);
     },
     switchDetails() {
       this.details = !this.details;
@@ -48,7 +42,7 @@ export default Vue.extend({
   },
   computed: {
     canBePaid: function(): boolean {
-      return canBePaid(this.upgrade.currentPrice, this.resources);
+      return canBePaid(this.upgrade.currentPrice, this.$resources);
     }
   },
   components: {
