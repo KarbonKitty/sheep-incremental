@@ -106,9 +106,6 @@ export default Vue.extend({
         branches: function() {
             return Branches;
         },
-        // upgrades: function() {
-        //     return this.ideas.filter(i => typeof i.template.effects !== 'undefined');
-        // },
         availableUpgrades: function() {
             return this.upgrades.filter(u => u.isAvailable());
         },

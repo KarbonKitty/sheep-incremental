@@ -5,35 +5,13 @@ import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, Resource
 
 import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
-import { ComplexPrice } from "./classes/complexPrices";
 import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
 import eventBus from "./eventBus";
 import { Expedition, IExpeditionState, IExpeditionTemplate } from "./classes/Expedition";
 import { gainPerSecondIterations } from './consts';
+import { IProducer, IConsumer, IProcessor, IStorage, IUpgrade, IDiscovery, GameEventHandlers } from './gameEngineInterfaces';
 
-interface IProducer extends Building {
-    production: ComplexPrice;
-}
-
-interface IConsumer extends Building {
-    consumption: ComplexPrice;
-}
-
-type IProcessor = IProducer & IConsumer;
-
-interface IStorage extends Building {
-    storage: ComplexPrice;
-}
-
-interface IUpgrade extends Idea {
-    effects: UpgradeEffect[];
-}
-
-interface IDiscovery extends Idea {
-    unlocks: Lock[];
-}
-
-export default class GameEngine {
+export default class GameEngine implements GameEventHandlers {
     lastTick = 0;
     iteration = 0;
     prestiging = false;
@@ -127,13 +105,7 @@ export default class GameEngine {
                 if (typeof data.value === 'undefined') {
                     throw new Error("Game event data needs to define value!");
                 }
-                const boughtItem = this.tryBuyItem(data.value);
-                if (typeof boughtItem !== 'undefined') {
-                    eventBus.$emit('show-toast', `${boughtItem.name} was bought!`);
-                    if (typeGuards.isIdea(boughtItem)) {
-                        this.resetSelection();
-                    }
-                }
+                this.buyItem(data.value);
                 break;
             case 'change-selection':
                 this.changeSelection(data.value);
@@ -165,6 +137,36 @@ export default class GameEngine {
         }
     }
 
+    startPrestige() {
+        localStorage.setItem(this.saveGameName, this.save());
+        this.prestige();
+        this.prestiging = true;
+    }
+
+    endPrestige() {
+        this.prestiging = false;
+    }
+
+    disableItem(itemId: string) {
+        const item = this.getGameObjectById(itemId);
+
+        if (typeof item !== 'undefined' && typeGuards.isBuilding(item)) {
+            item.disabled = !item.disabled;
+        } else {
+            throw new Error(`Object with id ${itemId} is not a producer and cannot be disabled`);
+        }
+    }
+
+    buyItem(itemId: string) {
+        const boughtItem = this.tryBuyItem(itemId);
+        if (typeof boughtItem !== 'undefined') {
+            eventBus.$emit('show-toast', `${boughtItem.name} was bought!`);
+            if (typeGuards.isIdea(boughtItem)) {
+                this.resetSelection();
+            }
+        }
+    }
+
     getAllGameObjects(): GameObject[] {
         let gameObjects = [] as GameObject[];
         gameObjects = gameObjects.concat(this.buildings);
@@ -180,24 +182,6 @@ export default class GameEngine {
         return item;
     }
 
-    tryBuyItem(itemId: string): GameObject | undefined {
-        const item = this.getGameObjectById(itemId);
-
-        if (typeof item === 'undefined' || !typeGuards.isBuyable(item)) {
-            return undefined;
-        }
-
-        const price = item.currentPrice;
-
-        if (canBePaid(price, this.resources) && this.hasEnoughWorkforce(item)) {
-            this.payThePrice(price);
-            item.buy();
-            return item;
-        } else {
-            return undefined;
-        }
-    }
-
     save(): string {
         const state = {
             lastTick: this.lastTick,
@@ -211,6 +195,19 @@ export default class GameEngine {
         };
 
         return JSON.stringify(state);
+    }
+
+    changeSelection(itemId: string): boolean {
+        const item = this.getGameObjectById(itemId);
+        if (typeof item === 'undefined') {
+            return false;
+        }
+        this.currentSelection = item;
+        return true;
+    }
+
+    changeBranchSelection(branchName: IndustryBranch): void {
+        this.currentBranch = branchName;
     }
 
     load(savedState: string): void {
@@ -238,6 +235,20 @@ export default class GameEngine {
         this.recalculateStorage();
 
         this.resetSelection();
+    }
+
+    private createIdea(template: IIdeaTemplate, state: IIdeaState): Idea {
+        const idea = new Idea(template, state);
+        idea.onBuy.push(() => {
+            idea.done = true;
+            if (typeof idea.template.unlocks !== 'undefined') {
+                idea.template.unlocks.forEach(key => this.removeLock(key));
+            }
+            if (typeof idea.template.effects !== 'undefined') {
+                idea.template.effects.forEach(e => this.applyUpgradeEffect(e));
+            }
+        });
+        return idea;
     }
 
     // TODO: rethink that
@@ -399,33 +410,6 @@ export default class GameEngine {
         });
     }
 
-    private changeSelection(itemId: string): boolean {
-        const item = this.getGameObjectById(itemId);
-        if (typeof item === 'undefined') {
-            return false;
-        }
-        this.currentSelection = item;
-        return true;
-    }
-
-    private changeBranchSelection(branchName: IndustryBranch): void {
-        this.currentBranch = branchName;
-    }
-
-    private createIdea(template: IIdeaTemplate, state: IIdeaState): Idea {
-        const idea = new Idea(template, state);
-        idea.onBuy.push(() => {
-            idea.done = true;
-            if (typeof idea.template.unlocks !== 'undefined') {
-                idea.template.unlocks.forEach(key => this.removeLock(key));
-            }
-            if (typeof idea.template.effects !== 'undefined') {
-                idea.template.effects.forEach(e => this.applyUpgradeEffect(e));
-            }
-        });
-        return idea;
-    }
-
     private createBuilding(template: IBuildingTemplate, state: IBuildingState): Building {
         const building = new Building(template, state);
         building.onBuy.push(() => {
@@ -513,6 +497,24 @@ export default class GameEngine {
                 }
             case "cost":
                 object.cost.addModifier(effect);
+        }
+    }
+
+    private tryBuyItem(itemId: string): GameObject | undefined {
+        const item = this.getGameObjectById(itemId);
+
+        if (typeof item === 'undefined' || !typeGuards.isBuyable(item)) {
+            return undefined;
+        }
+
+        const price = item.currentPrice;
+
+        if (canBePaid(price, this.resources) && this.hasEnoughWorkforce(item)) {
+            this.payThePrice(price);
+            item.buy();
+            return item;
+        } else {
+            return undefined;
         }
     }
 
