@@ -3,7 +3,7 @@
     div(v-if="typeof employees !== 'undefined' && employees > 0")
       p Workers needed:
       ul
-        li(:class="{ lacking: $population.population - $population.workers < employees }") {{ employees }} sheep
+        li(:class="{ lacking: lacking }") {{ employees }} sheep
     div(v-if="typeof housing !== 'undefined' && housing > 0")
       p Housing:
       ul
@@ -19,6 +19,11 @@ export default Vue.extend({
   props: {
     employees: Number,
     housing: Number
+  },
+  computed: {
+    lacking(): boolean {
+      return (this.$population.population - this.$population.workers) < this.employees;
+    }
   },
   filters
 });

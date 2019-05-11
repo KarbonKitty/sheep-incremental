@@ -84,7 +84,7 @@ export default Vue.extend({
                 alert("There is no game to load!");
             } else {
                 console.log("Game loaded");
-                this.$data.load(savedGame);
+                engine.load(savedGame);
             }
         },
         clearSave: function() {

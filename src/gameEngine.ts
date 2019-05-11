@@ -1,4 +1,4 @@
-import { GameEvent, IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch } from "./classes/baseClasses";
+import { IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData } from "./data";
@@ -97,44 +97,6 @@ export default class GameEngine implements GameEventHandlers {
         this.activateProcessors(deltaT);
         this.proceedWithExpeditions(deltaT);
         this.discardResourcesOverLimit();
-    }
-
-    handleEvent(data: { type: GameEvent, value: any }) {
-        switch (data.type) {
-            case 'buy':
-                if (typeof data.value === 'undefined') {
-                    throw new Error("Game event data needs to define value!");
-                }
-                this.buyItem(data.value);
-                break;
-            case 'change-selection':
-                this.changeSelection(data.value);
-                break;
-            case 'change-branch':
-                this.changeBranchSelection(data.value);
-                break;
-            case 'prestige':
-                if (data.value === 'start') {
-                    localStorage.setItem(this.saveGameName, this.save());
-                    this.prestige();
-                    this.prestiging = true;
-                } else if (data.value === 'end') {
-                    this.prestiging = false;
-                } else {
-                    throw new Error("Unknown data for 'prestige' event:" + data.value);
-                }
-                break;
-            case 'disable':
-                const item = this.getGameObjectById(data.value);
-                if (typeof item !== 'undefined' && typeGuards.isBuilding(item)) {
-                    item.disabled = !item.disabled;
-                } else {
-                    throw new Error(`Object with id ${data.value} is not a producer and cannot be disabled`);
-                }
-                break;
-            default:
-                console.error(`Event unhandled: ${data.type}. Reason: no relevant case in a switch!`);
-        }
     }
 
     startPrestige() {
@@ -522,15 +484,15 @@ export default class GameEngine implements GameEventHandlers {
         return this.getAllGameObjects().filter(o => o.branch === branch && o.isAvailable());
     }
 
-    private reapplyIdeas(): void {
-        this.ideas.forEach(i => { if (i.done) { i.buy(); } });
-    }
-
     private clearPerSecondValues(iteration: number): void {
         CurrencyArray.forEach(c => this.resources[c].gainPerSecond[iteration] = 0);
     }
 
     private proceedWithExpeditions(deltaT: number): void {
         this.expeditions.filter(e => e.timeLeftToComplete > 0).forEach(e => e.passTime(deltaT));
+    }
+
+    private reapplyIdeas(): void {
+        this.ideas.forEach(i => { if (i.done) { i.buy(); } });
     }
 }
