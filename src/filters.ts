@@ -29,7 +29,7 @@ function percentage(value: number) {
 }
 
 function timeLeft(miliseconds: number): string {
-  let seconds = miliseconds / 1000;
+  let seconds = Math.round(miliseconds / 1000);
   if (seconds < 60) {
     return `${seconds}s`;
   }
