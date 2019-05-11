@@ -1,6 +1,5 @@
 <template lang="pug">
   #app
-    h1 Sheep Incremental
     .container
       toast-component(ref="toast")
       prestige-modal-component(:visible="prestiging" :advancements="advancements.filter(a => a.locks.length === 1)" :points="$resources.advancement.amount")
@@ -8,8 +7,7 @@
       .sidebar
         h2 Resources
         div Workers (employed / all): {{ $population.workers }} / {{ $population.housing }}
-        div(v-for="res in $resources")
-          resource-component(:resource="res")
+        resource-sidebar-component
         button.btn(v-on:click="saveGame") Save
         button.btn(v-on:click="loadGame") Load
         button.btn(v-on:click="clearSave") Clear Save
@@ -51,9 +49,9 @@ import ObjectDetails from "./components/GameObjectDetails.vue";
 import GameObjectComponent from "./components/GameObjectButton.vue";
 import GoalComponent from "./components/Goal.vue";
 import PrestigeModalComponent from "./components/PrestigeModal.vue";
-import ResourceComponent from "./components/Resource.vue";
 import ToastComponent from "./components/Toast.vue";
 import BranchButtonComponent from "./components/BranchButton.vue";
+import ResourceSidebarComponent from "./components/ResourceSidebar.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
@@ -106,7 +104,7 @@ export default Vue.extend({
         }
     },
     components: {
-        "resource-component": ResourceComponent,
+        "resource-sidebar-component": ResourceSidebarComponent,
         "game-object-component": GameObjectComponent,
         "object-details-component": ObjectDetails,
         "goal-component": GoalComponent,
@@ -143,7 +141,7 @@ a:active
 
 .container
   display grid
-  grid-template-columns 20% 250px 250px auto
+  grid-template-columns 400px 250px 250px auto
   grid-template-rows 100%
 
 .sidebar
@@ -212,6 +210,6 @@ a:active
   font-weight bold
   background $base02
 
-#app
-  margin-top 20px
+h2
+  margin-top 0
 </style>
