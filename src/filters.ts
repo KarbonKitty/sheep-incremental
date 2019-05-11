@@ -1,9 +1,3 @@
-// export default {
-//     decimal(value: number, decimalPlaces = 2) {
-//         return value.toFixed(decimalPlaces);
-//     },
-// };
-
 function decimal(value: number, numberOfDigits = 0) {
   return value.toFixed(numberOfDigits);
 }
