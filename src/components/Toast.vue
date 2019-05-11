@@ -9,9 +9,16 @@
 <script lang="ts">
 import Vue from 'vue';
 
+import EventBus from "../eventBus";
+
 export default Vue.extend({
   data: function() {
     return { toasts: [] as string[] };
+  },
+  created: function() {
+    EventBus.$on("show-toast", (data: string) => {
+      this.addMessage(data);
+    });
   },
   methods: {
     addMessage: function(message: string) {
