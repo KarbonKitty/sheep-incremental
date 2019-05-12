@@ -7,3 +7,8 @@ import resourceBase from "./resourceBase";
 
 export default resourceBase.extend();
 </script>
+
+<style lang="stylus" scoped>
+.noResource
+  color $orange
+</style>
