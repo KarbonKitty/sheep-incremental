@@ -8,17 +8,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import baseComponent from "./baseComponent";
 
 import { UpgradeEffect } from "../classes/baseClasses";
 
-import filters from "../filters";
-
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     effect: Object as () => UpgradeEffect
-  },
-  filters
+  }
 });
 </script>
 

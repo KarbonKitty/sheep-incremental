@@ -4,18 +4,16 @@
       slot
     ul
       div(v-for="(amount, currency) in values" :key="currency")
-        li(v-if="$resources[currency].locks.length === 0") {{ amount | decimal($resources[currency].template.precision) }} {{ $resources[currency].template.name }}
+        li(v-if="resources[currency].locks.length === 0") {{ amount | decimal(resources[currency].template.precision) }} {{ resources[currency].template.name }}
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 import { Price } from "../classes/baseClasses";
-import filters from "../filters";
 
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     values: Object as () => Price
-  },
-  filters
+  }
 });
 </script>

@@ -8,21 +8,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
 import RewardItemComponent from "./RewardItem.vue";
 
 import { IRewardItem } from "../classes/Expedition";
 
-import filters from "../filters";
-
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     reward: Array as () => IRewardItem[]
   },
   components: {
     'reward-item-component': RewardItemComponent
-  },
-  filters
+  }
 });
 </script>

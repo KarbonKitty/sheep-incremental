@@ -10,16 +10,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
 import { Idea } from '../classes/Idea';
-import filters from "../filters";
-
 import CurrencyValueComponent from "./CurrencyValue.vue";
 import PriceComponent from "./Price.vue";
 import { canBeBought } from '../classes/helpers';
 
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     discovery: Object as () => Idea
   },
@@ -34,7 +32,7 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.discovery, this.$resources);
+      return canBeBought(this.discovery, this.resources);
     }
   }
 });

@@ -9,28 +9,27 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
 import { Price, Currency } from "../classes/baseClasses";
-import filters from "../filters";
 import { getPriceCurrencies, canBePaid } from '../classes/helpers';
 import GoalItemComponent from "./GoalItem.vue";
 
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     values: Object as () => Price
   },
   computed: {
     allVisible: function(): boolean {
-      return getPriceCurrencies(this.values).reduce((acc, k) => acc && this.$resources[k].locks.length === 0, true);
+      return getPriceCurrencies(this.values).reduce((acc, k) => acc && this.resources[k].locks.length === 0, true);
     },
     canComplete: function(): boolean {
-      return canBePaid(this.values, this.$resources);
+      return canBePaid(this.values, this.resources);
     }
   },
   methods: {
     resourceAvailable: function(currency: Currency): boolean {
-      return this.$resources[currency].locks.length === 0;
+      return this.resources[currency].locks.length === 0;
     },
     finish: function() {
       this.$engineEvents.startPrestige();
@@ -38,7 +37,6 @@ export default Vue.extend({
   },
   components: {
     'goal-item-component': GoalItemComponent
-  },
-  filters
+  }
 });
 </script>

@@ -5,11 +5,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 import { IndustryBranch } from '../classes/baseClasses';
-import filters from '../filters';
 
-export default Vue.extend({
+export default baseComponent.extend({
   methods: {
     changeSelection: function() {
       this.$engineEvents.changeBranchSelection(this.name);
@@ -18,8 +17,7 @@ export default Vue.extend({
   props: {
     name: String as () => IndustryBranch,
     active: Boolean
-  },
-  filters
+  }
 });
 </script>
 

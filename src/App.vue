@@ -2,11 +2,11 @@
   #app
     .container
       toast-component(ref="toast")
-      prestige-modal-component(:visible="prestiging" :advancements="advancements.filter(a => a.locks.length === 1)" :points="$resources.advancement.amount")
+      prestige-modal-component(:visible="prestiging" :advancements="advancements.filter(a => a.locks.length === 1)" :points="resources.advancement.amount")
 
       .sidebar
         h2 Resources
-        div Workers (employed / all): {{ $population.workers }} / {{ $population.housing }}
+        div Workers (employed / all): {{ population.workers }} / {{ population.housing }}
         resource-sidebar-component
         button.btn(v-on:click="saveGame") Save
         button.btn(v-on:click="loadGame") Load
@@ -26,14 +26,14 @@
 
       .object-list
         h2 Objects
-        div(v-if="this.currentBranch === 'discoveries'")
+        div(v-if="currentBranch === 'discoveries'")
           div(v-for="discovery in allDiscoveries.filter(d => d.locks.length === 0 && !d.done)")
             game-object-component(:game-object="discovery" :upgrades="availableUpgradesFor(discovery)" :active="discovery.id === currentSelection.id")
-        div(v-if="this.currentBranch === 'expeditions'")
+        div(v-if="currentBranch === 'expeditions'")
           div(v-for="e in expeditions.filter(e => e.isAvailable())")
             game-object-component(:game-object="e" :upgrades="[]" :active="e.id === currentSelection.id")
         div(v-else)
-          div(v-for="b in availableBuildingsFromBranch(this.currentBranch)")
+          div(v-for="b in availableBuildingsFromBranch(currentBranch)")
             game-object-component(:game-object="b" :upgrades="availableUpgradesFor(b)" :active="b.id === currentSelection.id")
 
       .details
@@ -58,11 +58,11 @@ import GameObject from "./classes/gameObject/GameObject";
 
 import filters from "./filters";
 import GameEngine from "./gameEngine";
-import engine from "./engine";
+import { engine, eventHandlers, state } from "./engine";
 
 export default Vue.extend({
     name: 'app',
-    data: () => engine,
+    data: () => state,
     methods: {
         saveGame: function() {
             console.log("Game saved");

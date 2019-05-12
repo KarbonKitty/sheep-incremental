@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import baseComponent from "./baseComponent";
 
 import GameObject from "../classes/gameObject/GameObject";
 import { Idea } from "../classes/Idea";
 import { canBeBought, canBePaid } from "../classes/helpers";
 import typeGuards from "../classes/typeGuards";
 
-export default Vue.extend({
+export default baseComponent.extend({
   methods: {
     changeSelection: function() {
       this.$engineEvents.changeSelection(this.gameObject.id);
@@ -25,10 +25,10 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.gameObject, this.$resources, this.$population);
+      return canBeBought(this.gameObject, this.resources, this.population);
     },
     hasAvailableUpgrades: function(): boolean {
-      return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.$resources)).length > 0;
+      return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.resources)).length > 0;
     },
     expeditionInProgress: function(): boolean {
       return typeGuards.isExpedition(this.gameObject) && this.gameObject.timeLeftToComplete > 0;

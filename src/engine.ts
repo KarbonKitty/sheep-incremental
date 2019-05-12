@@ -1,5 +1,8 @@
 import GameEngine from "./gameEngine";
+import { GameState, GameEventHandlers } from './gameEngineInterfaces';
 
-const engine = new GameEngine();
+export const engine = new GameEngine();
 
-export default engine;
+export const eventHandlers = engine as GameEventHandlers;
+
+export const state = engine as GameState;

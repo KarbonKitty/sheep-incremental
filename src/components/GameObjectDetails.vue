@@ -1,12 +1,12 @@
 <template lang="pug">
   div
-    building-details-component(v-if="isBuilding" :building="gameObject" :resources="$resources" :upgrades="upgrades" :population="$population")
-    discovery-details-component(v-else-if="isDiscovery" :discovery="gameObject" :resources="$resources")
-    expedition-details-component(v-else-if="isExpedition" :expedition="gameObject" :resources="$resources")
+    building-details-component(v-if="isBuilding" :building="gameObject" :upgrades="upgrades")
+    discovery-details-component(v-else-if="isDiscovery" :discovery="gameObject")
+    expedition-details-component(v-else-if="isExpedition" :expedition="gameObject")
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
 import GameObject from "../classes/gameObject/GameObject";
 import typeGuards from "../classes/typeGuards";
@@ -17,7 +17,7 @@ import BuildingDetailsComponent from "./BuildingDetails.vue";
 import DiscoveryDetailsComponent from "./DiscoveryDetails.vue";
 import ExpeditionDetailsComponent from "./ExpeditionDetails.vue";
 
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     gameObject: Object as () => GameObject,
     upgrades: Array as () => Idea[] | undefined

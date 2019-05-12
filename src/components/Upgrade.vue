@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import baseComponent from "./baseComponent";
 
 import { Idea } from "../classes/Idea";
 import { canBePaid } from "../classes/helpers";
@@ -21,9 +21,7 @@ import PriceComponent from "./Price.vue";
 import DynamicEffectComponent from "./DynamicEffect.vue";
 import StaticEffectComponent from "./StaticEffect.vue";
 
-import filters from "../filters";
-
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     upgrade: Object as () => Idea
   },
@@ -42,15 +40,14 @@ export default Vue.extend({
   },
   computed: {
     canBePaid: function(): boolean {
-      return canBePaid(this.upgrade.currentPrice, this.$resources);
+      return canBePaid(this.upgrade.currentPrice, this.resources);
     }
   },
   components: {
     "price-component": PriceComponent,
     "dynamic-effect-component": DynamicEffectComponent,
     "static-effect-component": StaticEffectComponent
-  },
-  filters
+  }
 });
 </script>
 

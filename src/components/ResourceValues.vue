@@ -7,13 +7,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import baseComponent from "./baseComponent";
 
 import { IResource } from "../classes/baseClasses";
 
-import filters from "../filters";
-
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     resource: Object as () => IResource
   },
@@ -25,7 +23,7 @@ export default Vue.extend({
       return this.resource.template.precision;
     },
     warning: function() {
-      if (this.resource.limit == this.resource.amount) {
+      if (this.resource.limit === this.resource.amount) {
         return { noMoreStorage: true };
       } else if ((this.resource.limit || 0) * 0.95 <= this.resource.amount) {
         return { seriousWarning: true };
@@ -40,8 +38,7 @@ export default Vue.extend({
     gps: function() {
       return this.resource.gainPerSecond.reduce((acc, val) => (acc += val), 0) / this.resource.gainPerSecond.length;
     }
-  },
-  filters
+  }
 });
 </script>
 
@@ -86,4 +83,3 @@ export default Vue.extend({
   display flex
   justify-content flex-end
 </style>
-

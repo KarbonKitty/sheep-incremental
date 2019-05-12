@@ -8,13 +8,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
 import PriceItemComponent from "./PriceItem.vue";
 
 import { Price } from "../classes/baseClasses";
 
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     values: Object as () => Price
   },

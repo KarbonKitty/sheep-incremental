@@ -11,21 +11,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
-import filters from "../filters";
-
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     employees: Number,
     housing: Number
   },
   computed: {
     lacking(): boolean {
-      return (this.$population.population - this.$population.workers) < this.employees;
+      return (this.population.population - this.population.workers) < this.employees;
     }
-  },
-  filters
+  }
 });
 </script>
 

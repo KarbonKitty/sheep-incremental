@@ -20,14 +20,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
 import { Idea } from '../classes/Idea';
 
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     visible: Boolean,
-    advancements: Array as () => Idea[],
     points: Number
   },
   methods: {

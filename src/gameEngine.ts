@@ -9,9 +9,9 @@ import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
 import eventBus from "./eventBus";
 import { Expedition, IExpeditionState, IExpeditionTemplate } from "./classes/Expedition";
 import { gainPerSecondIterations } from './consts';
-import { IProducer, IConsumer, IProcessor, IStorage, IUpgrade, IDiscovery, GameEventHandlers } from './gameEngineInterfaces';
+import { IProducer, IConsumer, IProcessor, IStorage, IUpgrade, IDiscovery, GameEventHandlers, GameState } from './gameEngineInterfaces';
 
-export default class GameEngine implements GameEventHandlers {
+export default class GameEngine implements GameEventHandlers, GameState {
     lastTick = 0;
     iteration = 0;
     prestiging = false;
@@ -269,7 +269,10 @@ export default class GameEngine implements GameEventHandlers {
             advancements: this.advancements.slice()
         };
 
+        // TODO: why is this here? It stops the number of advancement points (because it resets resources)
+        // but it still doesn't work like it should (probably because it saves in a wrong moment?)
         this.init();
+
         localStorage.removeItem(this.saveGameName);
         localStorage.setItem(this.saveGameName, this.save());
 

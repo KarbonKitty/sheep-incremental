@@ -17,17 +17,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
 import { Expedition } from '../classes/Expedition';
-import filters from "../filters";
 import typeGuards from "../classes/typeGuards";
 
 import PriceComponent from "./Price.vue";
 import RewardDetailsComponent from "./RewardDetails.vue";
 import { canBeBought } from '../classes/helpers';
 
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     expedition: Object as () => Expedition
   },
@@ -42,13 +41,12 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.expedition, this.$resources);
+      return canBeBought(this.expedition, this.resources);
     },
     isInProgress: function(): boolean {
       return typeGuards.isExpedition(this.expedition) && this.expedition.timeLeftToComplete > 0;
     }
-  },
-  filters
+  }
 });
 </script>
 

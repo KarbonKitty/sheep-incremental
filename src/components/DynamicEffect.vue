@@ -8,13 +8,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import baseComponent from "./baseComponent";
 
 import { UpgradeEffect } from "../classes/baseClasses";
 
-import filters from "../filters";
-
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     effect: Object as () => UpgradeEffect
   },
@@ -22,8 +20,7 @@ export default Vue.extend({
     sign: function(): number {
       return this.effect.affectedProperty === "consumption" ? -1 : 1;
     }
-  },
-  filters
+  }
 });
 </script>
 

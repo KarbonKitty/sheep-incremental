@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import baseComponent from "./baseComponent";
 
 import { Idea } from '../classes/Idea';
 import { Building } from '../classes/Building';
@@ -36,7 +36,7 @@ import UpgradeComponent from "./Upgrade.vue";
 import PopulationComponent from "./Population.vue";
 import { getPriceCurrencies, canBeBought } from '../classes/helpers';
 
-export default Vue.extend({
+export default baseComponent.extend({
   props: {
     building: Object as () => Building,
     upgrades: Array as () => Idea[]
@@ -57,7 +57,7 @@ export default Vue.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.building, this.$resources, this.$population);
+      return canBeBought(this.building, this.resources, this.population);
     },
     hasConsumption: function(): boolean {
       return typeof this.building.consumption !== 'undefined';
