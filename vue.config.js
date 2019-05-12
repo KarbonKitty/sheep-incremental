@@ -6,6 +6,10 @@ module.exports = {
     types.forEach(type => addStyleResource(config.module.rule('stylus').oneOf(type)))
   },
 
+  configureWebpack: {
+    devtool: 'source-map'
+  },
+
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'stylus',
@@ -14,7 +18,7 @@ module.exports = {
   }
 }
 
-function addStyleResource (rule) {
+function addStyleResource(rule) {
   rule.use('style-resource')
     .loader('style-resources-loader')
     .options({
