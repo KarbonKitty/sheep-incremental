@@ -2,7 +2,7 @@
   div.resourceLine
     .name {{ name | capitalize }}
     .gps #[span(:class="{ negative: gps() < 0 }") {{ gps() | decimal(precision) }} / s]
-    .storage {{ resource.amount | decimal(precision) }} #[span(v-if="resource.limit != null") / {{ resource.limit | decimal(precision) }}]
+    .storage #[span {{ resource.amount | decimal(precision) }} #[span(v-if="resource.limit != null") / {{ resource.limit | decimal(precision) }}]]
     .storageWarning #[span(:class="warning") ⚠]
 </template>
 
