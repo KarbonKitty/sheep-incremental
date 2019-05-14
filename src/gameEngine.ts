@@ -281,13 +281,12 @@ export default class GameEngine implements GameEventHandlers, GameState {
     }
 
     private prestige() {
+        // TODO: should we expand on this?
         const survivors = {
-            advancements: this.advancements.slice()
+            advancements: this.advancements.slice(),
+            advancementPoints: this.resources.advancement.amount
         };
 
-        // TODO: why is this here? It stops the number of advancement points (because it resets resources)
-        // but it still doesn't work like it should (probably because it saves in a wrong moment?)
-        // FIXME: Add advancement points to survivors
         this.init();
 
         localStorage.removeItem(this.saveGameName);
@@ -297,7 +296,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.advancements.filter(a => a.done).map(a => a.buy());
 
         // TODO: different amount of points per goal
-        this.resources.advancement.amount += 1;
+        this.resources.advancement.amount = survivors.advancementPoints + 1;
 
         this.currentSelection = this.buildings[0];
         if (this.resources.advancement.amountSpent === 0) {
