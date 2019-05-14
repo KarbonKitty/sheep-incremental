@@ -1,7 +1,7 @@
 import { Building } from './classes/Building';
 import { ComplexPrice } from './classes/complexPrices';
 import { Idea } from './classes/Idea';
-import { UpgradeEffect, Lock, IndustryBranch, IResourcesData, IPopulation, Price } from './classes/baseClasses';
+import { UpgradeEffect, Lock, IndustryBranch, IResourcesData, IPopulation, Price, ISitesData } from './classes/baseClasses';
 import GameObject from './classes/gameObject/GameObject';
 
 export interface IProducer extends Building {
@@ -37,6 +37,7 @@ export interface GameEventHandlers {
 
 export interface GameState {
     resources: IResourcesData;
+    sites: ISitesData;
     population: IPopulation;
     buildings: Building[];
     ideas: Idea[];

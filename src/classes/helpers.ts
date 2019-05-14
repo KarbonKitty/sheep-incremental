@@ -1,4 +1,4 @@
-import { IPopulation, Price, IResourcesData, CurrencyArray, Currency } from "./baseClasses";
+import { IPopulation, Price, IResourcesData, CurrencyArray, Currency, SiteType, ISitesData } from "./baseClasses";
 import GameObject from "./gameObject/GameObject";
 import typeGuards from "./typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData } from "../data";
@@ -64,7 +64,7 @@ export function hasEnoughWorkforce(item: GameObject, population: IPopulation) {
   }
 }
 
-export function canBeBought(item: GameObject, resources: IResourcesData, population?: IPopulation) {
+export function canBeBought(item: GameObject, resources: IResourcesData, population?: IPopulation, sites?: ISitesData) {
   const enoughResources = canBePaid(item.currentPrice, resources);
   let enoughPopulation;
   if (typeof population !== 'undefined') {
@@ -72,8 +72,9 @@ export function canBeBought(item: GameObject, resources: IResourcesData, populat
   } else {
     enoughPopulation = !typeGuards.isBuilding(item) || typeof item.template.employees === 'undefined';
   }
+  const hasSite = !typeGuards.isBuilding(item) || typeof item.template.requiredSite === 'undefined' || (typeof sites !== 'undefined' && (sites[item.template.requiredSite].totalAmount - sites[item.template.requiredSite].amountUsed) > 0);
 
-  return enoughResources && enoughPopulation;
+  return enoughResources && enoughPopulation && hasSite;
 }
 
 function addTwoPrices(price1: Price, price2: Price): Price {

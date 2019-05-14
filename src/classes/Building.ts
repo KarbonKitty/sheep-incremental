@@ -2,7 +2,7 @@ import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { IComplexPriceState, ComplexPrice } from "./complexPrices";
-import { Price, IResourcesData } from "./baseClasses";
+import { Price, IResourcesData, SiteType } from "./baseClasses";
 import { mulPriceByNumber, canBePaid } from "./helpers";
 
 export interface IBuildingState extends IGameObjectState {
@@ -20,6 +20,7 @@ export interface IBuildingTemplate extends IGameObjectTemplate {
     rawStorage?: Price;
     employees?: number;
     housing?: number;
+    requiredSite?: SiteType;
 }
 
 export class Building extends GameObject {

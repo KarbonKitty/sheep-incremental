@@ -1,7 +1,7 @@
-import { IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch } from "./classes/baseClasses";
+import { IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch, ISitesData, ISitesTemplateData, SiteTypesArray, ISiteTemplate, ISite, ILockable, ISitesStateData, ISiteState } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
-import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData } from "./data";
+import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData, SitesData, SitesStartingData } from "./data";
 
 import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
@@ -30,6 +30,8 @@ export default class GameEngine implements GameEventHandlers, GameState {
     expeditions = [] as Expedition[];
 
     resources = {} as IResourcesData;
+
+    sites = {} as ISitesData;
 
     advancements = [] as Idea[];
 
@@ -149,6 +151,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
             lastTick: this.lastTick,
             locks: this.locks,
             resources: this.resources,
+            sites: this.sites,
             buildingsState: this.buildings.reduce((m: any, b) => { m[b.id] = b.save(); return m; }, {}),
             ideasState: this.ideas.reduce((m: any, i) => { m[i.id] = i.save(); return m; }, {}),
             advancementsState: this.advancements.reduce((m: any, a) => { m[a.id] = a.save(); return m; }, {}),
@@ -189,12 +192,14 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
         this.locks = savedObject.locks;
         this.resources = savedObject.resources;
+        this.sites = savedObject.sites;
         this.population = savedObject.population;
         this.currentGoal = savedObject.goal;
 
         this.reapplyIdeas();
         this.recalculatePopulation();
         this.recalculateStorage();
+        this.recalculateSites();
 
         this.resetSelection();
     }
@@ -228,11 +233,14 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
         this.resources = this.createResourcesData(ResourcesData);
+        this.sites = this.createSitesData(SitesData, SitesStartingData);
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
         this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState || ideaDefaultStartingState));
 
         this.recalculatePopulation();
+        this.recalculateSites();
+        this.recalculateStorage();
     }
 
     private resetSelection(): void {
@@ -264,6 +272,14 @@ export default class GameEngine implements GameEventHandlers, GameState {
         return returnObject;
     }
 
+    private createSitesData(template: ISitesTemplateData, state: ISitesStateData): ISitesData {
+        const returnObject = {} as ISitesData;
+
+        SiteTypesArray.forEach(s => returnObject[s] = this.createSite(template[s], state[s]));
+
+        return returnObject;
+    }
+
     private prestige() {
         const survivors = {
             advancements: this.advancements.slice()
@@ -271,6 +287,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
         // TODO: why is this here? It stops the number of advancement points (because it resets resources)
         // but it still doesn't work like it should (probably because it saves in a wrong moment?)
+        // FIXME: Add advancement points to survivors
         this.init();
 
         localStorage.removeItem(this.saveGameName);
@@ -292,20 +309,19 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
     private removeLock(lock: Lock) {
         this.locks[lock] = true;
+
+        const unlock = (item: ILockable) => {
+            const lockIndex = item.locks.indexOf(lock);
+            if (lockIndex > -1) {
+                item.locks.splice(lockIndex, 1);
+            }
+        };
+
         const unlockables = this.getAllGameObjects();
-        unlockables.forEach(unlockable => {
-            const lockIndex = unlockable.locks.indexOf(lock);
-            if (lockIndex > -1) {
-                unlockable.locks.splice(lockIndex, 1);
-            }
-        });
-        CurrencyArray.forEach(c => {
-            const resource = this.resources[c];
-            const lockIndex = resource.locks.indexOf(lock);
-            if (lockIndex > -1) {
-                resource.locks.splice(lockIndex, 1);
-            }
-        });
+        unlockables.forEach(unlockable => unlock(unlockable));
+
+        CurrencyArray.forEach(c => unlock(this.resources[c]));
+        SiteTypesArray.forEach(s => unlock(this.sites[s]));
     }
 
     private activatePureProducers(deltaT: number) {
@@ -381,6 +397,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
             building.quantity++;
             this.recalculateStorage();
             this.recalculatePopulation();
+            this.recalculateSites();
         });
         return building;
     }
@@ -416,6 +433,15 @@ export default class GameEngine implements GameEventHandlers, GameState {
         };
     }
 
+    private createSite(template: ISiteTemplate, state: ISiteState = { amount: 0 }): ISite {
+        return {
+            template: template,
+            totalAmount: state.amount,
+            locks: template.originalLocks.slice(),
+            amountUsed: 0
+        };
+    }
+
     private recalculateStorage(): void {
         CurrencyArray.forEach(c => {
             const resource = this.resources[c];
@@ -431,6 +457,13 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
         // TODO: when adding happines, remember to change that
         this.population.population = this.population.housing;
+    }
+
+    private recalculateSites(): void {
+        SiteTypesArray.forEach(s => {
+            const site = this.sites[s];
+            site.amountUsed = this.buildings.reduce((total, b) => total + (b.template.requiredSite === s ? b.quantity : 0), 0);
+        });
     }
 
     private applyUpgradeEffect(effect: UpgradeEffect) {

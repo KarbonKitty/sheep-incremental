@@ -17,6 +17,7 @@ const buildings: BuildingData[] = [
       housing: 2,
       rawStorage: { wood: 5, flint: 5, "stone tools": 2, "raw meat": 5, meat: 10, "raw vegetables": 15, "vegetables": 5 },
       buyVerb: "Find",
+      requiredSite: 'cave',
       originalLocks: []
     },
     startingState: {

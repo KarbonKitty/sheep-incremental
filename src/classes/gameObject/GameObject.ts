@@ -1,10 +1,10 @@
-import { GameObjectType, IndustryBranch, Lock, Price, IResourcesData } from '../baseClasses';
+import { GameObjectType, IndustryBranch, Lock, Price, IResourcesData, ILockable } from '../baseClasses';
 import IBuyable from '../IBuyable';
 import IGameObjectState from './IGameObjectState';
 import IGameObjectTemplate from "./IGameObjectTemplate";
 import { ComplexPrice } from '../complexPrices';
 
-export default abstract class GameObject implements IGameObjectTemplate, IGameObjectState, IBuyable {
+export default abstract class GameObject implements IGameObjectTemplate, IGameObjectState, IBuyable, ILockable {
     id: string;
     type: GameObjectType;
     name: string;
