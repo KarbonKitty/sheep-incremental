@@ -1,8 +1,8 @@
 <template lang="pug">
   .sitesTable
-    h4 Sites
-    div(v-for="site in sites" v-if="site.locks.length === 0").
-      {{ site.template.name | capitalize }}: {{ site.amountUsed }} / {{ site.totalAmount }}
+    h4 Population
+    div.
+      Workers (employed / all): {{ population.workers }} / {{ population.housing }}
 </template>
 
 <script lang="ts">

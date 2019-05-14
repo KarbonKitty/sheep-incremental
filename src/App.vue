@@ -6,12 +6,11 @@
 
       .sidebar
         h2 Resources
-        div Workers (employed / all): {{ population.workers }} / {{ population.housing }}
+        population-sidebar-component
         resource-sidebar-component
         sites-sidebar-component
         goal-component(:values="currentGoal")
-        // TODO: remove that and replace with some margin
-        br
+        h4 Controls
         button.btn(v-on:click="saveGame") Save
         button.btn(v-on:click="loadGame") Load
         button.btn(v-on:click="clearSave") Clear Save
@@ -56,6 +55,7 @@ import ToastComponent from "./components/Toast.vue";
 import BranchButtonComponent from "./components/BranchButton.vue";
 import ResourceSidebarComponent from "./components/ResourceSidebar.vue";
 import SitesSidebarComponent from "./components/SitesSidebar.vue";
+import PopulationSidebarComponent from "./components/PopulationSidebar.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
@@ -110,6 +110,7 @@ export default Vue.extend({
     components: {
         "resource-sidebar-component": ResourceSidebarComponent,
         "sites-sidebar-component": SitesSidebarComponent,
+        "population-sidebar-component": PopulationSidebarComponent,
         "game-object-component": GameObjectComponent,
         "object-details-component": ObjectDetails,
         "goal-component": GoalComponent,

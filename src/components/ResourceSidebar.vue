@@ -1,5 +1,6 @@
 <template lang="pug">
   .resourceTable
+    h4 Resources
     div(v-for="res in resources" v-if="res.locks.length === 0")
       resource-values-component(:resource="res")
 </template>

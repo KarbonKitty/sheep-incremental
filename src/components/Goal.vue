@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    p Goal:
+    h4 Goal
     p(v-if="!allVisible") You need to discover more resources to view entire goal!
     ul
       div(v-for="(amount, currency) in values" :key="currency")
