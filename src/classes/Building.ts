@@ -94,10 +94,6 @@ export class Building extends GameObject {
         }
     }
 
-    buy() {
-        this.onBuy.forEach(handler => handler());
-    }
-
     save(): IBuildingState {
         return {
             quantity: this.quantity,
@@ -107,9 +103,5 @@ export class Building extends GameObject {
 
     isAvailable(): boolean {
         return this.locks.length === 0;
-    }
-
-    canBeBought(resources: IResourcesData): boolean {
-        return canBePaid(this.currentPrice, resources);
     }
 }

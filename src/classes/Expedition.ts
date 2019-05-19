@@ -1,8 +1,8 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { Price, IResourcesData, GameObjectId, SiteSet } from "./baseClasses";
-import { mulPriceByNumber, canBePaid, sumPrices, sumSiteSets } from "./helpers";
+import { Price, SiteSet } from "./baseClasses";
+import { mulPriceByNumber, sumPrices, sumSiteSets } from "./helpers";
 
 export interface IRewardItem {
   chance: number;
@@ -29,8 +29,6 @@ export class Expedition extends GameObject {
   timesCompleted: number;
   timeLeftToComplete: number;
 
-  onBuy = [] as Array<() => void>;
-
   public get currentPrice(): Price {
     return mulPriceByNumber(this.cost.getTotal(), Math.pow(this.costMultiplier, this.timesCompleted));
   }
@@ -51,14 +49,6 @@ export class Expedition extends GameObject {
     };
   }
 
-  canBeBought(resources: IResourcesData): boolean {
-    return canBePaid(this.currentPrice, resources);
-  }
-
-  buy(): void {
-    this.timeLeftToComplete = this.template.length;
-  }
-
   isAvailable(): boolean {
     return this.locks.length === 0;
   }
@@ -67,24 +57,11 @@ export class Expedition extends GameObject {
     return this.timeLeftToComplete > 0;
   }
 
-  passTime(time: number): number {
-    this.timeLeftToComplete -= time;
-    if (this.timeLeftToComplete <= 0) {
-      this.complete();
-      this.timeLeftToComplete = 0;
-    }
-    return this.timeLeftToComplete;
-  }
-
   getReward(): { resourceReward: Price, sitesReward: SiteSet } {
     const rewardsEarned = this.template.reward.filter(ri => Math.random() < ri.chance);
     const resourceReward = sumPrices({} as Price, ...rewardsEarned.map(r => r.resources || {}));
     const sitesReward = sumSiteSets({} as SiteSet, ...rewardsEarned.map(r => r.sites || {}));
 
     return { resourceReward, sitesReward };
-  }
-
-  private complete(): void {
-    this.onBuy.forEach(handler => handler());
   }
 }

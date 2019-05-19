@@ -36,10 +36,6 @@ export class Idea extends GameObject {
         this.done = state.done;
     }
 
-    buy() {
-        this.onBuy.forEach(handler => handler());
-    }
-
     save(): IIdeaState {
         return {
             done: this.done
@@ -48,9 +44,5 @@ export class Idea extends GameObject {
 
     isAvailable(): boolean {
         return this.locks.length === 0 && !this.done;
-    }
-
-    canBeBought(resources: IResourcesData): boolean {
-        return canBePaid(this.currentPrice, resources);
     }
 }

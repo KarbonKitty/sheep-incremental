@@ -4,10 +4,10 @@ import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData, SitesData, SitesStartingData } from "./data";
 
 import { getPriceCurrencies, canBePaid } from "./classes/helpers";
-import { IBuildingTemplate, IBuildingState, Building } from "./classes/Building";
-import { Idea, IIdeaState, IIdeaTemplate } from "./classes/Idea";
+import { Building } from "./classes/Building";
+import { Idea } from "./classes/Idea";
 import eventBus from "./eventBus";
-import { Expedition, IExpeditionState, IExpeditionTemplate } from "./classes/Expedition";
+import { Expedition } from "./classes/Expedition";
 import { gainPerSecondIterations } from './consts';
 import { IProducer, IConsumer, IProcessor, IStorage, IUpgrade, IDiscovery, GameEventHandlers, GameState } from './gameEngineInterfaces';
 import helpers from './gameEngineHelpers';
@@ -182,14 +182,14 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.lastTick = savedObject.lastTick;
 
         const buildingDefaultStartingState = { quantity: 0 };
-        this.buildings = BuildingData.map(bd => this.createBuilding(bd.template, savedObject.buildingsState[bd.template.id] || bd.startingState || buildingDefaultStartingState));
+        this.buildings = BuildingData.map(bd => new Building(bd.template, savedObject.buildingsState[bd.template.id] || bd.startingState || buildingDefaultStartingState));
 
         const ideaDefaultStartingState = { done: false };
-        this.ideas = IdeaData.map(id => this.createIdea(id.template, savedObject.ideasState[id.template.id] || id.startingState || ideaDefaultStartingState));
+        this.ideas = IdeaData.map(id => new Idea(id.template, savedObject.ideasState[id.template.id] || id.startingState || ideaDefaultStartingState));
 
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
-        this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, savedObject.advancementsState[ad.template.id] || ad.startingState || ideaDefaultStartingState));
+        this.advancements = AdvancementData.map(ad => new Idea(ad.template, savedObject.advancementsState[ad.template.id] || ad.startingState || ideaDefaultStartingState));
 
         this.locks = savedObject.locks;
         this.resources = savedObject.resources;
@@ -205,18 +205,42 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.resetSelection();
     }
 
-    private createIdea(template: IIdeaTemplate, state: IIdeaState): Idea {
-        const idea = new Idea(template, state);
-        idea.onBuy.push(() => {
-            idea.done = true;
-            if (typeof idea.template.unlocks !== 'undefined') {
-                idea.template.unlocks.forEach(key => this.removeLock(key));
-            }
-            if (typeof idea.template.effects !== 'undefined') {
-                idea.template.effects.forEach(e => this.applyUpgradeEffect(e));
-            }
-        });
-        return idea;
+    private buyGameObject(item: GameObject) {
+        if (typeGuards.isIdea(item)) {
+            this.buyIdea(item);
+        } else if (typeGuards.isBuilding(item)) {
+            this.buyBuilding(item);
+        } else if (typeGuards.isExpedition(item)) {
+            this.startExpedition(item);
+        }
+    }
+
+    private buyIdea(idea: Idea) {
+        idea.done = true;
+        if (typeof idea.template.unlocks !== 'undefined') {
+            idea.template.unlocks.forEach(key => this.removeLock(key));
+        }
+        if (typeof idea.template.effects !== 'undefined') {
+            idea.template.effects.forEach(e => this.applyUpgradeEffect(e));
+        }
+    }
+
+    private buyBuilding(building: Building) {
+        building.quantity++;
+        this.recalculateStorage();
+        this.recalculatePopulation();
+        this.recalculateSites();
+    }
+
+    private startExpedition(expedition: Expedition) {
+        expedition.timeLeftToComplete = expedition.template.length;
+    }
+
+    private endExpedition(expedition: Expedition) {
+        expedition.timesCompleted++;
+        const reward = expedition.getReward();
+        this.getPaid(reward.resourceReward);
+        this.getSites(reward.sitesReward);
     }
 
     // TODO: rethink that
@@ -224,20 +248,20 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.lastTick = Date.now();
 
         const buildingDefaultStartingState = { quantity: 0 };
-        this.buildings = BuildingData.map(bd => this.createBuilding(bd.template, bd.startingState || buildingDefaultStartingState));
+        this.buildings = BuildingData.map(bd => new Building(bd.template, bd.startingState || buildingDefaultStartingState));
 
         const ideaDefaultStartingState = { done: false };
-        this.ideas = IdeaData.map(id => this.createIdea(id.template, id.startingState || ideaDefaultStartingState));
+        this.ideas = IdeaData.map(id => new Idea(id.template, id.startingState || ideaDefaultStartingState));
 
         const expeditionDefaultStartingState = { timesCompleted: 0, timeLeftToComplete: 0 };
-        this.expeditions = ExpeditionData.map(ed => this.createExpedition(ed.template, ed.startingState || expeditionDefaultStartingState));
+        this.expeditions = ExpeditionData.map(ed => new Expedition(ed.template, ed.startingState || expeditionDefaultStartingState));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
         this.resources = helpers.createResourcesData(ResourcesData);
         this.sites = helpers.createSitesData(SitesData, SitesStartingData);
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
-        this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState || ideaDefaultStartingState));
+        this.advancements = AdvancementData.map(ad => new Idea(ad.template, ad.startingState || ideaDefaultStartingState));
 
         this.recalculatePopulation();
         this.recalculateSites();
@@ -278,7 +302,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
         localStorage.setItem(this.saveGameName, this.save());
 
         this.advancements = survivors.advancements;
-        this.advancements.filter(a => a.done).map(a => a.buy());
+        this.advancements.filter(a => a.done).forEach(a => this.buyIdea(a));
 
         // TODO: different amount of points per goal
         this.resources.advancement.amount = survivors.advancementPoints + 1;
@@ -383,28 +407,6 @@ export default class GameEngine implements GameEventHandlers, GameState {
         });
     }
 
-    private createBuilding(template: IBuildingTemplate, state: IBuildingState): Building {
-        const building = new Building(template, state);
-        building.onBuy.push(() => {
-            building.quantity++;
-            this.recalculateStorage();
-            this.recalculatePopulation();
-            this.recalculateSites();
-        });
-        return building;
-    }
-
-    private createExpedition(template: IExpeditionTemplate, state: IExpeditionState): Expedition {
-        const expedition = new Expedition(template, state);
-        expedition.onBuy.push(() => {
-            expedition.timesCompleted++;
-            let reward = expedition.getReward();
-            this.getPaid(reward.resourceReward);
-            this.getSites(reward.sitesReward);
-        });
-        return expedition;
-    }
-
     private recalculateStorage(): void {
         CurrencyArray.forEach(c => {
             const resource = this.resources[c];
@@ -441,7 +443,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
     private tryBuyItem(itemId: string): GameObject | undefined {
         const item = this.getGameObjectById(itemId);
 
-        if (typeof item === 'undefined' || !typeGuards.isBuyable(item)) {
+        if (typeof item === 'undefined') {
             return undefined;
         }
 
@@ -449,7 +451,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
         if (canBePaid(price, this.resources) && this.hasEnoughWorkforce(item)) {
             this.payThePrice(price);
-            item.buy();
+            this.buyGameObject(item);
             return item;
         } else {
             return undefined;
@@ -465,10 +467,19 @@ export default class GameEngine implements GameEventHandlers, GameState {
     }
 
     private proceedWithExpeditions(deltaT: number): void {
-        this.expeditions.filter(e => e.timeLeftToComplete > 0).forEach(e => e.passTime(deltaT));
+        this.expeditions.filter(e => e.timeLeftToComplete > 0).forEach(e => this.passExpeditionTime(e, deltaT));
+    }
+
+    private passExpeditionTime(expedition: Expedition, deltaT: number) {
+        expedition.timeLeftToComplete -= deltaT;
+        if (expedition.timeLeftToComplete <= 0) {
+            this.endExpedition(expedition);
+            expedition.timeLeftToComplete = 0;
+        }
+        return expedition.timeLeftToComplete;
     }
 
     private reapplyIdeas(): void {
-        this.ideas.forEach(i => { if (i.done) { i.buy(); } });
+        this.ideas.filter(i => i.done).forEach(i => this.buyIdea(i));
     }
 }

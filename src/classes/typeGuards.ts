@@ -1,5 +1,4 @@
 import GameObject from "./gameObject/GameObject";
-import IBuyable from "./IBuyable";
 import { Building } from "./Building";
 import { Idea } from "./Idea";
 import { Expedition } from "./Expedition";
@@ -13,8 +12,5 @@ export default {
     },
     isExpedition(gameObject: GameObject): gameObject is Expedition {
         return (gameObject as Expedition).type === 'expedition';
-    },
-    isBuyable(gameObject: object): gameObject is IBuyable {
-        return typeof (gameObject as IBuyable).buy !== 'undefined';
     },
 };
