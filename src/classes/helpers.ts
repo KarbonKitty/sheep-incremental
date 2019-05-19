@@ -1,4 +1,4 @@
-import { IPopulation, Price, IResourcesData, CurrencyArray, Currency, SiteType, ISitesData } from "./baseClasses";
+import { IPopulation, Price, IResourcesData, CurrencyArray, Currency, SiteType, ISitesData, SiteSet } from "./baseClasses";
 import GameObject from "./gameObject/GameObject";
 import typeGuards from "./typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData } from "../data";
@@ -44,6 +44,17 @@ export function sumPrices(price: Price, ...prices: Price[]): Price {
   }
 }
 
+export function sumSiteSets(siteSet: SiteSet, ...siteSets: SiteSet[]): SiteSet {
+  if (siteSets.length === 0) {
+    return siteSet;
+  } else if (siteSets.length === 1) {
+    return addTwoSiteSets(siteSet, siteSets[0]);
+  } else {
+    siteSets.push(siteSet);
+    return siteSets.reduce((a, b) => addTwoSiteSets(a, b));
+  }
+}
+
 export function getPriceCurrencies(price: Price): Currency[] {
   const currencies = Object.keys(price);
   if (currencies.filter(c => CurrencyArray.indexOf(c as Currency) === -1).length > 0) {
@@ -82,6 +93,13 @@ function addTwoPrices(price1: Price, price2: Price): Price {
   Object.keys(price1).map(k => newPrice[k] = price1[k]);
   Object.keys(price2).map(k => newPrice[k] ? (newPrice[k] as number) += (price2[k] || 0) : newPrice[k] = price2[k]);
   return newPrice;
+}
+
+function addTwoSiteSets(siteSet1: SiteSet, siteSet2: SiteSet): SiteSet {
+  const newSiteSet: SiteSet = {};
+  Object.keys(siteSet1).map(k => newSiteSet[k] = siteSet1[k]);
+  Object.keys(siteSet2).map(k => newSiteSet[k] ? (newSiteSet[k] as number) += (siteSet2[k] || 0) : newSiteSet[k] = siteSet2[k]);
+  return newSiteSet;
 }
 
 function getAllGameObjectTemplates(): IGameObjectTemplate[] {

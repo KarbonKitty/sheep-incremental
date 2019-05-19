@@ -3,11 +3,12 @@
     li
       slot
       ul
-        div(v-for="thing in rewardItem.item")
-          li(v-if="typeof thing === 'string'") {{ getGameObjectName(thing) }}
-          div(v-else)
-            div(v-for="(amount, currency) in thing" v-if="resources[currency].locks.length === 0")
-              li {{ amount | decimal(resources[currency].template.precision) }} {{ currency }}
+        div(v-if="typeof rewardItem.resources !== 'undefined'")
+          div(v-for="(amount, currency) in rewardItem.resources" v-if="resources[currency].locks.length === 0")
+            li {{ amount | decimal(resources[currency].template.precision) }} {{ currency }}
+        div(v-if="typeof rewardItem.sites !== 'undefined'")
+          div(v-for="(amount, siteType) in rewardItem.sites" v-if="sites[siteType].locks.length === 0")
+            li {{ amount | decimal(0) }} {{ siteType }}
 </template>
 
 <script lang="ts">
@@ -19,11 +20,6 @@ import { getGameObjectNameById } from "../classes/helpers";
 export default baseComponent.extend({
   props: {
     rewardItem: Object as () => IRewardItem
-  },
-  methods: {
-    getGameObjectName: function(id: string) {
-      return getGameObjectNameById(id);
-    }
   }
 });
 </script>

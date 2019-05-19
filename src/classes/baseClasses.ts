@@ -63,6 +63,10 @@ export interface Price extends Partial<Indexed<Currency, number>> {
   [index: string]: number | undefined;
 }
 
+export interface SiteSet extends Partial<Indexed<SiteType, number>> {
+  [index: string]: number | undefined;
+}
+
 export interface Map<T> {
   [index: string]: T;
 }

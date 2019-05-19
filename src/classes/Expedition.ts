@@ -1,12 +1,13 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { Price, IResourcesData, GameObjectId } from "./baseClasses";
-import { mulPriceByNumber, canBePaid } from "./helpers";
+import { Price, IResourcesData, GameObjectId, SiteSet } from "./baseClasses";
+import { mulPriceByNumber, canBePaid, sumPrices, sumSiteSets } from "./helpers";
 
 export interface IRewardItem {
   chance: number;
-  item: Array<Price | GameObjectId>;
+  resources?: Price;
+  sites?: SiteSet;
 }
 
 export interface IExpeditionState extends IGameObjectState {
@@ -75,8 +76,12 @@ export class Expedition extends GameObject {
     return this.timeLeftToComplete;
   }
 
-  getReward(): Array<Price | GameObjectId> {
-    return this.template.reward.filter(ri => Math.random() < ri.chance).map(ri => ri.item).reduce((retArr, current) => retArr.concat(current), []);
+  getReward(): { resourceReward: Price, sitesReward: SiteSet } {
+    const rewardsEarned = this.template.reward.filter(ri => Math.random() < ri.chance);
+    const resourceReward = sumPrices({} as Price, ...rewardsEarned.map(r => r.resources || {}));
+    const sitesReward = sumSiteSets({} as SiteSet, ...rewardsEarned.map(r => r.sites || {}));
+
+    return { resourceReward, sitesReward };
   }
 
   private complete(): void {

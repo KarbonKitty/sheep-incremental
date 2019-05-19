@@ -20,19 +20,19 @@ const expeditions: ExpeditionData[] = [
       reward: [
         {
           chance: 1,
-          item: [ { territory: 10, folklore: 10 } ]
+          resources: { territory: 10, folklore: 10 }
         },
         {
           chance: 0.8,
-          item: [ 'cave' ]
+          sites: { cave: 1 }
         },
         {
           chance: 0.5,
-          item: [ { territory: 10 } ]
+          resources: { territory: 10 }
         },
         {
           chance: 0.1,
-          item: [ { "raw meat": 5, "animal skin": 1, folklore: 3 } ]
+          resources: { "raw meat": 5, "animal skin": 1, folklore: 3 }
         }
       ]
     }

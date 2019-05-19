@@ -1,4 +1,4 @@
-import { IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch, ISitesData, ISitesTemplateData, SiteTypesArray, ISiteTemplate, ISite, ILockable, ISitesStateData, ISiteState } from "./classes/baseClasses";
+import { IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch, ISitesData, ISitesTemplateData, SiteTypesArray, ISiteTemplate, ISite, ILockable, ISitesStateData, ISiteState, SiteSet, SiteType } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData, SitesData, SitesStartingData } from "./data";
@@ -381,6 +381,14 @@ export default class GameEngine implements GameEventHandlers, GameState {
         });
     }
 
+    private getSites(siteSet: SiteSet) {
+        Object.keys(siteSet).forEach(s => {
+            if (this.sites[s as SiteType].locks.length === 0) {
+                this.sites[s as SiteType].totalAmount += siteSet[s as SiteType]!;
+            }
+        });
+    }
+
     private discardResourcesOverLimit(): void {
         CurrencyArray.forEach(k => {
             const resource = this.resources[k];
@@ -405,18 +413,9 @@ export default class GameEngine implements GameEventHandlers, GameState {
         const expedition = new Expedition(template, state);
         expedition.onBuy.push(() => {
             expedition.timesCompleted++;
-            expedition.getReward().forEach(rewardItem => {
-                if (typeof rewardItem === 'string') {
-                    const object = this.getGameObjectById(rewardItem);
-                    if (typeof object !== 'undefined') {
-                        object.buy();
-                    } else {
-                        throw Error(`Object with id ${rewardItem} doesn't exist and was used as a part of an expedition reward.`);
-                    }
-                } else {
-                    this.getPaid(rewardItem);
-                }
-            });
+            let reward = expedition.getReward();
+            this.getPaid(reward.resourceReward);
+            this.getSites(reward.sitesReward);
         });
         return expedition;
     }
