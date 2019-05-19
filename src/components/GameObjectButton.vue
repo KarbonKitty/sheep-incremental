@@ -25,7 +25,7 @@ export default baseComponent.extend({
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.gameObject, this.resources, this.population);
+      return canBeBought(this.gameObject, this.resources, this.population, this.sites);
     },
     hasAvailableUpgrades: function(): boolean {
       return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.resources)).length > 0;
