@@ -1,4 +1,4 @@
-import { IResourcesData, Lock, Map, Price, UpgradeEffect, IResourcesTemplateData, IResource, CurrencyArray, IResourceTemplate, IndustryBranch, ISitesData, ISitesTemplateData, SiteTypesArray, ISiteTemplate, ISite, ILockable, ISitesStateData, ISiteState, SiteSet, SiteType } from "./classes/baseClasses";
+import { IResourcesData, Lock, Map, Price, UpgradeEffect, CurrencyArray, IndustryBranch, ISitesData, SiteTypesArray, ILockable, SiteSet, SiteType } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData, SitesData, SitesStartingData } from "./data";
@@ -10,6 +10,7 @@ import eventBus from "./eventBus";
 import { Expedition, IExpeditionState, IExpeditionTemplate } from "./classes/Expedition";
 import { gainPerSecondIterations } from './consts';
 import { IProducer, IConsumer, IProcessor, IStorage, IUpgrade, IDiscovery, GameEventHandlers, GameState } from './gameEngineInterfaces';
+import helpers from './gameEngineHelpers';
 
 export default class GameEngine implements GameEventHandlers, GameState {
     lastTick = 0;
@@ -232,8 +233,8 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.expeditions = ExpeditionData.map(ed => this.createExpedition(ed.template, ed.startingState || expeditionDefaultStartingState));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
-        this.resources = this.createResourcesData(ResourcesData);
-        this.sites = this.createSitesData(SitesData, SitesStartingData);
+        this.resources = helpers.createResourcesData(ResourcesData);
+        this.sites = helpers.createSitesData(SitesData, SitesStartingData);
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
         this.advancements = AdvancementData.map(ad => this.createIdea(ad.template, ad.startingState || ideaDefaultStartingState));
@@ -262,22 +263,6 @@ export default class GameEngine implements GameEventHandlers, GameState {
         } else {
             return true;
         }
-    }
-
-    private createResourcesData(template: IResourcesTemplateData): IResourcesData {
-        const returnObject = {} as IResourcesData;
-
-        CurrencyArray.forEach(c => returnObject[c] = this.createResource(template[c]));
-
-        return returnObject;
-    }
-
-    private createSitesData(template: ISitesTemplateData, state: ISitesStateData): ISitesData {
-        const returnObject = {} as ISitesData;
-
-        SiteTypesArray.forEach(s => returnObject[s] = this.createSite(template[s], state[s]));
-
-        return returnObject;
     }
 
     private prestige() {
@@ -420,26 +405,6 @@ export default class GameEngine implements GameEventHandlers, GameState {
         return expedition;
     }
 
-    private createResource(template: IResourceTemplate): IResource {
-        return {
-            template: template,
-            amount: 0,
-            gainPerSecond: new Array(gainPerSecondIterations).fill(0),
-            limit: template.baseLimit,
-            locks: template.originalLocks.slice(),
-            amountSpent: 0
-        };
-    }
-
-    private createSite(template: ISiteTemplate, state: ISiteState = { amount: 0 }): ISite {
-        return {
-            template: template,
-            totalAmount: state.amount,
-            locks: template.originalLocks.slice(),
-            amountUsed: 0
-        };
-    }
-
     private recalculateStorage(): void {
         CurrencyArray.forEach(c => {
             const resource = this.resources[c];
@@ -470,30 +435,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
             throw new Error(`There is no object with id: ${effect.affectedObjectId}`);
         }
 
-        switch (effect.affectedProperty) {
-            case "production":
-                if (typeGuards.isBuilding(object) && typeof object.production !== 'undefined') {
-                    object.production.addModifier(effect);
-                } else {
-                    throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve production.`);
-                }
-                break;
-            case "consumption":
-                if (typeGuards.isBuilding(object) && typeof object.consumption !== 'undefined') {
-                    object.consumption.addModifier(effect);
-                } else {
-                    throw new Error(`Object with id: ${object.id} is not a producer and can not have upgrades that improve production.`);
-                }
-                break;
-            case "storage":
-                if (typeGuards.isBuilding(object) && typeof object.storage !== 'undefined') {
-                    object.storage.addModifier(effect);
-                } else {
-                    throw new Error(`Object with id: ${object.id} is not a storage building and can not have upgrades that improve storage.`);
-                }
-            case "cost":
-                object.cost.addModifier(effect);
-        }
+        helpers.applyUpgradeEffect(effect, object);
     }
 
     private tryBuyItem(itemId: string): GameObject | undefined {
