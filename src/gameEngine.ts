@@ -1,7 +1,7 @@
 import { IResourcesData, Lock, Map, Price, UpgradeEffect, CurrencyArray, IndustryBranch, ISitesData, SiteTypesArray, ILockable, SiteSet, SiteType } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
-import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionData, SitesData, SitesStartingData } from "./data";
+import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionPlanData, SitesData, SitesStartingData } from "./data";
 
 import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { Building } from "./classes/Building";
@@ -159,6 +159,8 @@ export default class GameEngine implements GameEventHandlers, GameState {
             buildingsState: this.buildings.reduce((m: any, b) => { m[b.id] = b.save(); return m; }, {}),
             ideasState: this.ideas.reduce((m: any, i) => { m[i.id] = i.save(); return m; }, {}),
             advancementsState: this.advancements.reduce((m: any, a) => { m[a.id] = a.save(); return m; }, {}),
+            expeditionPlansState: this.expeditionPlans.reduce((m: any, e) => { m[e.id] = e.save(); return m; }, {}),
+            expeditionsState: this.expeditions.map(e => ({ planId: e.plan.id, state: e.save() })),
             population: this.population,
             goal: this.currentGoal
         };
@@ -189,6 +191,12 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
         const ideaDefaultStartingState = { done: false };
         this.ideas = IdeaData.map(id => new Idea(id.template, savedObject.ideasState[id.template.id] || id.startingState || ideaDefaultStartingState));
+
+        const expeditionDefaultStartingState = { timesCompleted: 0 };
+        this.expeditionPlans = ExpeditionPlanData.map(epd => new ExpeditionPlan(epd.template, savedObject.expeditionPlansState[epd.template.id] || epd.startingState || expeditionDefaultStartingState));
+
+        // TODO: replace assertion with proper error throwing
+        this.expeditions = savedObject.expeditionsState.map((es: any) => new Expedition(this.expeditionPlans.find(ep => ep.id === es.planId)!, es.state));
 
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
@@ -257,7 +265,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.ideas = IdeaData.map(id => new Idea(id.template, id.startingState || ideaDefaultStartingState));
 
         const expeditionDefaultStartingState = { timesCompleted: 0, timeLeftToComplete: 0 };
-        this.expeditionPlans = ExpeditionData.map(ed => new ExpeditionPlan(ed.template, ed.startingState || expeditionDefaultStartingState));
+        this.expeditionPlans = ExpeditionPlanData.map(ed => new ExpeditionPlan(ed.template, ed.startingState || expeditionDefaultStartingState));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
         this.resources = helpers.createResourcesData(ResourcesData);
