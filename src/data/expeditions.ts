@@ -1,11 +1,11 @@
-import { IExpeditionState, IExpeditionTemplate } from "../classes/Expedition";
+import { IExpeditionPlanState, IExpeditionPlanTemplate } from "../classes/ExpeditionPlan";
 
-type ExpeditionData = {
-  template: IExpeditionTemplate,
-  startingState?: IExpeditionState
+type ExpeditionPlanData = {
+  template: IExpeditionPlanTemplate,
+  startingState?: IExpeditionPlanState
 };
 
-const expeditions: ExpeditionData[] = [
+const expeditionPlans: ExpeditionPlanData[] = [
   {
     template: {
       type: 'idea',
@@ -39,4 +39,4 @@ const expeditions: ExpeditionData[] = [
   }
 ];
 
-export default expeditions;
+export default expeditionPlans;

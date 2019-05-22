@@ -1,7 +1,7 @@
 import GameObject from "./gameObject/GameObject";
 import { Building } from "./Building";
 import { Idea } from "./Idea";
-import { Expedition } from "./Expedition";
+import { ExpeditionPlan } from "./ExpeditionPlan";
 
 export default {
     isBuilding(gameObject: GameObject): gameObject is Building {
@@ -10,7 +10,7 @@ export default {
     isIdea(gameObject: GameObject): gameObject is Idea {
         return (gameObject as Idea).type === 'idea';
     },
-    isExpedition(gameObject: GameObject): gameObject is Expedition {
-        return (gameObject as Expedition).type === 'expedition';
+    isExpeditionPlan(gameObject: GameObject): gameObject is ExpeditionPlan {
+        return (gameObject as ExpeditionPlan).type === 'expedition';
     },
 };

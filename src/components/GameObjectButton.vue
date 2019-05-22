@@ -1,7 +1,7 @@
 <template lang="pug">
   .selectButton(v-if="gameObject.isAvailable()" @click="changeSelection" :class="{ available: canBeBought, active: active }")
     p.
-      {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝] #[span(v-if="gameObject.disabled") 🛇] #[span(v-if="expeditionInProgress" class="spin") ⚙]
+      {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝] #[span(v-if="gameObject.disabled") 🛇] 
 </template>
 
 <script lang="ts">
@@ -29,9 +29,6 @@ export default baseComponent.extend({
     },
     hasAvailableUpgrades: function(): boolean {
       return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.resources)).length > 0;
-    },
-    expeditionInProgress: function(): boolean {
-      return typeGuards.isExpedition(this.gameObject) && this.gameObject.timeLeftToComplete > 0;
     }
   }
 });
@@ -41,12 +38,4 @@ export default baseComponent.extend({
   .active
     border-color $green
     color $green
-
-  .spin
-    display inline-block
-    animation spin 4s linear infinite
-
-  @keyframes spin
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
 </style>

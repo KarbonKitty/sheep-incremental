@@ -10,16 +10,16 @@
       reward-details-component(:reward="expedition.template.reward") Rewards:
       button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ expedition.buyVerb }}
     .currentData
-      div
-        h3 Current Expedition
-        p(v-if="expedition.timeLeftToComplete > 0") Time left: {{ expedition.timeLeftToComplete | timeLeft }}
-        p(v-else) This expedition is not currently in progress.
+      h3 Current expeditions
+      div(v-for="e in expeditions")
+        li {{ e.plan.template.name }} {{ e.timeLeftToComplete | timeLeft }}
+
 </template>
 
 <script lang="ts">
 import baseComponent from "./baseComponent";
 
-import { Expedition } from '../classes/Expedition';
+import { ExpeditionPlan } from '../classes/ExpeditionPlan';
 import typeGuards from "../classes/typeGuards";
 
 import PriceComponent from "./Price.vue";
@@ -28,7 +28,7 @@ import { canBeBought } from '../classes/helpers';
 
 export default baseComponent.extend({
   props: {
-    expedition: Object as () => Expedition
+    expedition: Object as () => ExpeditionPlan
   },
   components: {
     'price-component': PriceComponent,
@@ -42,9 +42,6 @@ export default baseComponent.extend({
   computed: {
     canBeBought: function(): boolean {
       return canBeBought(this.expedition, this.resources);
-    },
-    isInProgress: function(): boolean {
-      return typeGuards.isExpedition(this.expedition) && this.expedition.timeLeftToComplete > 0;
     }
   }
 });

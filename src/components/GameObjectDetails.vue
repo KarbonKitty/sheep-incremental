@@ -35,7 +35,7 @@ export default baseComponent.extend({
       return typeGuards.isIdea(this.gameObject) && typeof this.gameObject.template.unlocks !== 'undefined';
     },
     isExpedition: function(): boolean {
-      return typeGuards.isExpedition(this.gameObject);
+      return typeGuards.isExpeditionPlan(this.gameObject);
     }
   }
 });

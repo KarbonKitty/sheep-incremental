@@ -7,10 +7,11 @@ import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { Building } from "./classes/Building";
 import { Idea } from "./classes/Idea";
 import eventBus from "./eventBus";
-import { Expedition } from "./classes/Expedition";
+import { ExpeditionPlan } from "./classes/ExpeditionPlan";
 import { gainPerSecondIterations } from './consts';
 import { IProducer, IConsumer, IProcessor, IStorage, IUpgrade, IDiscovery, GameEventHandlers, GameState } from './gameEngineInterfaces';
 import helpers from './gameEngineHelpers';
+import { Expedition } from './classes/Expedition';
 
 export default class GameEngine implements GameEventHandlers, GameState {
     lastTick = 0;
@@ -28,6 +29,8 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
     buildings = [] as Building[];
     ideas = [] as Idea[];
+    expeditionPlans = [] as ExpeditionPlan[];
+
     expeditions = [] as Expedition[];
 
     resources = {} as IResourcesData;
@@ -137,7 +140,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
         gameObjects = gameObjects.concat(this.buildings);
         gameObjects = gameObjects.concat(this.ideas);
         gameObjects = gameObjects.concat(this.advancements);
-        gameObjects = gameObjects.concat(this.expeditions);
+        gameObjects = gameObjects.concat(this.expeditionPlans);
         return gameObjects;
     }
 
@@ -210,7 +213,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
             this.buyIdea(item);
         } else if (typeGuards.isBuilding(item)) {
             this.buyBuilding(item);
-        } else if (typeGuards.isExpedition(item)) {
+        } else if (typeGuards.isExpeditionPlan(item)) {
             this.startExpedition(item);
         }
     }
@@ -232,13 +235,13 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.recalculateSites();
     }
 
-    private startExpedition(expedition: Expedition) {
-        expedition.timeLeftToComplete = expedition.template.length;
+    private startExpedition(plan: ExpeditionPlan) {
+        this.expeditions.push(new Expedition(plan));
     }
 
     private endExpedition(expedition: Expedition) {
-        expedition.timesCompleted++;
-        const reward = expedition.getReward();
+        expedition.plan.timesCompleted++;
+        const reward = expedition.plan.getReward();
         this.getPaid(reward.resourceReward);
         this.getSites(reward.sitesReward);
     }
@@ -254,7 +257,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.ideas = IdeaData.map(id => new Idea(id.template, id.startingState || ideaDefaultStartingState));
 
         const expeditionDefaultStartingState = { timesCompleted: 0, timeLeftToComplete: 0 };
-        this.expeditions = ExpeditionData.map(ed => new Expedition(ed.template, ed.startingState || expeditionDefaultStartingState));
+        this.expeditionPlans = ExpeditionData.map(ed => new ExpeditionPlan(ed.template, ed.startingState || expeditionDefaultStartingState));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
         this.resources = helpers.createResourcesData(ResourcesData);
@@ -467,7 +470,9 @@ export default class GameEngine implements GameEventHandlers, GameState {
     }
 
     private proceedWithExpeditions(deltaT: number): void {
-        this.expeditions.filter(e => e.timeLeftToComplete > 0).forEach(e => this.passExpeditionTime(e, deltaT));
+        const runningExpeditions = this.expeditions.filter(e => e.timeLeftToComplete > 0);
+        this.expeditions = runningExpeditions;
+        this.expeditions.forEach(e => this.passExpeditionTime(e, deltaT));
     }
 
     private passExpeditionTime(expedition: Expedition, deltaT: number) {

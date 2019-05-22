@@ -32,7 +32,7 @@
           div(v-for="discovery in allDiscoveries.filter(d => d.locks.length === 0 && !d.done)")
             game-object-component(:game-object="discovery" :upgrades="availableUpgradesFor(discovery)" :active="discovery.id === currentSelection.id")
         div(v-if="currentBranch === 'expeditions'")
-          div(v-for="e in expeditions.filter(e => e.isAvailable())")
+          div(v-for="e in expeditionPlans.filter(e => e.isAvailable())")
             game-object-component(:game-object="e" :upgrades="[]" :active="e.id === currentSelection.id")
         div(v-else)
           div(v-for="b in availableBuildingsFromBranch(currentBranch)")
