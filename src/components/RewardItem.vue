@@ -14,7 +14,7 @@
 <script lang="ts">
 import baseComponent from "./baseComponent";
 
-import { IRewardItem } from '../classes/Expedition';
+import { IRewardItem } from '../classes/ExpeditionPlan';
 import { getGameObjectNameById } from "../classes/helpers";
 
 export default baseComponent.extend({

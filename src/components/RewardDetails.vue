@@ -12,7 +12,7 @@ import baseComponent from "./baseComponent";
 
 import RewardItemComponent from "./RewardItem.vue";
 
-import { IRewardItem } from "../classes/Expedition";
+import { IRewardItem } from "../classes/ExpeditionPlan";
 
 export default baseComponent.extend({
   props: {

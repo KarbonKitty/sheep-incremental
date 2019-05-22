@@ -62,6 +62,6 @@ const helpers = {
 
         return returnObject;
     }
-}
+};
 
 export default helpers;
