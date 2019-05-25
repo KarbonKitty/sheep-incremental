@@ -128,6 +128,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
     buyItem(itemId: string) {
         const boughtItem = this.tryBuyItem(itemId);
         if (typeof boughtItem !== 'undefined') {
+            eventBus.$emit('show-message', `${boughtItem.name} was bought!`);
             eventBus.$emit('show-toast', `${boughtItem.name} was bought!`);
             if (typeGuards.isIdea(boughtItem)) {
                 this.resetSelection();

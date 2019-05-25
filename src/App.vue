@@ -6,6 +6,7 @@
 
       .sidebar
         h2 Resources
+        message-log-component
         population-sidebar-component
         resource-sidebar-component
         sites-sidebar-component
@@ -56,6 +57,7 @@ import BranchButtonComponent from "./components/BranchButton.vue";
 import ResourceSidebarComponent from "./components/ResourceSidebar.vue";
 import SitesSidebarComponent from "./components/SitesSidebar.vue";
 import PopulationSidebarComponent from "./components/PopulationSidebar.vue";
+import MessageLogComponent from "./components/MessageLog.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
@@ -116,7 +118,8 @@ export default Vue.extend({
         "goal-component": GoalComponent,
         "toast-component": ToastComponent,
         "prestige-modal-component": PrestigeModalComponent,
-        "branch-button-component": BranchButtonComponent
+        "branch-button-component": BranchButtonComponent,
+        "message-log-component": MessageLogComponent
     },
     filters
 });
