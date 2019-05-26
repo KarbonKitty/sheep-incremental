@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     building-details-component(v-if="isBuilding" :building="gameObject" :upgrades="upgrades")
-    discovery-details-component(v-else-if="isDiscovery" :discovery="gameObject")
+    idea-details-component(v-else-if="isIdea" :idea="gameObject")
     expedition-details-component(v-else-if="isExpedition" :expedition="gameObject")
 </template>
 
@@ -14,7 +14,7 @@ import typeGuards from "../classes/typeGuards";
 import { Idea } from "../classes/Idea";
 
 import BuildingDetailsComponent from "./BuildingDetails.vue";
-import DiscoveryDetailsComponent from "./DiscoveryDetails.vue";
+import IdeaDetailsComponent from "./IdeaDetails.vue";
 import ExpeditionDetailsComponent from "./ExpeditionDetails.vue";
 
 export default baseComponent.extend({
@@ -24,15 +24,15 @@ export default baseComponent.extend({
   },
   components: {
     'building-details-component': BuildingDetailsComponent,
-    'discovery-details-component': DiscoveryDetailsComponent,
+    'idea-details-component': IdeaDetailsComponent,
     'expedition-details-component': ExpeditionDetailsComponent
   },
   computed: {
     isBuilding: function(): boolean {
       return typeGuards.isBuilding(this.gameObject);
     },
-    isDiscovery: function(): boolean {
-      return typeGuards.isIdea(this.gameObject) && typeof this.gameObject.template.unlocks !== 'undefined';
+    isIdea: function(): boolean {
+      return typeGuards.isIdea(this.gameObject);
     },
     isExpedition: function(): boolean {
       return typeGuards.isExpeditionPlan(this.gameObject);

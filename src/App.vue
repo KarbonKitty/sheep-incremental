@@ -23,6 +23,7 @@
 
       .log
         message-log-component
+        expedition-list-component
         goal-component(:values="currentGoal")
         h4 Controls
         button.btn(v-on:click="saveGame") Save
@@ -45,6 +46,7 @@ import ResourceSidebarComponent from "./components/ResourceSidebar.vue";
 import SitesSidebarComponent from "./components/SitesSidebar.vue";
 import PopulationSidebarComponent from "./components/PopulationSidebar.vue";
 import MessageLogComponent from "./components/MessageLog.vue";
+import ExpeditionListComponent from "./components/ExpeditionList.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
@@ -109,7 +111,8 @@ export default Vue.extend({
         "toast-component": ToastComponent,
         "prestige-modal-component": PrestigeModalComponent,
         "branch-button-component": BranchButtonComponent,
-        "message-log-component": MessageLogComponent
+        "message-log-component": MessageLogComponent,
+        "expedition-list-component": ExpeditionListComponent
     },
     filters
 });
@@ -141,7 +144,7 @@ a:active
 .container
   display grid
   grid-template-columns 25% 50% 25%
-  grid-template-rows 50% 50%
+  grid-template-rows 500px auto
 
 .sidebar
   grid-column 1
@@ -197,6 +200,13 @@ a:active
   flex-direction row
   border-bottom 2px solid $base0
   margin-bottom 0.5rem
+
+.object-list
+  display flex
+  flex-direction row
+  flex-wrap wrap
+  max-height 90%
+  overflow-y auto
 
 .tab
   text-align center
