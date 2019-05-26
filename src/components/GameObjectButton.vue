@@ -1,7 +1,7 @@
 <template lang="pug">
   .selectButton(v-if="gameObject.isAvailable()" @click="changeSelection" :class="{ available: canBeBought, active: active }")
     p.
-      {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝] #[span(v-if="gameObject.disabled") 🛇] 
+      #[span(:class="iconClass")] {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝] #[span(v-if="gameObject.disabled") 🛇] 
 </template>
 
 <script lang="ts">
@@ -29,6 +29,15 @@ export default baseComponent.extend({
     },
     hasAvailableUpgrades: function(): boolean {
       return this.upgrades.filter(u => u.isAvailable() && canBePaid(u.currentPrice, this.resources)).length > 0;
+    },
+    iconClass: function() {
+      return {
+        "fa-home": typeGuards.isBuilding(this.gameObject),
+        "fa-arrow-up": typeGuards.isIdea(this.gameObject) && typeof this.gameObject.template.effects !== 'undefined',
+        "fa-lightbulb": typeGuards.isIdea(this.gameObject) && typeof this.gameObject.template.unlocks !== 'undefined',
+        "fa-route": typeGuards.isExpeditionPlan(this.gameObject),
+        "fas": true
+      }
     }
   }
 });
