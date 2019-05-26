@@ -1,7 +1,6 @@
 <template lang="pug">
-  .selectButton.available(@click="changeSelection" :class="{active: active}")
-    p.
-      {{ name | capitalize }}
+  .tab.available(@click="changeSelection" :class="{active: active}").
+    {{ name | capitalize }}
 </template>
 
 <script lang="ts">

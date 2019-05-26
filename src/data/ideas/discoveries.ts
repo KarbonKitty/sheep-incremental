@@ -12,7 +12,7 @@ const discoveries: IdeaData[] = [
       type: 'idea',
       name: "Create stone tools",
       desc: "When a sheep knaps a stone with a second stone, the first stone gets sharp. And with a sharp stone, a sheep can do much more than without!",
-      branch: "construction",
+      branch: "discovery",
       unlocks: ['stone-tools'],
       rawCost: { flint: 50, wood: 20, folklore: 10 },
       buyVerb: "Try it!",
@@ -25,7 +25,7 @@ const discoveries: IdeaData[] = [
       type: 'idea',
       name: "Hunt for meat",
       desc: "One can eat vegetables only for so long. Even if one is a sheep.",
-      branch: "hunting",
+      branch: "discovery",
       unlocks: ['hunting'],
       rawCost: { "stone tools": 10, folklore: 15 },
       buyVerb: "Hack and slash",
@@ -38,7 +38,7 @@ const discoveries: IdeaData[] = [
       type: 'idea',
       name: "Start cooking food",
       desc: "Eating raw might be healthy, but eating cooked is more nutritional. And more tasty. And less risky.",
-      branch: "food",
+      branch: "discovery",
       unlocks: ['cooking'],
       effects: [
         {

@@ -41,14 +41,15 @@ export type EffectProp = "cost" | "production" | "consumption" | "storage";
 export type GameObjectType = "building" | "idea" | "expedition";
 
 const industryBranchesObject = {
-  prestige: true,
   housing: true,
   construction: true,
   tools: true,
   food: true,
   hunting: true,
   culture: true,
-  expedition: true
+  discovery: true,
+  expedition: true,
+  prestige: true,
 };
 export const branchesArray = Object.keys(industryBranchesObject) as IndustryBranch[];
 export type IndustryBranch = keyof typeof industryBranchesObject;

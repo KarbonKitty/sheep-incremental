@@ -6,41 +6,28 @@
 
       .sidebar
         h2 Resources
-        message-log-component
         population-sidebar-component
         resource-sidebar-component
         sites-sidebar-component
+
+      .buttons
+        .tabs
+          div(v-for="branch in branches" v-if="availableObjectsFromBranch(branch).length > 0")
+            branch-button-component(:name="branch" :active="currentBranch === branch")
+        .object-list
+          div(v-for="o in availableObjectsFromBranch(currentBranch)")
+            game-object-component(:game-object="o" :upgrades="availableUpgradesFor(o)" :active="o.id === currentSelection.id")
+
+      .details
+        object-details-component(:game-object="currentSelection" :upgrades="currentUpgrades")
+
+      .log
+        message-log-component
         goal-component(:values="currentGoal")
         h4 Controls
         button.btn(v-on:click="saveGame") Save
         button.btn(v-on:click="loadGame") Load
         button.btn(v-on:click="clearSave") Clear Save
-
-      .branch-list
-        h2 Branches
-        div(v-for="branch in branches")
-          div(v-if="availableBuildingsFromBranch(branch).length > 0")
-            branch-button-component(:name="branch" :active="currentBranch === branch")
-        div(v-if="allDiscoveries.filter(d => d.locks.length === 0 && !d.done).length > 0")
-          branch-button-component(name="discoveries" :active="currentBranch === 'discoveries'")
-          // Here be dragons
-        div
-          branch-button-component(name="expeditions" :active="currentBranch === 'expeditions'")
-
-      .object-list
-        h2 Objects
-        div(v-if="currentBranch === 'discoveries'")
-          div(v-for="discovery in allDiscoveries.filter(d => d.locks.length === 0 && !d.done)")
-            game-object-component(:game-object="discovery" :upgrades="availableUpgradesFor(discovery)" :active="discovery.id === currentSelection.id")
-        div(v-if="currentBranch === 'expeditions'")
-          div(v-for="e in expeditionPlans.filter(e => e.isAvailable())")
-            game-object-component(:game-object="e" :upgrades="[]" :active="e.id === currentSelection.id")
-        div(v-else)
-          div(v-for="b in availableBuildingsFromBranch(currentBranch)")
-            game-object-component(:game-object="b" :upgrades="availableUpgradesFor(b)" :active="b.id === currentSelection.id")
-
-      .details
-        object-details-component(:game-object="currentSelection" :upgrades="currentUpgrades")
 </template>
 
 <script lang="ts">
@@ -85,6 +72,9 @@ export default Vue.extend({
         },
         clearSave: function() {
             localStorage.removeItem(engine.saveGameName);
+        },
+        availableObjectsFromBranch(branch: IndustryBranch) {
+            return engine.getAllGameObjects().filter(o => o.locks.length === 0 && o.branch === branch);
         },
         availableBuildingsFromBranch(branch: IndustryBranch) {
             return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
@@ -150,27 +140,26 @@ a:active
 
 .container
   display grid
-  grid-template-columns 400px 250px 250px auto
-  grid-template-rows 100%
+  grid-template-columns 25% 50% 25%
+  grid-template-rows 50% 50%
 
 .sidebar
   grid-column 1
-  grid-row 1
-  margin-right 0.5rem
+  grid-row 1 / 2
 
-.branch-list
+.buttons
   grid-column 2
   grid-row 1
-  justify-self center
-
-.object-list
-  grid-column 3
-  grid-row 1
-  justify-self center
+  margin 0 1rem
 
 .details
-  grid-column 4
-  grid-row 1
+  grid-column 2
+  grid-row 2
+  margin 0 1rem
+
+.log
+  grid-column 3
+  grid-row 1 / 2
 
 .top-column
   display flex
@@ -202,6 +191,24 @@ a:active
   color $base0
   border 1px solid $base0
   cursor default
+
+.tabs
+  display flex
+  flex-direction row
+  border-bottom 2px solid $base0
+  margin-bottom 0.5rem
+
+.tab
+  text-align center
+  padding 0 0.5rem
+  margin 0.125rem 0.125rem -1px 0.125rem
+  cursor pointer
+  border 1px solid $base0
+  border-radius 2px
+
+.tab.available
+  font-weight bold
+  background $base02
 
 .selectButton
   text-align center
