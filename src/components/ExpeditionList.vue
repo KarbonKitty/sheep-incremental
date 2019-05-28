@@ -2,7 +2,7 @@
   div
     h4 Current expeditions
     div(v-for="e in expeditions")
-      li {{ e.plan.template.name }} {{ e.timeLeftToComplete | timeLeft }}
+      li ({{ e.timeLeftToComplete | timeLeft }}) {{ e.plan.template.name }}
 </template>
 
 <script lang="ts">
