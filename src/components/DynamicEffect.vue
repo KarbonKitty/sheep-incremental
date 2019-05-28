@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    p {{ effect.affectedProperty | capitalize }}:
+    p {{ objectName | capitalize }} {{ effect.affectedProperty }}:
     ul
       li(v-for="(amount, currency) in effect.scale" :key="currency")
         span(v-if="effect.type === 'add'") {{ currency }}: {{ sign * amount | signed }} / sec
@@ -19,6 +19,10 @@ export default baseComponent.extend({
   computed: {
     sign: function(): number {
       return this.effect.affectedProperty === "consumption" ? -1 : 1;
+    },
+    objectName: function(): string {
+      // TODO: error handling
+      return this.gameObjects.filter(o => o.id === this.effect.affectedObjectId)[0].name;
     }
   }
 });

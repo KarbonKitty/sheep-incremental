@@ -27,17 +27,17 @@ export default class GameEngine implements GameEventHandlers, GameState {
 
     goals = {} as Map<Price>;
 
+    gameObjects = [] as GameObject[];
+
     buildings = [] as Building[];
     ideas = [] as Idea[];
+    advancements = [] as Idea[];
     expeditionPlans = [] as ExpeditionPlan[];
 
     expeditions = [] as Expedition[];
 
     resources = {} as IResourcesData;
-
     sites = {} as ISitesData;
-
-    advancements = [] as Idea[];
 
     population = { workers: 0, population: 0, housing: 0 };
 
@@ -274,6 +274,8 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
         this.advancements = AdvancementData.map(ad => new Idea(ad.template, ad.startingState || ideaDefaultStartingState));
+
+        this.gameObjects = this.gameObjects.concat(this.buildings).concat(this.ideas).concat(this.expeditionPlans).concat(this.advancements);
 
         this.recalculatePopulation();
         this.recalculateSites();

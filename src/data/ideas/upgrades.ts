@@ -28,7 +28,7 @@ const upgrades: IdeaData[] = [
         scale: { wood: 0.2, flint: -0.1 }
       }],
       buyVerb: "Train",
-      originalLocks: ['stone-tools'],
+      originalLocks: [],
     },
   },
   {

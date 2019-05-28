@@ -47,4 +47,5 @@ export interface GameState {
     currentSelection: GameObject;
     currentBranch: IndustryBranch;
     prestiging: boolean;
+    gameObjects: GameObject[];
 }
