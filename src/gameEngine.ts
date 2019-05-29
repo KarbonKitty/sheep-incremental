@@ -87,12 +87,14 @@ export default class GameEngine implements GameEventHandlers, GameState {
         return this.ideas.filter(i => typeof i.template.unlocks !== 'undefined') as IDiscovery[];
     }
 
-    tick(currentTick: number) {
+    tick(currentTick: number): boolean {
         let deltaT = currentTick - this.lastTick;
+        let loop = false;
 
         if (deltaT > 1000) {
             deltaT = 1000;
             this.lastTick += deltaT;
+            loop = true;
         } else {
             this.lastTick = currentTick;
         }
@@ -103,6 +105,8 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.activateProcessors(deltaT);
         this.proceedWithExpeditions(deltaT);
         this.discardResourcesOverLimit();
+
+        return loop;
     }
 
     startPrestige() {
