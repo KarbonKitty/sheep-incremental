@@ -205,8 +205,9 @@ a:active
   display flex
   flex-direction row
   flex-wrap wrap
-  max-height 90%
+  height 90%
   overflow-y auto
+  border-bottom 1px solid $base0
 
 .tab
   text-align center
