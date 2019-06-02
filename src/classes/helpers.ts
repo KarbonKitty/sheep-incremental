@@ -1,7 +1,7 @@
 import { IPopulation, Price, IResourcesData, CurrencyArray, Currency, SiteType, ISitesData, SiteSet } from "./baseClasses";
 import GameObject from "./gameObject/GameObject";
 import typeGuards from "./typeGuards";
-import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionPlanData } from "../data";
+import { AdvancementsData, BuildingsData, GoalsData, IdeasData, LocksData, ResourcesData, ProjectsData } from "../data";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 
 export function mulPriceByNumber(price: Price, num: number): Price {
@@ -104,10 +104,10 @@ function addTwoSiteSets(siteSet1: SiteSet, siteSet2: SiteSet): SiteSet {
 
 function getAllGameObjectTemplates(): IGameObjectTemplate[] {
   let gameObjects = [] as IGameObjectTemplate[];
-  gameObjects = gameObjects.concat(BuildingData.map(bd => bd.template));
-  gameObjects = gameObjects.concat(IdeaData.map(id => id.template));
-  gameObjects = gameObjects.concat(AdvancementData.map(ad => ad.template));
-  gameObjects = gameObjects.concat(ExpeditionPlanData.map(ed => ed.template));
+  gameObjects = gameObjects.concat(BuildingsData.map(bd => bd.template));
+  gameObjects = gameObjects.concat(IdeasData.map(id => id.template));
+  gameObjects = gameObjects.concat(AdvancementsData.map(ad => ad.template));
+  gameObjects = gameObjects.concat(ProjectsData.map(ed => ed.template));
   return gameObjects;
 }
 

@@ -1,14 +1,14 @@
-import { ExpeditionPlan } from './ExpeditionPlan';
+import { Project } from './Project';
 
-export interface IExpeditionState {
+export interface IExecutionState {
     timeLeftToComplete: number;
 }
 
-export class Expedition implements IExpeditionState {
-    plan: ExpeditionPlan;
+export class Execution implements IExecutionState {
+    plan: Project;
     timeLeftToComplete: number;
 
-    constructor(plan: ExpeditionPlan, state?: IExpeditionState) {
+    constructor(plan: Project, state?: IExecutionState) {
         this.plan = plan;
         if (typeof state !== 'undefined') {
             this.timeLeftToComplete = state.timeLeftToComplete;
@@ -17,7 +17,7 @@ export class Expedition implements IExpeditionState {
         }
     }
 
-    save(): IExpeditionState {
+    save(): IExecutionState {
         return { timeLeftToComplete: this.timeLeftToComplete };
     }
 }

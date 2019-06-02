@@ -1,4 +1,4 @@
-import { default as hunterGatherer } from "./hunter-gatherer";
+import { default as hunterGatherer } from "./prehistory";
 
 const total = hunterGatherer;
 

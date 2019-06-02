@@ -1,14 +1,14 @@
-import { IExpeditionPlanState, IExpeditionPlanTemplate } from "../classes/ExpeditionPlan";
+import { IProjectState, IProjectTemplate } from "../../classes/Project";
 
-type ExpeditionPlanData = {
-  template: IExpeditionPlanTemplate,
-  startingState?: IExpeditionPlanState
+type ProjectData = {
+  template: IProjectTemplate,
+  startingState?: IProjectState
 };
 
-const expeditionPlans: ExpeditionPlanData[] = [
+const expeditionPlans: ProjectData[] = [
   {
     template: {
-      type: 'idea',
+      type: 'project',
       id: 'land-search',
       branch: 'expedition',
       buyVerb: 'Travel',

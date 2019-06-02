@@ -23,7 +23,7 @@
 
       .log
         message-log-component
-        expedition-list-component
+        execution-list-component
         goal-component(:values="currentGoal")
         h4 Controls
         button.btn(v-on:click="saveGame") Save
@@ -46,7 +46,7 @@ import ResourceSidebarComponent from "./components/ResourceSidebar.vue";
 import SitesSidebarComponent from "./components/SitesSidebar.vue";
 import PopulationSidebarComponent from "./components/PopulationSidebar.vue";
 import MessageLogComponent from "./components/MessageLog.vue";
-import ExpeditionListComponent from "./components/ExpeditionList.vue";
+import ExecutionListComponent from "./components/ExecutionList.vue";
 
 import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
@@ -112,7 +112,7 @@ export default Vue.extend({
         "prestige-modal-component": PrestigeModalComponent,
         "branch-button-component": BranchButtonComponent,
         "message-log-component": MessageLogComponent,
-        "expedition-list-component": ExpeditionListComponent
+        "execution-list-component": ExecutionListComponent
     },
     filters
 });

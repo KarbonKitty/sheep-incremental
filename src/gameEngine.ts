@@ -1,17 +1,17 @@
 import { IResourcesData, Lock, Map, Price, UpgradeEffect, CurrencyArray, IndustryBranch, ISitesData, SiteTypesArray, ILockable, SiteSet, SiteType } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
-import { AdvancementData, BuildingData, GoalsData, IdeaData, LocksData, ResourcesData, ExpeditionPlanData, SitesData, SitesStartingData } from "./data";
+import { AdvancementsData, BuildingsData, GoalsData, IdeasData, LocksData, ResourcesData, ProjectsData, SitesData, SitesStartingData } from "./data";
 
 import { getPriceCurrencies, canBePaid } from "./classes/helpers";
 import { Building } from "./classes/Building";
 import { Idea } from "./classes/Idea";
 import eventBus from "./eventBus";
-import { ExpeditionPlan } from "./classes/ExpeditionPlan";
+import { Project } from "./classes/Project";
 import { gainPerSecondIterations } from './consts';
 import { IProducer, IConsumer, IProcessor, IStorage, IUpgrade, IDiscovery, GameEventHandlers, GameState } from './gameEngineInterfaces';
 import helpers from './gameEngineHelpers';
-import { Expedition } from './classes/Expedition';
+import { Execution } from './classes/Execution';
 
 export default class GameEngine implements GameEventHandlers, GameState {
     lastTick = 0;
@@ -32,9 +32,9 @@ export default class GameEngine implements GameEventHandlers, GameState {
     buildings = [] as Building[];
     ideas = [] as Idea[];
     advancements = [] as Idea[];
-    expeditionPlans = [] as ExpeditionPlan[];
+    projects = [] as Project[];
 
-    expeditions = [] as Expedition[];
+    executions = [] as Execution[];
 
     resources = {} as IResourcesData;
     sites = {} as ISitesData;
@@ -103,7 +103,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.clearPerSecondValues(this.iteration);
         this.activatePureProducers(deltaT);
         this.activateProcessors(deltaT);
-        this.proceedWithExpeditions(deltaT);
+        this.proceedWithProjectExecutions(deltaT);
         this.discardResourcesOverLimit();
 
         return loop;
@@ -145,7 +145,7 @@ export default class GameEngine implements GameEventHandlers, GameState {
         gameObjects = gameObjects.concat(this.buildings);
         gameObjects = gameObjects.concat(this.ideas);
         gameObjects = gameObjects.concat(this.advancements);
-        gameObjects = gameObjects.concat(this.expeditionPlans);
+        gameObjects = gameObjects.concat(this.projects);
         return gameObjects;
     }
 
@@ -164,8 +164,8 @@ export default class GameEngine implements GameEventHandlers, GameState {
             buildingsState: this.buildings.reduce((m: any, b) => { m[b.id] = b.save(); return m; }, {}),
             ideasState: this.ideas.reduce((m: any, i) => { m[i.id] = i.save(); return m; }, {}),
             advancementsState: this.advancements.reduce((m: any, a) => { m[a.id] = a.save(); return m; }, {}),
-            expeditionPlansState: this.expeditionPlans.reduce((m: any, e) => { m[e.id] = e.save(); return m; }, {}),
-            expeditionsState: this.expeditions.map(e => ({ planId: e.plan.id, state: e.save() })),
+            projectsState: this.projects.reduce((m: any, e) => { m[e.id] = e.save(); return m; }, {}),
+            executionsState: this.executions.map(e => ({ planId: e.plan.id, state: e.save() })),
             population: this.population,
             goal: this.currentGoal
         };
@@ -192,20 +192,20 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.lastTick = savedObject.lastTick;
 
         const buildingDefaultStartingState = { quantity: 0 };
-        this.buildings = BuildingData.map(bd => new Building(bd.template, savedObject.buildingsState[bd.template.id] || bd.startingState || buildingDefaultStartingState));
+        this.buildings = BuildingsData.map(bd => new Building(bd.template, savedObject.buildingsState[bd.template.id] || bd.startingState || buildingDefaultStartingState));
 
         const ideaDefaultStartingState = { done: false };
-        this.ideas = IdeaData.map(id => new Idea(id.template, savedObject.ideasState[id.template.id] || id.startingState || ideaDefaultStartingState));
+        this.ideas = IdeasData.map(id => new Idea(id.template, savedObject.ideasState[id.template.id] || id.startingState || ideaDefaultStartingState));
 
-        const expeditionDefaultStartingState = { timesCompleted: 0 };
-        this.expeditionPlans = ExpeditionPlanData.map(epd => new ExpeditionPlan(epd.template, savedObject.expeditionPlansState[epd.template.id] || epd.startingState || expeditionDefaultStartingState));
+        const projectDefaultStartingState = { timesCompleted: 0 };
+        this.projects = ProjectsData.map(epd => new Project(epd.template, savedObject.projectsState[epd.template.id] || epd.startingState || projectDefaultStartingState));
 
         // TODO: replace assertion with proper error throwing
-        this.expeditions = savedObject.expeditionsState.map((es: any) => new Expedition(this.expeditionPlans.find(ep => ep.id === es.planId)!, es.state));
+        this.executions = savedObject.executionsState.map((es: any) => new Execution(this.projects.find(p => p.id === es.planId)!, es.state));
 
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
-        this.advancements = AdvancementData.map(ad => new Idea(ad.template, savedObject.advancementsState[ad.template.id] || ad.startingState || ideaDefaultStartingState));
+        this.advancements = AdvancementsData.map(ad => new Idea(ad.template, savedObject.advancementsState[ad.template.id] || ad.startingState || ideaDefaultStartingState));
 
         this.locks = savedObject.locks;
         this.resources = savedObject.resources;
@@ -226,8 +226,8 @@ export default class GameEngine implements GameEventHandlers, GameState {
             this.buyIdea(item);
         } else if (typeGuards.isBuilding(item)) {
             this.buyBuilding(item);
-        } else if (typeGuards.isExpeditionPlan(item)) {
-            this.startExpedition(item);
+        } else if (typeGuards.isProject(item)) {
+            this.startExecution(item);
         }
     }
 
@@ -248,13 +248,13 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.recalculateSites();
     }
 
-    private startExpedition(plan: ExpeditionPlan) {
-        this.expeditions.push(new Expedition(plan));
+    private startExecution(project: Project) {
+        this.executions.push(new Execution(project));
     }
 
-    private endExpedition(expedition: Expedition) {
-        expedition.plan.timesCompleted++;
-        const reward = expedition.plan.getReward();
+    private endExecution(execution: Execution) {
+        execution.plan.timesCompleted++;
+        const reward = execution.plan.getReward();
         this.getPaid(reward.resourceReward);
         this.getSites(reward.sitesReward);
     }
@@ -264,22 +264,22 @@ export default class GameEngine implements GameEventHandlers, GameState {
         this.lastTick = Date.now();
 
         const buildingDefaultStartingState = { quantity: 0 };
-        this.buildings = BuildingData.map(bd => new Building(bd.template, bd.startingState || buildingDefaultStartingState));
+        this.buildings = BuildingsData.map(bd => new Building(bd.template, bd.startingState || buildingDefaultStartingState));
 
         const ideaDefaultStartingState = { done: false };
-        this.ideas = IdeaData.map(id => new Idea(id.template, id.startingState || ideaDefaultStartingState));
+        this.ideas = IdeasData.map(id => new Idea(id.template, id.startingState || ideaDefaultStartingState));
 
-        const expeditionDefaultStartingState = { timesCompleted: 0, timeLeftToComplete: 0 };
-        this.expeditionPlans = ExpeditionPlanData.map(ed => new ExpeditionPlan(ed.template, ed.startingState || expeditionDefaultStartingState));
+        const projectDefaultStartingState = { timesCompleted: 0, timeLeftToComplete: 0 };
+        this.projects = ProjectsData.map(ed => new Project(ed.template, ed.startingState || projectDefaultStartingState));
 
         this.locks = JSON.parse(JSON.stringify(LocksData));
         this.resources = helpers.createResourcesData(ResourcesData);
         this.sites = helpers.createSitesData(SitesData, SitesStartingData);
         this.goals = JSON.parse(JSON.stringify(GoalsData));
 
-        this.advancements = AdvancementData.map(ad => new Idea(ad.template, ad.startingState || ideaDefaultStartingState));
+        this.advancements = AdvancementsData.map(ad => new Idea(ad.template, ad.startingState || ideaDefaultStartingState));
 
-        this.gameObjects = this.gameObjects.concat(this.buildings).concat(this.ideas).concat(this.expeditionPlans).concat(this.advancements);
+        this.gameObjects = this.gameObjects.concat(this.buildings).concat(this.ideas).concat(this.projects).concat(this.advancements);
 
         this.recalculatePopulation();
         this.recalculateSites();
@@ -484,19 +484,19 @@ export default class GameEngine implements GameEventHandlers, GameState {
         CurrencyArray.forEach(c => this.resources[c].gainPerSecond[iteration] = 0);
     }
 
-    private proceedWithExpeditions(deltaT: number): void {
-        const runningExpeditions = this.expeditions.filter(e => e.timeLeftToComplete > 0);
-        this.expeditions = runningExpeditions;
-        this.expeditions.forEach(e => this.passExpeditionTime(e, deltaT));
+    private proceedWithProjectExecutions(deltaT: number): void {
+        const runningExecutions = this.executions.filter(e => e.timeLeftToComplete > 0);
+        this.executions = runningExecutions;
+        this.executions.forEach(e => this.passProjectExecutionTime(e, deltaT));
     }
 
-    private passExpeditionTime(expedition: Expedition, deltaT: number) {
-        expedition.timeLeftToComplete -= deltaT;
-        if (expedition.timeLeftToComplete <= 0) {
-            this.endExpedition(expedition);
-            expedition.timeLeftToComplete = 0;
+    private passProjectExecutionTime(execution: Execution, deltaT: number) {
+        execution.timeLeftToComplete -= deltaT;
+        if (execution.timeLeftToComplete <= 0) {
+            this.endExecution(execution);
+            execution.timeLeftToComplete = 0;
         }
-        return expedition.timeLeftToComplete;
+        return execution.timeLeftToComplete;
     }
 
     private reapplyIdeas(): void {

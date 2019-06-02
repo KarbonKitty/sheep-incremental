@@ -3,6 +3,8 @@ import { ComplexPrice } from './classes/complexPrices';
 import { Idea } from './classes/Idea';
 import { UpgradeEffect, Lock, IndustryBranch, IResourcesData, IPopulation, Price, ISitesData } from './classes/baseClasses';
 import GameObject from './classes/gameObject/GameObject';
+import { Execution } from './classes/Execution';
+import { Project } from './classes/Project';
 
 export interface IProducer extends Building {
     production: ComplexPrice;
@@ -41,6 +43,8 @@ export interface GameState {
     population: IPopulation;
     buildings: Building[];
     ideas: Idea[];
+    projects: Project[];
+    executions: Execution[];
     upgrades: IUpgrade[];
     advancements: Idea[];
     currentGoal: Price;

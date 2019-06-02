@@ -2,7 +2,7 @@
   div
     building-details-component(v-if="isBuilding" :building="gameObject" :upgrades="upgrades")
     idea-details-component(v-else-if="isIdea" :idea="gameObject")
-    expedition-details-component(v-else-if="isExpedition" :expedition="gameObject")
+    project-details-component(v-else-if="isProject" :project="gameObject")
 </template>
 
 <script lang="ts">
@@ -15,7 +15,7 @@ import { Idea } from "../classes/Idea";
 
 import BuildingDetailsComponent from "./BuildingDetails.vue";
 import IdeaDetailsComponent from "./IdeaDetails.vue";
-import ExpeditionDetailsComponent from "./ExpeditionDetails.vue";
+import ProjectDetailsComponent from "./ProjectDetails.vue";
 
 export default baseComponent.extend({
   props: {
@@ -25,7 +25,7 @@ export default baseComponent.extend({
   components: {
     'building-details-component': BuildingDetailsComponent,
     'idea-details-component': IdeaDetailsComponent,
-    'expedition-details-component': ExpeditionDetailsComponent
+    'project-details-component': ProjectDetailsComponent
   },
   computed: {
     isBuilding: function(): boolean {
@@ -34,8 +34,8 @@ export default baseComponent.extend({
     isIdea: function(): boolean {
       return typeGuards.isIdea(this.gameObject);
     },
-    isExpedition: function(): boolean {
-      return typeGuards.isExpeditionPlan(this.gameObject);
+    isProject: function(): boolean {
+      return typeGuards.isProject(this.gameObject);
     }
   }
 });

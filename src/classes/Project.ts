@@ -10,20 +10,20 @@ export interface IRewardItem {
   sites?: SiteSet;
 }
 
-export interface IExpeditionPlanState extends IGameObjectState {
+export interface IProjectState extends IGameObjectState {
   timesCompleted: number;
 }
 
-export interface IExpeditionPlanTemplate extends IGameObjectTemplate {
+export interface IProjectTemplate extends IGameObjectTemplate {
   reward: IRewardItem[];
   length: number;
 }
 
-export class ExpeditionPlan extends GameObject {
-  readonly type = 'expedition';
+export class Project extends GameObject {
+  readonly type = 'project';
   readonly costMultiplier = 1.10;
 
-  template: IExpeditionPlanTemplate;
+  template: IProjectTemplate;
 
   timesCompleted: number;
 
@@ -31,7 +31,7 @@ export class ExpeditionPlan extends GameObject {
     return mulPriceByNumber(this.cost.getTotal(), Math.pow(this.costMultiplier, this.timesCompleted));
   }
 
-  constructor(template: IExpeditionPlanTemplate, state: IExpeditionPlanState) {
+  constructor(template: IProjectTemplate, state: IProjectState) {
     super(template, state);
 
     this.template = template;
@@ -39,7 +39,7 @@ export class ExpeditionPlan extends GameObject {
     this.timesCompleted = state.timesCompleted;
   }
 
-  save(): IExpeditionPlanState {
+  save(): IProjectState {
     return {
       timesCompleted: this.timesCompleted
     };

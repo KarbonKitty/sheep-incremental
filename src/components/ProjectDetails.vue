@@ -1,18 +1,18 @@
 <template lang="pug">
   div
-    h2 {{ expedition.name }}
-    p {{ expedition.desc }}
-    p Length: #[strong {{ expedition.template.length | timeLeft }}]
-    price-component(:values="expedition.currentPrice") Price:
-    reward-details-component(:reward="expedition.template.reward") Rewards:
-    button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ expedition.buyVerb }}
+    h2 {{ project.name }}
+    p {{ project.desc }}
+    p Length: #[strong {{ project.template.length | timeLeft }}]
+    price-component(:values="project.currentPrice") Price:
+    reward-details-component(:reward="project.template.reward") Rewards:
+    button.btn.buyButton(@click="emitBuyEvent" :disabled="!canBeBought") {{ project.buyVerb }}
 
 </template>
 
 <script lang="ts">
 import baseComponent from "./baseComponent";
 
-import { ExpeditionPlan } from '../classes/ExpeditionPlan';
+import { Project } from '../classes/Project';
 import typeGuards from "../classes/typeGuards";
 
 import PriceComponent from "./Price.vue";
@@ -21,7 +21,7 @@ import { canBeBought } from '../classes/helpers';
 
 export default baseComponent.extend({
   props: {
-    expedition: Object as () => ExpeditionPlan
+    project: Object as () => Project
   },
   components: {
     'price-component': PriceComponent,
@@ -29,12 +29,12 @@ export default baseComponent.extend({
   },
   methods: {
     emitBuyEvent: function() {
-      this.$engineEvents.buyItem(this.expedition.id);
+      this.$engineEvents.buyItem(this.project.id);
     }
   },
   computed: {
     canBeBought: function(): boolean {
-      return canBeBought(this.expedition, this.resources);
+      return canBeBought(this.project, this.resources);
     }
   }
 });

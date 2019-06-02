@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    h4 Current expeditions
-    div(v-for="e in expeditions")
+    h4 Current project executions
+    div(v-for="e in executions")
       li ({{ e.timeLeftToComplete | timeLeft }}) {{ e.plan.template.name }}
 </template>
 
