@@ -4,8 +4,19 @@ import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { Price, SiteSet } from "./baseClasses";
 import { mulPriceByNumber, sumPrices, sumSiteSets } from "./helpers";
 
+export const rewardChanceType = {
+  always: 1,
+  common: 0.75,
+  uncommon: 0.5,
+  rare: 0.25,
+  veryRare: 0.1,
+  exceptional: 0.05
+};
+
+export type RewardChance = keyof typeof rewardChanceType;
+
 export interface IRewardItem {
-  chance: number;
+  type: RewardChance;
   resources?: Price;
   sites?: SiteSet;
 }
@@ -50,7 +61,7 @@ export class Project extends GameObject {
   }
 
   getReward(): { resourceReward: Price, sitesReward: SiteSet } {
-    const rewardsEarned = this.template.reward.filter(ri => Math.random() < ri.chance);
+    const rewardsEarned = this.template.reward.filter(ri => Math.random() < rewardChanceType[ri.type]);
     const resourceReward = sumPrices({} as Price, ...rewardsEarned.map(r => r.resources || {}));
     const sitesReward = sumSiteSets({} as SiteSet, ...rewardsEarned.map(r => r.sites || {}));
 

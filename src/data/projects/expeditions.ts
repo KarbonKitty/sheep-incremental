@@ -19,19 +19,19 @@ const expeditionPlans: ProjectData[] = [
       rawCost: { wood: 1 },
       reward: [
         {
-          chance: 1,
+          type: "always",
           resources: { territory: 10, folklore: 10 }
         },
         {
-          chance: 0.8,
+          type: "common",
           sites: { cave: 1 }
         },
         {
-          chance: 0.5,
+          type: "uncommon",
           resources: { territory: 10 }
         },
         {
-          chance: 0.1,
+          type: "veryRare",
           resources: { "raw meat": 5, "animal skin": 1, folklore: 3 }
         }
       ]
