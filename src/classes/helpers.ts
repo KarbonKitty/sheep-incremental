@@ -3,6 +3,7 @@ import GameObject from "./gameObject/GameObject";
 import typeGuards from "./typeGuards";
 import { AdvancementsData, BuildingsData, GoalsData, IdeasData, LocksData, ResourcesData, ProjectsData } from "../data";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
+import { IRewardItem } from './Project';
 
 export function mulPriceByNumber(price: Price, num: number): Price {
   const newPrice: Price = {};
@@ -55,6 +56,17 @@ export function sumSiteSets(siteSet: SiteSet, ...siteSets: SiteSet[]): SiteSet {
   }
 }
 
+export function sumRewards(reward: IRewardItem[], ...rewards: IRewardItem[][]): IRewardItem[] {
+  if (rewards.length === 0) {
+    return reward;
+  } else if (rewards.length === 1) {
+    return addTwoRewards(reward, rewards[0]);
+  } else {
+    rewards.push(reward);
+    return rewards.reduce((a, b) => addTwoRewards(a, b));
+  }
+}
+
 export function getPriceCurrencies(price: Price): Currency[] {
   const currencies = Object.keys(price);
   if (currencies.filter(c => CurrencyArray.indexOf(c as Currency) === -1).length > 0) {
@@ -88,6 +100,14 @@ export function canBeBought(item: GameObject, resources: IResourcesData, populat
   return enoughResources && enoughPopulation && hasSite;
 }
 
+export function addTwoNullables<T>(t1: T | undefined, t2: T | undefined, adder: (t1: T, t2: T) => T): T | undefined {
+  if (typeof t1 === 'undefined') {
+    return typeof t2 === 'undefined' ? undefined : t2;
+  } else {
+    return typeof t2 === 'undefined' ? t1 : adder(t1, t2);
+  }
+}
+
 function addTwoPrices(price1: Price, price2: Price): Price {
   const newPrice: Price = {};
   Object.keys(price1).map(k => newPrice[k] = price1[k]);
@@ -100,6 +120,21 @@ function addTwoSiteSets(siteSet1: SiteSet, siteSet2: SiteSet): SiteSet {
   Object.keys(siteSet1).map(k => newSiteSet[k] = siteSet1[k]);
   Object.keys(siteSet2).map(k => newSiteSet[k] ? (newSiteSet[k] as number) += (siteSet2[k] || 0) : newSiteSet[k] = siteSet2[k]);
   return newSiteSet;
+}
+
+function addTwoRewards(reward1: IRewardItem[], reward2: IRewardItem[]): IRewardItem[] {
+  const newReward = [] as IRewardItem[];
+  reward1.map(ri => newReward.push(ri));
+  reward2.forEach(ri => {
+    const sameTypeItem = newReward.find(i => i.type === ri.type);
+    if (typeof sameTypeItem === 'undefined') {
+      return newReward.push(ri);
+    } else {
+      sameTypeItem.resources = addTwoNullables(sameTypeItem.resources, ri.resources, addTwoPrices);
+      sameTypeItem.sites = addTwoNullables(sameTypeItem.sites, ri.sites, addTwoSiteSets);
+    }
+  });
+  return newReward;
 }
 
 function getAllGameObjectTemplates(): IGameObjectTemplate[] {
