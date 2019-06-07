@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    building-details-component(v-if="isBuilding" :building="gameObject" :upgrades="upgrades")
+    building-details-component(v-if="isBuilding" :building="gameObject")
     idea-details-component(v-else-if="isIdea" :idea="gameObject")
     project-details-component(v-else-if="isProject" :project="gameObject")
 </template>
@@ -19,8 +19,7 @@ import ProjectDetailsComponent from "./ProjectDetails.vue";
 
 export default baseComponent.extend({
   props: {
-    gameObject: Object as () => GameObject,
-    upgrades: Array as () => Idea[] | undefined
+    gameObject: Object as () => GameObject
   },
   components: {
     'building-details-component': BuildingDetailsComponent,

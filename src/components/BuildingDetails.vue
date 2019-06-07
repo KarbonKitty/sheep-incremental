@@ -28,8 +28,7 @@ import SitesComponent from "./Site.vue";
 
 export default baseComponent.extend({
   props: {
-    building: Object as () => Building,
-    upgrades: Array as () => Idea[]
+    building: Object as () => Building
   },
   components: {
     'currency-value-component': CurrencyValueComponent,

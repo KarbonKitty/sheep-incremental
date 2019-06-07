@@ -1,7 +1,7 @@
 <template lang="pug">
   .selectButton(v-if="gameObject.isAvailable()" @click="changeSelection" :class="{ available: canBeBought, active: active }")
     p.
-      #[span(:class="iconClass")] {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="hasAvailableUpgrades") ⮝] #[span(v-if="gameObject.disabled") 🛇]
+      #[span(:class="iconClass")] {{ gameObject.name }} #[span(v-if="typeof gameObject.quantity === 'number'") ({{ gameObject.quantity }})] #[span(v-if="gameObject.disabled") 🛇]
 </template>
 
 <script lang="ts">

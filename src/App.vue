@@ -16,10 +16,10 @@
             branch-button-component(:name="branch" :active="currentBranch === branch")
         .object-list
           div(v-for="o in availableObjectsFromBranch(currentBranch)")
-            game-object-component(:game-object="o" :upgrades="availableUpgradesFor(o)" :active="o.id === currentSelection.id")
+            game-object-component(:game-object="o" :active="o.id === currentSelection.id")
 
       .details
-        object-details-component(:game-object="currentSelection" :upgrades="currentUpgrades")
+        object-details-component(:game-object="currentSelection")
 
       .log
         message-log-component
@@ -80,17 +80,9 @@ export default Vue.extend({
         },
         availableBuildingsFromBranch(branch: IndustryBranch) {
             return this.buildings.filter(b => b.locks.length === 0 && b.branch === branch);
-        },
-        availableUpgradesFor(gameObject: GameObject) {
-            return this.ideas.filter(i => i.template.objectId === gameObject.id && !i.done);
         }
     },
     computed: {
-        currentUpgrades: function() {
-            return this.ideas.filter(
-                i => !i.done && i.template.objectId === this.currentSelection.id && i.locks.length === 0
-            );
-        },
         branches: function() {
             return Branches;
         },
