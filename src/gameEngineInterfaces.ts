@@ -1,7 +1,7 @@
 import { Building } from './classes/Building';
 import { ComplexPrice } from './classes/complexPrices';
 import { Idea } from './classes/Idea';
-import { UpgradeEffect, Lock, IndustryBranch, IResourcesData, IPopulation, Price, ISitesData } from './classes/baseClasses';
+import { PriceUpgradeEffect, Lock, IndustryBranch, IResourcesData, IPopulation, Price, ISitesData } from './classes/baseClasses';
 import GameObject from './classes/gameObject/GameObject';
 import { Execution } from './classes/Execution';
 import { Project } from './classes/Project';
@@ -21,7 +21,7 @@ export interface IStorage extends Building {
 }
 
 export interface IUpgrade extends Idea {
-    effects: UpgradeEffect[];
+    effects: PriceUpgradeEffect[];
 }
 
 export interface IDiscovery extends Idea {

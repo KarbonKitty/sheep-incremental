@@ -1,4 +1,5 @@
 import { LocksData as LockList } from "../data";
+import { IRewardItem } from './Project';
 
 export type Lock = keyof typeof LockList;
 
@@ -102,12 +103,19 @@ export interface ISiteState {
   amount: number;
 }
 
-export interface UpgradeEffect {
-  affectedObjectId: string;
+export interface PriceUpgradeEffect {
+  affectedObjectId: GameObjectId;
   affectedProperty: EffectProp;
   type: "add" | "mul";
   scale: Price;
 }
+
+export interface RewardUpgradeEffect {
+  affectedObjectId: GameObjectId;
+  scale: IRewardItem[];
+}
+
+export type UpgradeEffect = RewardUpgradeEffect | PriceUpgradeEffect;
 
 export interface IPopulation {
   workers: number;

@@ -1,4 +1,4 @@
-import { Price, UpgradeEffect } from "./baseClasses";
+import { Price, PriceUpgradeEffect } from "./baseClasses";
 import { multiplyPrices, sumPrices } from "./helpers";
 
 export interface IComplexPriceState {
@@ -24,7 +24,7 @@ export class ComplexPrice implements IComplexPriceState {
         return multiplyPrices(additivePrice, this.multiplier || {});
     }
 
-    public addModifier(modifier: UpgradeEffect) {
+    public addModifier(modifier: PriceUpgradeEffect) {
         if (modifier.type === 'add') {
             this.additive = sumPrices(this.additive || {}, modifier.scale);
         } else if (modifier.type === 'mul') {

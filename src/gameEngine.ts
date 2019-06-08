@@ -1,4 +1,4 @@
-import { IResourcesData, Lock, Map, Price, UpgradeEffect, CurrencyArray, IndustryBranch, ISitesData, SiteTypesArray, ILockable, SiteSet, SiteType } from "./classes/baseClasses";
+import { IResourcesData, Lock, Map, Price, CurrencyArray, IndustryBranch, ISitesData, SiteTypesArray, ILockable, SiteSet, SiteType, UpgradeEffect } from "./classes/baseClasses";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementsData, BuildingsData, GoalsData, IdeasData, LocksData, ResourcesData, ProjectsData, SitesData, SitesStartingData } from "./data";
@@ -455,7 +455,13 @@ export default class GameEngine implements GameEventHandlers, GameState {
             throw new Error(`There is no object with id: ${effect.affectedObjectId}`);
         }
 
-        helpers.applyUpgradeEffect(effect, object);
+        if (typeGuards.isPriceUpgradeEffect(effect)) {
+            helpers.applyPriceUpgradeEffect(effect, object);
+        } else if (typeGuards.isRewardUpgradeEffect(effect)) {
+            helpers.applyRewardUpgradeEffect(effect, object);
+        } else {
+            throw new Error("Unknown upgrade type");
+        }
     }
 
     private tryBuyItem(itemId: string): GameObject | undefined {

@@ -10,11 +10,11 @@
 <script lang="ts">
 import baseComponent from "./baseComponent";
 
-import { UpgradeEffect } from "../classes/baseClasses";
+import { PriceUpgradeEffect } from "../classes/baseClasses";
 
 export default baseComponent.extend({
   props: {
-    effect: Object as () => UpgradeEffect
+    effect: Object as () => PriceUpgradeEffect
   },
   computed: {
     sign: function(): number {

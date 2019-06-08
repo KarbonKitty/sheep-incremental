@@ -17,7 +17,7 @@ const expeditionPlans: ProjectData[] = [
       length: 3 * 60 * 1000,
       originalLocks: [],
       rawCost: { wood: 1 },
-      reward: [
+      baseReward: [
         {
           type: "always",
           resources: { territory: 10, folklore: 10 }

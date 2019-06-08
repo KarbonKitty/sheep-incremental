@@ -1,8 +1,7 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { Lock, UpgradeEffect, IResourcesData } from "./baseClasses";
-import { canBePaid } from "./helpers";
+import { Lock, UpgradeEffect } from "./baseClasses";
 
 export interface IIdeaState extends IGameObjectState {
     done: boolean;

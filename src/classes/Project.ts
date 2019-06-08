@@ -23,10 +23,11 @@ export interface IRewardItem {
 
 export interface IProjectState extends IGameObjectState {
   timesCompleted: number;
+  reward?: IRewardItem[];
 }
 
 export interface IProjectTemplate extends IGameObjectTemplate {
-  reward: IRewardItem[];
+  baseReward: IRewardItem[];
   length: number;
 }
 
@@ -37,6 +38,7 @@ export class Project extends GameObject {
   template: IProjectTemplate;
 
   timesCompleted: number;
+  reward: IRewardItem[];
 
   public get currentPrice(): Price {
     return mulPriceByNumber(this.cost.getTotal(), Math.pow(this.costMultiplier, this.timesCompleted));
@@ -48,11 +50,12 @@ export class Project extends GameObject {
     this.template = template;
 
     this.timesCompleted = state.timesCompleted;
+    this.reward = state.reward || template.baseReward.slice();
   }
 
   save(): IProjectState {
     return {
-      timesCompleted: this.timesCompleted
+      timesCompleted: this.timesCompleted,
     };
   }
 
@@ -61,7 +64,7 @@ export class Project extends GameObject {
   }
 
   getReward(): { resourceReward: Price, sitesReward: SiteSet } {
-    const rewardsEarned = this.template.reward.filter(ri => Math.random() < rewardChanceType[ri.type]);
+    const rewardsEarned = this.reward.filter(ri => Math.random() < rewardChanceType[ri.type]);
     const resourceReward = sumPrices({} as Price, ...rewardsEarned.map(r => r.resources || {}));
     const sitesReward = sumSiteSets({} as SiteSet, ...rewardsEarned.map(r => r.sites || {}));
 

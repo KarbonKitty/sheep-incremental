@@ -1,10 +1,11 @@
-import { UpgradeEffect, IResourceTemplate, IResource, ISiteTemplate, ISiteState, ISite, IResourcesData, IResourcesTemplateData, CurrencyArray, ISitesTemplateData, ISitesStateData, ISitesData, SiteTypesArray } from './classes/baseClasses';
+import { PriceUpgradeEffect, IResourceTemplate, IResource, ISiteTemplate, ISiteState, ISite, IResourcesData, IResourcesTemplateData, CurrencyArray, ISitesTemplateData, ISitesStateData, ISitesData, SiteTypesArray, RewardUpgradeEffect } from './classes/baseClasses';
 import GameObject from './classes/gameObject/GameObject';
 import typeGuards from './classes/typeGuards';
 import { gainPerSecondIterations } from './consts';
+import { sumRewards } from './classes/helpers';
 
 const helpers = {
-    applyUpgradeEffect(effect: UpgradeEffect, object: GameObject) {
+    applyPriceUpgradeEffect(effect: PriceUpgradeEffect, object: GameObject) {
         switch (effect.affectedProperty) {
             case "production":
                 if (typeGuards.isBuilding(object) && typeof object.production !== 'undefined') {
@@ -28,6 +29,13 @@ const helpers = {
                 }
             case "cost":
                 object.cost.addModifier(effect);
+        }
+    },
+    applyRewardUpgradeEffect(effect: RewardUpgradeEffect, object: GameObject) {
+        if (typeGuards.isProject(object)) {
+            object.reward = sumRewards(object.reward, effect.scale);
+        } else {
+            throw new Error(`Object with id: ${object.id} is not a project and doesn't have a reward to be upgraded.`);
         }
     },
     createResource(template: IResourceTemplate): IResource {
