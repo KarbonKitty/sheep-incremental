@@ -1,9 +1,12 @@
 export default {
   '__impossible__': false,
   '__prestige__': false,
-  'agriculture': false,
   'stone-tools': false,
-  'complex-tools': false,
+  'firestarting': false,
+  'cooperation': false,
+  'basketry': false,
   'hunting': false,
-  'cooking': false
+  'fishing': false,
+  'cooking': false,
+  'clothing': false
 };

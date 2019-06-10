@@ -22,18 +22,20 @@ export interface IResourcesTemplateData extends Indexed<Currency, IResourceTempl
 export interface IResourcesData extends Indexed<Currency, IResource> { }
 
 const CurrencyObject = {
-  territory: true,
-  folklore: true,
-  wood: true,
-  flint: true,
-  "stone tools": true,
-  "complex tools": true,
-  "raw meat": true,
-  meat: true,
-  "animal skin": true,
-  "raw vegetables": true,
-  "vegetables": true,
   advancement: true,
+  travels: true,
+  wood: true,
+  folklore: true,
+  rocks: true,
+  'stone tools': true,
+  reed: true,
+  'raw fish': true,
+  'raw meat': true,
+  'animal bone': true,
+  'raw hide': true,
+  fish: true,
+  meat: true,
+  'clean hides': true
 };
 export const CurrencyArray = Object.keys(CurrencyObject) as Currency[];
 export type Currency = keyof typeof CurrencyObject;
