@@ -10,12 +10,12 @@ const buildings: BuildingData[] = [
     template: {
       id: 'cave',
       type: 'building',
-      name: "Cave",
+      name: "Living cave",
       desc: "Cave is effective hiding place for both sheep and their possessions. It doesn't require building materials, and is very effective shelter. Unfortunately, sheep sometimes have to search far and wide to find good caves for themselves.",
       branch: "housing",
-      rawCost: { territory: 15 },
+      rawCost: { wood: 10 },
       housing: 2,
-      rawStorage: { wood: 5, flint: 5, "stone tools": 2, "raw meat": 5, meat: 10, "raw vegetables": 15, "vegetables": 5 },
+      rawStorage: { wood: 5, rocks: 5, "stone tools": 2, "raw meat": 5, meat: 10, vegetables: 5 },
       buyVerb: "Find",
       requiredSite: 'cave',
       originalLocks: []
@@ -31,7 +31,7 @@ const buildings: BuildingData[] = [
       name: "Wood gatherer",
       desc: "What do you get when you combine sheep and forest? Sheep and sticks.",
       branch: 'construction',
-      rawCost: { territory: 5 },
+      rawCost: { vegetables: 10 },
       rawProduction: { wood: 0.5 },
       employees: 1,
       buyVerb: "Recruit",
@@ -43,14 +43,29 @@ const buildings: BuildingData[] = [
   },
   {
     template: {
+      id: 'food-gatherer',
+      type: 'building',
+      name: "Food gatherer",
+      desc: "The simplest way to get food is to just pick up whatever is edible from the ground. Those sheep have mastered that procedure, and with their point sticks even take a bit further, digging stuff that's just below ground.",
+      branch: 'food',
+      rawCost: { wood: 10 },
+      rawProduction: { vegetables: 0.2 },
+      rawStorage: { vegetables: 3 },
+      employees: 1,
+      buyVerb: "Pick up",
+      originalLocks: []
+    }
+  },
+  {
+    template: {
       id: 'wanderer',
       type: 'building',
       name: "Wanderer",
       desc: "Some sheep just can't sit in one place; so you give them a stick and send them forth, to explore new land for the tribe to use.",
       branch: 'culture',
       rawCost: { wood: 5 },
-      rawProduction: { territory: 0.25 },
-      rawStorage: { territory: 100 },
+      rawProduction: { travels: 0.001 },
+      rawStorage: { travels: 1 },
       employees: 1,
       buyVerb: "Send forth",
       originalLocks: []
@@ -61,29 +76,14 @@ const buildings: BuildingData[] = [
   },
   {
     template: {
-      id: 'food-gatherer',
+      id: 'rock-gatherer',
       type: 'building',
-      name: "Food gatherer",
-      desc: "The simplest way to get food is to just pick up whatever is edible from the ground. Those sheep have mastered that procedure.",
-      branch: 'food',
-      rawCost: { territory: 10 },
-      rawProduction: { "raw vegetables": 0.2 },
-      rawStorage: { "raw vegetables": 3 },
-      employees: 1,
-      buyVerb: "Pick up",
-      originalLocks: []
-    }
-  },
-  {
-    template: {
-      id: 'flint-gatherer',
-      type: 'building',
-      name: "Flint gatherer",
-      desc: "Flint is a rock that can be easily broken to produce a sharp edge. Very useful to any tribe.",
+      name: "Rock gatherer",
+      desc: "Rocks are necessary part of most of the tools that the tribe is using, but not all rocks are created equal. You will need trained rock gatherers to only pick up good rocks.",
       branch: 'tools',
-      rawCost: { territory: 10 },
-      rawProduction: { flint: 0.33 },
-      rawStorage: { flint: 5 },
+      rawCost: { vegetables: 10 },
+      rawProduction: { rocks: 0.33 },
+      rawStorage: { rocks: 5 },
       employees: 1,
       buyVerb: "Train",
       originalLocks: []
@@ -91,15 +91,15 @@ const buildings: BuildingData[] = [
   },
   {
     template: {
-      id: 'flint-knapper',
+      id: 'stone-tool-workshop',
       type: 'building',
-      name: "Flint knapper",
-      desc: "Sheep with good manual dexterity can produce stone tools - just deliver flint and some sticks.",
+      name: "Stone tool workshop",
+      desc: "A place for a sheep with good manual dexterity to produce stone tools - just deliver some rocks and some sticks.",
       branch: 'tools',
-      rawCost: { flint: 15, territory: 1 },
-      rawConsumption: { flint: 0.8 },
+      rawCost: { rocks: 15, wood: 10 },
+      rawConsumption: { rocks: 0.8 },
       rawProduction: { 'stone tools': 0.07 },
-      rawStorage: { flint: 5, 'stone tools': 2 },
+      rawStorage: { rocks: 5, 'stone tools': 2 },
       employees: 1,
       buyVerb: "Recruit",
       originalLocks: ['stone-tools']
@@ -107,16 +107,46 @@ const buildings: BuildingData[] = [
   },
   {
     template: {
-      id: 'tribe-elder',
+      id: 'reed-gatherer',
       type: 'building',
-      name: "Tribe elder",
-      desc: "The old sheep of the tribe become the elders - they gather knowledge and pass it on to the next generations, allowing tribe to grow and advance.",
-      branch: 'culture',
-      rawCost: { 'raw vegetables': 10, territory: 1 },
-      rawProduction: { folklore: 0.1 },
+      name: 'Reed gatherer',
+      desc: 'A sheep with a sharp rock can cut down reeds, which are in turn useful material. So, sheep, meet rock.',
+      branch: 'tools',
+      rawCost: { 'stone tools': 5 },
+      rawProduction: { reed: 0.42 },
+      rawStorage: { reed: 6 },
       employees: 1,
-      buyVerb: "Grow old",
-      originalLocks: []
+      buyVerb: "Cut",
+      originalLocks: [ 'basketry' ]
+    }
+  },
+  {
+    template: {
+      id: 'storage-cave',
+      type: 'building',
+      name: 'Storage cave',
+      desc: 'With enough reed, sheep can weave baskets and store them in a cave, instead of using that cave to live there. It helps in storing large quantites of various products and materials.',
+      branch: 'housing',
+      rawCost: { reed: 20, wood: 15 },
+      rawStorage: { wood: 15, rocks: 15, reed: 10, 'stone tools': 10, vegetables: 10, "raw meat": 5, "meat": 10, "raw hides": 10, "hides": 10, "raw fish": 5, fish: 15 },
+      buyVerb: "Weave baskets",
+      originalLocks: [ 'basketry' ]
+    }
+  },
+  {
+    template: {
+      id: 'spearfisher',
+      type: 'building',
+      name: "Spearfisher",
+      desc: "Sheep with a sharp stick that is not afraid of water can gather plenty of fish.",
+      branch: 'hunting',
+      rawCost: { wood: 5, vegetables: 10 },
+      rawConsumption: { wood: 0.02 },
+      rawProduction: { "raw fish": 0.37 },
+      rawStorage: { "raw fish": 4 },
+      employees: 1,
+      buyVerb: "Fish",
+      originalLocks: [ 'fishing' ]
     }
   },
   {
@@ -126,12 +156,12 @@ const buildings: BuildingData[] = [
       name: "Hunter",
       desc: "Well armed sheep that hunts animals for their meat. They are known for going beyond the known lands on occasion, too.",
       branch: "hunting",
-      rawCost: { "stone tools": 1, territory: 5 },
+      rawCost: { "stone tools": 2 },
       rawConsumption: { "stone tools": 0.02 },
-      rawProduction: { "raw meat": 0.6, "animal skin": 0.1 },
+      rawProduction: { "raw meat": 0.6, "raw hide": 0.1 },
       employees: 1,
       buyVerb: "Recruit",
-      originalLocks: ['hunting']
+      originalLocks: [ 'hunting' ]
     }
   },
   {
@@ -141,38 +171,28 @@ const buildings: BuildingData[] = [
       name: "Fire pit",
       desc: "Once the sheep discovered that mashed and cooked vegetables, tubers and meat are more tasty than raw, there has been no going back.",
       branch: 'food',
-      rawCost: { wood: 30, territory: 2, 'stone tools': 1 },
-      rawConsumption: { "raw vegetables": 1, "raw meat": 1, wood: 1 },
-      rawProduction: { vegetables: 0.5, meat: 0.33 },
+      rawCost: { wood: 30, 'stone tools': 1, 'raw meat': 5 },
+      rawConsumption: { "raw meat": 1, "raw fish": 1, wood: 2 },
+      rawProduction: { fish: 0.33, meat: 0.33 },
       employees: 1,
       buyVerb: "Dig",
-      originalLocks: ['cooking']
+      originalLocks: [ 'cooking' ]
     }
   },
   {
     template: {
-      id: 'shed',
+      id: 'hide-scraper',
       type: 'building',
-      name: "Shed",
-      desc: "Sometimes, a cave is too small for both sheep and their tools and food. When that happens, tribe can make a small shed out of a bunch of sticks, to keep their possessions there.",
-      branch: 'tools',
-      rawCost: { wood: 15, territory: 5 },
-      rawStorage: { wood: 15, flint: 15, 'stone tools': 5, 'raw vegetables': 15, vegetables: 10, 'raw meat': 5, meat: 10 },
-      buyVerb: "Construct",
-      originalLocks: []
-    }
-  },
-  {
-    template: {
-      id: 'tent',
-      type: 'building',
-      name: "Animal skin tent",
-      desc: "With caves being hard to find, some sheep need to find other shelter. Tents made out of sticks and animal skins might be small and smelly, but they keep most of the rain out.",
-      branch: 'housing',
-      rawCost: { "animal skin": 3, wood: 3, territory: 1 },
-      housing: 1,
-      buyVerb: "Pitch",
-      originalLocks: ['hunting']
+      name: "Hide scraper",
+      desc: "Raw animal hides aren't very useful - and they are quite stinky! This hard-working sheep can remove all the unnecessary bits and transform animal skins into useful hides.",
+      branch: "tools",
+      rawCost: { 'stone tools': 2, 'raw hide': 5 },
+      rawConsumption: { 'raw hide': 0.27 },
+      rawProduction: { "clean hides": 0.19 },
+      rawStorage: { 'clean hides': 3 },
+      employees: 1,
+      buyVerb: "Scrape",
+      originalLocks: [ 'clothing' ]
     }
   }
 ];

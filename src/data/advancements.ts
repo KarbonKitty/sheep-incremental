@@ -6,7 +6,7 @@ type IdeaData = {
 };
 
 const advancements: IdeaData[] = [
-  
+
 ];
 
 export default advancements;

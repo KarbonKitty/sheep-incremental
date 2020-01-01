@@ -4,6 +4,7 @@ const resourceTemplates: IResourcesTemplateData = {
   advancement: { name: "advancement", precision: 0, originalLocks: ['__prestige__'] },
   travels: { name: "travels", precision: 3, baseLimit: 1, originalLocks: [] },
   wood: { name: "wood", precision: 1, baseLimit: 25, originalLocks: [] },
+  vegetables: { name: "vegetables", precision: 1, baseLimit: 10, originalLocks: [] },
   folklore: { name: "folklore", precision: 1, baseLimit: 100, originalLocks: [] },
   rocks: { name: "rocks", precision: 1, baseLimit: 10, originalLocks: ['stone-tools'] },
   'stone tools': { name: "stone tools", precision: 2, baseLimit: 0, originalLocks: ['stone-tools'] },

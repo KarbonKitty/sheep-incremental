@@ -37,7 +37,7 @@ export default baseComponent.extend({
         "fa-lightbulb": typeGuards.isIdea(this.gameObject) && typeof this.gameObject.template.unlocks !== 'undefined',
         "fa-route": typeGuards.isProject(this.gameObject),
         "fas": true
-      }
+      };
     }
   }
 });

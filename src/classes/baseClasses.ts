@@ -25,6 +25,7 @@ const CurrencyObject = {
   advancement: true,
   travels: true,
   wood: true,
+  vegetables: true,
   folklore: true,
   rocks: true,
   'stone tools': true,
