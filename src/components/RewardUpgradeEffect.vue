@@ -14,7 +14,7 @@
 <script lang="ts">
 import baseComponent from "./baseComponent";
 
-import { RewardUpgradeEffect } from "../classes/baseClasses";
+import { RewardUpgradeEffect } from "../classes/core";
 import { IRewardItem, rewardChanceType } from '@/classes/Project';
 
 export default baseComponent.extend({

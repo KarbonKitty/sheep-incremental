@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import baseComponent from "./baseComponent";
-import { SiteType } from '../classes/baseClasses';
+import { SiteType } from '../classes/core';
 
 export default baseComponent.extend({
     props: {

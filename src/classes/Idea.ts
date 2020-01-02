@@ -1,7 +1,7 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { Lock, UpgradeEffect } from "./baseClasses";
+import { Lock, UpgradeEffect } from "./core";
 
 export interface IIdeaState extends IGameObjectState {
     done: boolean;

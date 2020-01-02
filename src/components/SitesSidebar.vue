@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import baseComponent from "./baseComponent";
-import { ISite } from '../classes/baseClasses';
+import { ISite } from '../classes/core';
 
 export default baseComponent.extend({ });
 </script>

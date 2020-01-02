@@ -17,7 +17,7 @@ import baseComponent from "./baseComponent";
 
 import { Idea } from '../classes/Idea';
 import { Building } from '../classes/Building';
-import { IPopulation, IResource, IResourcesData } from '../classes/baseClasses';
+import { IPopulation, IResource, IResourcesData } from '../classes/core';
 import typeGuards from "../classes/typeGuards";
 import { getPriceCurrencies, canBeBought } from '../classes/helpers';
 

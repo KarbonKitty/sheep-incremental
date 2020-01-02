@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import baseComponent from "./baseComponent";
-import { IndustryBranch } from '../classes/baseClasses';
+import { IndustryBranch } from '../classes/core';
 
 export default baseComponent.extend({
   methods: {

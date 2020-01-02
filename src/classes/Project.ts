@@ -1,7 +1,7 @@
 import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
-import { Price, SiteSet } from "./baseClasses";
+import { Price, SiteSet } from "./core";
 import { mulPriceByNumber, sumPrices, sumSiteSets } from "./helpers";
 
 export const rewardChanceType = {

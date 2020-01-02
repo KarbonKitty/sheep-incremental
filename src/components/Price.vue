@@ -12,7 +12,7 @@ import baseComponent from "./baseComponent";
 
 import PriceItemComponent from "./PriceItem.vue";
 
-import { Price } from "../classes/baseClasses";
+import { Price } from "../classes/core";
 
 export default baseComponent.extend({
   props: {

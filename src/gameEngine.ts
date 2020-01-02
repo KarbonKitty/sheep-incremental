@@ -1,4 +1,4 @@
-import { IResourcesData, Lock, Map, Price, CurrencyArray, IndustryBranch, ISitesData, SiteTypesArray, ILockable, SiteSet, SiteType, UpgradeEffect } from "./classes/baseClasses";
+import { IResourcesData, Lock, Map, Price, CurrencyArray, IndustryBranch, ISitesData, SiteTypesArray, ILockable, SiteSet, SiteType, UpgradeEffect } from "./classes/core";
 import GameObject from "./classes/gameObject/GameObject";
 import typeGuards from "./classes/typeGuards";
 import { AdvancementsData, BuildingsData, GoalsData, IdeasData, LocksData, ResourcesData, ProjectsData, SitesData, SitesStartingData } from "./data";

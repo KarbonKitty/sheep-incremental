@@ -2,7 +2,7 @@ import GameObject from "./gameObject/GameObject";
 import { Building } from "./Building";
 import { Idea } from "./Idea";
 import { Project } from "./Project";
-import { UpgradeEffect, PriceUpgradeEffect, RewardUpgradeEffect } from './baseClasses';
+import { UpgradeEffect, PriceUpgradeEffect, RewardUpgradeEffect } from './core';
 
 export default {
     isBuilding(gameObject: GameObject): gameObject is Building {

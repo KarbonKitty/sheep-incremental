@@ -48,7 +48,7 @@ import PopulationSidebarComponent from "./components/PopulationSidebar.vue";
 import MessageLogComponent from "./components/MessageLog.vue";
 import ExecutionListComponent from "./components/ExecutionList.vue";
 
-import { branchesArray as Branches, IndustryBranch } from "./classes/baseClasses";
+import { branchesArray as Branches, IndustryBranch } from "./classes/core";
 import GameObject from "./classes/gameObject/GameObject";
 
 import filters from "./filters";

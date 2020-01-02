@@ -1,4 +1,4 @@
-import { Lock } from "../baseClasses";
+import { Lock } from "../core";
 import { ComplexPrice } from "../complexPrices";
 
 export default interface IGameObjectState {

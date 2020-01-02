@@ -1,4 +1,4 @@
-import { Price, PriceUpgradeEffect } from "./baseClasses";
+import { Price, PriceUpgradeEffect } from "./core";
 import { multiplyPrices, sumPrices } from "./helpers";
 
 export interface IComplexPriceState {

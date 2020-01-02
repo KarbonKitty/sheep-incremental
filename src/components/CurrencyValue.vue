@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import baseComponent from "./baseComponent";
-import { Price } from "../classes/baseClasses";
+import { Price } from "../classes/core";
 
 export default baseComponent.extend({
   props: {

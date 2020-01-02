@@ -10,7 +10,7 @@
 <script lang="ts">
 import baseComponent from "./baseComponent";
 
-import { PriceUpgradeEffect } from "../classes/baseClasses";
+import { PriceUpgradeEffect } from "../classes/core";
 
 export default baseComponent.extend({
   props: {

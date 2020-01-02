@@ -11,7 +11,7 @@
 <script lang="ts">
 import baseComponent from "./baseComponent";
 
-import { Price, Currency } from "../classes/baseClasses";
+import { Price, Currency } from "../classes/core";
 import { getPriceCurrencies, canBePaid } from '../classes/helpers';
 import GoalItemComponent from "./GoalItem.vue";
 

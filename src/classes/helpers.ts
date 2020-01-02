@@ -1,7 +1,7 @@
-import { IPopulation, Price, IResourcesData, CurrencyArray, Currency, SiteType, ISitesData, SiteSet } from "./baseClasses";
+import { IPopulation, Price, IResourcesData, CurrencyArray, Currency, ISitesData, SiteSet } from "./core";
 import GameObject from "./gameObject/GameObject";
 import typeGuards from "./typeGuards";
-import { AdvancementsData, BuildingsData, GoalsData, IdeasData, LocksData, ResourcesData, ProjectsData } from "../data";
+import { AdvancementsData, BuildingsData, IdeasData, ProjectsData } from "../data";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { IRewardItem } from './Project';
 

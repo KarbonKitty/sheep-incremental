@@ -1,4 +1,4 @@
-import { PriceUpgradeEffect, IResourceTemplate, IResource, ISiteTemplate, ISiteState, ISite, IResourcesData, IResourcesTemplateData, CurrencyArray, ISitesTemplateData, ISitesStateData, ISitesData, SiteTypesArray, RewardUpgradeEffect } from './classes/baseClasses';
+import { PriceUpgradeEffect, IResourceTemplate, IResource, ISiteTemplate, ISiteState, ISite, IResourcesData, IResourcesTemplateData, CurrencyArray, ISitesTemplateData, ISitesStateData, ISitesData, SiteTypesArray, RewardUpgradeEffect } from './classes/core';
 import GameObject from './classes/gameObject/GameObject';
 import typeGuards from './classes/typeGuards';
 import { gainPerSecondIterations } from './consts';

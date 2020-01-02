@@ -1,4 +1,4 @@
-import { IResourcesTemplateData } from "../classes/baseClasses";
+import { IResourcesTemplateData } from "../classes/core";
 
 const resourceTemplates: IResourcesTemplateData = {
   advancement: { name: "advancement", precision: 0, originalLocks: ['__prestige__'] },

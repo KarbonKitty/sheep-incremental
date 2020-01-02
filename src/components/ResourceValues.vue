@@ -9,7 +9,7 @@
 <script lang="ts">
 import baseComponent from "./baseComponent";
 
-import { IResource } from "../classes/baseClasses";
+import { IResource } from "../classes/core";
 
 export default baseComponent.extend({
   props: {

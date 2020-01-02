@@ -2,8 +2,8 @@ import GameObject from "./gameObject/GameObject";
 import IGameObjectState from "./gameObject/IGameObjectState";
 import IGameObjectTemplate from "./gameObject/IGameObjectTemplate";
 import { IComplexPriceState, ComplexPrice } from "./complexPrices";
-import { Price, IResourcesData, SiteType } from "./baseClasses";
-import { mulPriceByNumber, canBePaid } from "./helpers";
+import { Price, SiteType } from "./core";
+import { mulPriceByNumber } from "./helpers";
 
 export interface IBuildingState extends IGameObjectState {
     quantity: number;

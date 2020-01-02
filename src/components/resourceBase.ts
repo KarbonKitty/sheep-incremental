@@ -1,5 +1,5 @@
 import filters from "../filters";
-import { Currency } from '../classes/baseClasses';
+import { Currency } from '../classes/core';
 import baseComponent from "./baseComponent";
 
 const resourceBase = baseComponent.extend({

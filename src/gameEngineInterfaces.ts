@@ -1,7 +1,7 @@
 import { Building } from './classes/Building';
 import { ComplexPrice } from './classes/complexPrices';
 import { Idea } from './classes/Idea';
-import { PriceUpgradeEffect, Lock, IndustryBranch, IResourcesData, IPopulation, Price, ISitesData } from './classes/baseClasses';
+import { PriceUpgradeEffect, Lock, IndustryBranch, IResourcesData, IPopulation, Price, ISitesData } from './classes/core';
 import GameObject from './classes/gameObject/GameObject';
 import { Execution } from './classes/Execution';
 import { Project } from './classes/Project';

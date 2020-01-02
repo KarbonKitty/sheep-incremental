@@ -1,4 +1,4 @@
-import { GameObjectType, IndustryBranch, Lock, Price, ILockable } from '../baseClasses';
+import { GameObjectType, IndustryBranch, Lock, Price, ILockable } from '../core';
 import IGameObjectState from './IGameObjectState';
 import IGameObjectTemplate from "./IGameObjectTemplate";
 import { ComplexPrice } from '../complexPrices';

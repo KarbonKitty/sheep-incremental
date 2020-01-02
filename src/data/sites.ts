@@ -1,4 +1,4 @@
-import { ISitesTemplateData, ISitesStateData } from "../classes/baseClasses";
+import { ISitesTemplateData, ISitesStateData } from "../classes/core";
 
 const siteTemplates: ISitesTemplateData = {
   cave: { name: "cave", originalLocks: [] }
